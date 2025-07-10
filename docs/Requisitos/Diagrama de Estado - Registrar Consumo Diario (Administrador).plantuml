@@ -1,0 +1,30 @@
+@startuml
+state choice1 <<choice>>
+note left of choice1: ¿Que opcion desea seleccionar?
+[*]-->choice1: Usuario accede al sistema
+state choice2 <<choice>>
+state choice3 <<choice>>
+note left of choice2: ¿Deseas generar \nun reporte?
+note right of choice3: ¿Deseas registrar \nconsumo diario?
+choice1-->choice2
+choice1-->choice3
+state end1 <<end>>
+choice2-->end1: No
+state end2 <<end>>
+choice3-->end2: No
+state "Reporte Generado" as long1
+choice2-->long1: Solicitar reporte
+state choice4 <<choice>>
+note left of choice4: ¿Desea descargar \nel reporte?
+long1-->choice4
+state "Reporte descargado" as long2
+state end3 <<end>>
+choice4-->long2: Si
+long2-->end3
+state end4 <<end>>
+choice4-->end4: No
+state "Subir datos" as long5
+choice3-->long5: Añadir datos correspondientes
+state end5 <<end>>
+long5-->end5
+@enduml

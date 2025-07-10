@@ -1,0 +1,20 @@
+@startuml
+state choice1 <<choice>>
+note left of choice1: ¿Desea gestionar \nel menú semanal?
+[*]-->choice1 : Administrador accede al sistema
+choice1-->[*]: No
+state "Asignar Turno" as long1
+choice1-->long1 : Si
+state " Horario Asignado" as long2
+long1-->long2 : Evaluar horario
+state "Menú Asignado " as long3
+long2-->long3 : Evaluar datos a añadir al menú
+state choice2 <<choice>>
+note left of choice2: ¿Desea modificar algún dato?
+long3-->choice2
+choice2-->long1 : Si
+state "Publicar Menú" as long4
+choice2-->long4 :No
+state end2 <<end>>
+long4-->end2
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+state "Corroborar insumos" as long3
+state "Comprobar el almacenamiento" as long6
+state "Solicitud para reabastecer insumos" as long10
+state "Desechar insumos" as long12
+state "Informar reabasticimiento" as long13
+state "Surtir area" as long14
+state "Insumos restablecidos" as long15
+
+state end1 <<end>>
+state end3 <<end>>
+state choice2 <<choice>>
+state choice3 <<choice>>
+
+note right of choice3: ¿La solicitud fue aprobada?
+
+[*]-->long6: Reporte solicitado
+choice2-->long12: Insumo en mal estado
+long12-->long10
+long3-->choice2
+choice2-->long14:  Insumos en buen estado
+long14-->end3
+end3:Enviar a la cocina
+choice2-->long10: Insumos insuficientes
+long6-->long3: buscar los insumos
+long10-->choice3
+choice3-->long10: No
+choice3-->long15: Si
+long15-->end1
+@enduml

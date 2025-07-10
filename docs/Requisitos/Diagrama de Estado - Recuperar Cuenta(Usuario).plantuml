@@ -1,0 +1,12 @@
+@startuml
+state "Clave en recuperación" as long1
+[*]-->choice1: Usuario no puede \nacceder con su contraseña
+state "clave recuperada" as long2
+state choice1 <<choice>>
+state end1 <<end>>
+note left of choice1 : ¿Desea cambiar la contraseña?
+choice1-->end1: No
+choice1-->long1: Si
+long1-->long2: Verificación de nueva clave
+long2-->[*]: Enviar a iniciar sesión
+@enduml

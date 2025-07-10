@@ -1,0 +1,55 @@
+@startuml 
+
+    class Platillo{
+        ingredientes
+    }
+    class Insumo
+    class Turno{
+        horarioInicio
+        horarioFinal
+    }
+    class Menu
+    class Plaza{
+        numero
+    }
+    class Insumo{
+        tipo
+        cantidad
+        estado
+    }
+    class Oficina_Nutricion
+    class Oficina_Administrativa{
+        plazasTotales
+        plazasDisponibles
+        numEmpleados
+    } 
+    class Area_Almacen{
+        capacidad
+    }
+    class Oficina_Direccion
+    class Area_Limpieza
+
+    Menu --- Oficina_Nutricion : Planifica <
+    Menu *--- "1..*" Platillo
+    Cocina --- Menu : Consulta >  
+    Cocina --- Area_Almacen : Surte < 
+    Cocina --- Area_Limpieza : Limpia <
+    Cocina --- Oficina_Administrativa : Informar  
+    Platillo --- Cocina : Prepara <
+    Platillo --- Plaza : Consume < 
+    Insumo "1..*" o--- Area_Almacen : Almacena < 
+    Area_Almacen --- Oficina_Nutricion : Consulta < 
+    Area_Almacen --- Oficina_Administrativa : Informa
+    Oficina_Nutricion --- Oficina_Administrativa : Informa 
+    Oficina_Administrativa --- Oficina_Direccion : Informar  
+    Oficina_Administrativa --- Oficina_Direccion : Gestiona < 
+    Turno --- Oficina_Direccion : Planifica <
+    Turno --- Oficina_Administrativa : Gestiona <
+    Turno --- Cocina: > Sujeto a
+    Area_Limpieza --- Oficina_Administrativa : Informa 
+    Area_Limpieza --- Area_Almacen : Surte <
+    Area_Limpieza --- Area_Almacen : Limpia >
+    Area_Limpieza --- Plaza: Limpia >
+    Plaza --- Oficina_Administrativa : Gestiona <
+
+@enduml 

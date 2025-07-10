@@ -1,0 +1,28 @@
+@startuml
+state choice1 <<choice>>
+note left of choice1: ¿El usuario posee una cuenta?
+[*]-->choice1 : Usuario Ingresa \na la aplicación
+state choice2 <<choice>>
+note left of choice2: ¿El usuario desea \niniciar sesión?
+choice1-->choice2: Si
+state "Registro de usuario \nen progreso" as long1
+choice1-->long1 : No
+state "Registro Completado" as long2
+long1-->long2 : Rellenar datos \nsolicitados
+long2-->choice2
+state choice3 <<choice>>
+note left of choice3: ¿El usuario tiene un \nproblema de inicio de sesion?
+choice2-->choice3 :Si
+state end2 <<end>>
+note right of end2: El usuario es dirigido \na recuperación de cuenta
+choice3-->choice4 : si
+choice3-->end4: No
+state end3 <<end>>
+choice2-->end3 :No
+state choice4 <<choice>>
+note right of choice4: ¿El usuario desea recuperar su cuenta?
+state end4 <<end>>
+note left of end4: El usuario es dirigido a la \npágina principal
+choice4-->end2 : Si
+choice4-->choice2: No
+@enduml

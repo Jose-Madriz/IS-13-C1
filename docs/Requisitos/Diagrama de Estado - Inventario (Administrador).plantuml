@@ -1,0 +1,14 @@
+@startuml
+state choice1 <<choice>>
+note left of choice1: ¿Desea actualizar \nel inventario?
+[*]-->choice1
+state end1 <<end>>
+choice1-->end1 : No
+state "Analizar \nlos insumos" as long1
+choice1-->long1: Si
+state "Añadir datos" as long2
+long1-->long2 : Determinar datos relevantes \npara el inventario
+state "Inventario Actualizado" as long3 
+long2-->long3 : Subir datos añadidos
+long3-->[*]
+@enduml

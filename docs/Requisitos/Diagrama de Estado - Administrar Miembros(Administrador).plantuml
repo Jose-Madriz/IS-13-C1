@@ -1,0 +1,26 @@
+@startuml
+state "Visualizando miembros" as long1  
+[*]-->long1 : Administrador ingresa a \nAdministrar miembros
+state choice1 <<choice>>
+note left of choice1: ¿Desea gestionar \nlos miembros?
+state end1 <<end>>
+long1-->choice1
+choice1-->end1 :No
+state choice2 <<choice>>
+note left of choice2: ¿Desea eliminar\n miembros?
+choice1-->choice2 :Si
+state "Miembro eliminado" as long2
+choice2-->long2 : Se ingresan los datos \ndel miembro a eliminar
+state choice3 <<choice>>
+choice2-->choice3 :No
+note right of choice3: ¿Desea añadir \nnuevo miembro?
+state "Miembro añadido" as long3
+choice3-->long3 : Se ingresan los datos \ndel miembro a añadir
+state end2 <<end>>
+choice3-->[*] : No
+state end4 <<end>>
+long2-->end4: Informar \na ex-miembro
+state "Clave Única añadida" as long4
+long3-->long4: Se procede a asignar \nclave única
+long4-->end2 : Informar al \nnuevo miembro
+@enduml

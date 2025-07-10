@@ -1,0 +1,38 @@
+@startuml
+state "Reporte recibido" as long1
+state "Propuesta en evaluación" as long2
+state choice1 <<choice>>
+state choice2 <<choice>>
+state "Rechazado" as long3
+state choice3 <<choice>>
+state "Aprobado" as long4
+state choice4 <<choice>>
+state "Comedor Cerrado" as long5
+state "Turno en planificación" as long6
+state "Turno establecido" as long7
+state end1 <<end>>
+state end2 <<end>>
+
+[*]-->long1: Solicitar reporte a las oficinas
+long1-->choice1: Analizar reporte
+choice1-->long2: Realizar junta \ndirectiva
+long2 --> choice2
+choice2 -->long3 :No
+choice2-->long4 :Si
+long3-->choice3
+choice3-->long2 :Si
+choice3-->choice4 :No
+choice4-->long5 : Si
+long4-->long6
+choice4-->long6 : No
+choice1-->long6: No
+long6-->long7 : Se evaluan los factores \npara establecer el turno
+long5-->end1
+long7-->end2
+
+note right of choice1: ¿Surgio algun inconveniente?
+note right of choice2: ¿La propuesta es viable?
+note right of choice3: ¿Existen más propuestas?
+note right of choice4: ¿Se necesita cerrar el comedor?
+@enduml
+

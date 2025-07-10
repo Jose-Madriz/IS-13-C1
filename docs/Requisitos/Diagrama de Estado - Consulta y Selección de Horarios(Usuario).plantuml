@@ -1,0 +1,31 @@
+@startuml
+state "Horario en Evaluación" as long1
+[*]-->long1 : Usuario accede \nal menú principal
+state choice1 <<choice>>
+note left of choice1: ¿Desea seleccionar \nese horario?
+long1-->choice1
+state choice2 <<choice>>
+note right of choice2: ¿Hay plazas disponibles?
+state end1 <<end>>
+choice1-->end1 : No
+choice1-->choice2 :Si
+state "Selección Confirmada" as long2
+choice2-->long2 : Si
+state "Comprobante recibido" as long3
+long2-->long3 : Generando Comprobante
+state choice3 <<choice>> 
+note right of choice3: ¿Desea realizar otra reserva?
+long3-->choice3
+choice3-->long1 :Si
+choice3-->[*] :No
+choice2-->choice3: No
+state choice4 <<choice>>
+note right of choice4: ¿Quiere descargar \nel comprobante?
+long3-->choice4
+state end3 <<end>>
+choice4-->end3 :No
+state "Comprobante descargado" as long5
+choice4-->long5: Si
+state end4 <<end>>
+long5-->end4
+@enduml

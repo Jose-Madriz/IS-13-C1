@@ -1,0 +1,11 @@
+@startuml
+    state suficientes <<choice>>
+
+    [*] --> Consultando_Ingredientes : Consultar Ingredientes
+    Consultando_Ingredientes --> suficientes : Verificar Insumos
+    suficientes --> Informando_Administracion : Ingredientes Insuficientes
+    Informando_Administracion --> [*]
+    suficientes --> Elaborando_Menu : Ingredientes Suficientes 
+    Elaborando_Menu --> Informando_Administracion : Infornar Menu
+    
+@enduml

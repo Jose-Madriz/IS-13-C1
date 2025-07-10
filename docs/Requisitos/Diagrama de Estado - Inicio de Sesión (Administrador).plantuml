@@ -1,0 +1,23 @@
+@startuml
+state choice1 <<choice>>
+note left of choice1: ¿Desea iniciar sesión?
+[*]-->choice1
+choice1-->[*]: No
+state "Añadir datos" as long1
+choice1-->long1 : Si
+state "Datos correctamente \nañadidos" as long2
+long1-->long2 : El sistema verifica \nlos datos ingresados
+state "Añadir clave única" as long3
+long2-->long3 : Solicitar al usuario \nla clave única
+state choice2 <<choice>>
+note left of choice2 : ¿La clave única \nes correcta?
+long3-->choice2
+state "Clave única incorrecta" as long4
+choice2-->long4 :No
+long4-->long3: Solicitar que vuelva a \ningresar clave única
+state "Clave única correcta" as long5
+choice2-->long5 : Si
+state end2 <<end>>
+long5-->end2
+note left of end2: Dirigir al usuario \na página principal
+@enduml

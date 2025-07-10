@@ -1,0 +1,93 @@
+@startuml
+state "Aplicación \nen ejecución" as long1
+[*]-->long1:Administrador abre \nla aplicación
+state choice1 <<choice>>
+note top of choice1: ¿Desea \niniciar sesión?
+long1-->choice1
+state " " as long2
+choice1-right->long2: Administrador \n ingresa datos
+state "Clave única \nañadida " as long3
+long2-right->long3: Solicitar al Administrador\n la clave unica
+state choice2 <<choice>>
+note top of choice2: ¿La clave única \nes correcta?
+long3-right->choice2
+state "Clave única \nincorrecta " as long4
+choice2-->long4 : No
+long4-->long3 : El sistema solicita \ningresarla nuevamente
+state "Clave única \ncorrecta" as long5
+choice2-right->long5 : Si
+state " " as long6
+long5-->long6 : Dirigido \nal menú principal
+state "Aplicación \nfinalizada" as long7
+choice1-->long7: [No] El administrador no \nrealiza más acciones
+long7-->[*]
+state choice3 <<choice>>
+note top of choice3: ¿Que opción desea realizar?
+long6-right->choice3
+state "Visualizando\n miembros " as long8
+state " Visualizar turnos" as long9
+state "Visualizar opciones" as long10
+choice3-->long8: Ingresa \na administrar\n miembros
+choice3-->long9: Ingresa \na Gestionar Menú
+choice3-->long10: Ingresa \na Reporte
+state choice4 <<choice>>
+note top of choice4: ¿Desea gestionar \nlos miembros?
+long8-up->choice4
+choice3-->long7:    [No] El administrador no \nrealiza más acciones
+choice4-->choice3: No
+state choice5 <<choice>>
+note top of choice5: ¿Desea eliminar \nun miembro?
+choice4-up->choice5: Si
+state "Miembro \neliminado" as long11
+choice5-->long11: [Si] Admin busca y \nselecciona un miembro
+long11-right->choice4: Administrador informa a \na ex-miembro
+state choice6 <<choice>>
+note bottom of choice6: ¿Desea agregar \nun nuevo miembro?
+state "Miembro añadido" as long12
+choice4-->choice6
+choice6-->long12 : Ingresa datos \ncorrespondientes al sistema
+long12-->choice4
+state choice7 <<choice>>
+note right of choice7: ¿Desea \ngestionar/modificar \nmenú semanal?
+long9-->choice7
+choice5-->choice4: No
+choice6-->choice4: No
+choice7-->choice3: No
+state " " as long13
+choice7-->long13: Administrador \nasigna turnos
+state " " as long14
+long13-->long14: Administrador evalua\n y asigna horario
+state "Menú agregado" as long15
+long14-right->long15: Adminitrador añade \ndatos del menú
+state "Menú publicado" as long16
+long15-right->long16: Solicitar publicar menú
+long16-->choice7
+state choice9 <<choice>>
+note right of choice9: ¿Desea generar \nun reporte?
+long10-->choice9
+state "Reporte \ngenerado" as long17
+choice9-right->long17: Si
+choice9-->choice3: No
+state choice10 <<choice>>
+note left of choice10:¿Desea descargar \nel reporte?
+long17-->choice10
+state "Reporte descargado" as long18
+choice10-->long18: Si
+long18-->long10
+state choice11 <<choice>>
+note left of choice11: ¿Desea registrar \nel consumo diario?
+choice10-->choice11: No
+state "Subir datos" as long19
+choice11-->long19: Añade datos \ncorrespondientes
+choice11-->long10: No
+long19-->long10
+state  choice12 <<choice>>
+choice3 -up->choice12: Ingresa \na Inventario
+choice12-->choice3: No
+state "Añadir datos" as long21
+choice12-up->long21: Administrador \nAnaliza insumos
+state "Inventario \nactualizado" as long22
+long21-left->long22: Solicita el envio de datos
+note left of choice12: ¿Desea actualizar \ninventario?
+long22-->choice12
+@enduml

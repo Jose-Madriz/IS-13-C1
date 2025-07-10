@@ -1,0 +1,58 @@
+@startuml
+state "Aplicación \nen ejecución" as long1
+[*]-right->long1:Usuario abre \nla aplicación
+state choice1 <<choice>>
+note top of choice1: ¿El usuario tiene \nuna cuenta?
+long1-right->choice1: El sistema muestra \ninterfaz de inicio
+state " " as long2
+choice1-->long2:  [No] El sistema solicita \ndatos para el registro
+state "Registro \ncompletado" as long3
+long2-right->long3: El usuario ingresa datos \npara el registro
+state choice2 <<choice>>
+long3-right->choice2
+note top of choice2: ¿El usuario desea \niniciar sesión?
+choice1-->choice2: Si
+state end1 <<end>>
+state " " as long4
+choice2-right->long4: [Si] Usuario ingresa datos
+state choice3 <<choice>>
+note top of choice3 : ¿Los datos ingresados \nson correctos?
+long4-right->choice3: El sistema verifica los datos
+state choice4 <<choice>>
+note left of choice4 : ¿Desea recuperar su cuenta?
+choice3-->choice4: No
+choice4-->choice2: No
+state "Cuenta recuperada " as long5
+choice4-->long5 :[Si] El usuario realiza los \nprocesos para recuperar cuenta
+long5-->choice2
+state " " as long6
+choice3-right->long6: Usuario accede\n al menú principal
+state " " as long7
+long6-right->long7: El usuario consulta \nlos horarios
+state choice5 <<choice>>
+note top of choice5: ¿Desea seleccionar un horario?
+state "Aplicación Cerrada" as long8
+choice2-->long8: No
+long8-->end1
+long7-right->choice5
+state choice6 <<choice>>
+note top of choice6: ¿Hay plazas disponibles?
+choice5-right->choice6: Si
+state choice7 <<choice>>
+note bottom of choice7: ¿Desea realizar \nnuna/otra reserva?
+choice7-right->long7 : [Si] El usuario \nevalua los horarios
+choice7-->long8: [No] El usuario no quiere \nrealizar más acciones
+state "Selección \nconfirmada" as long9
+choice6-right->long9: Sistema procesa la solicitud
+state "Comprobante recibido" as long10
+long9-->long10: El sistema genera el comprobante
+choice6-->choice7: No
+state choice8 <<choice>>
+note left of choice8: ¿Desea descargar \nel comprobante?
+long10-->choice8
+choice8-->choice7: No
+state "Comprobante \ndescargado" as long11
+choice8-->long11: [Si] El sistema genera \nel archivo
+long11-->choice7
+choice5-->long8:[No] El usuario no quiere\nrealizar más acciones
+@enduml
