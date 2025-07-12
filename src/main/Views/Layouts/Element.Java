@@ -5,7 +5,9 @@ public abstract class Element {
     protected float relativeHeight;
     protected float positionPercentX;
     protected float positionPercentY;
-    protected boolean visibility; 
+    protected boolean visibility;
+    public static float DEFAULT_WIDTH = 50;
+    public static float DEFAULT_HEIGHT = 60;
     // TODO implementar representacion de colores
 
     //constructors
@@ -19,6 +21,14 @@ public abstract class Element {
     public Element( float relHeight, float relWidth ){
         this.relativeWidth = relHeight;
         this.relativeHeight = relWidth;
+        this.positionPercentX = 0;
+        this.positionPercentY = 0;
+        this.visibility = true;
+    }
+    
+    public Element(){
+        this.relativeWidth = DEFAULT_HEIGHT;
+        this.relativeHeight = DEFAULT_WIDTH;
         this.positionPercentX = 0;
         this.positionPercentY = 0;
         this.visibility = true;
