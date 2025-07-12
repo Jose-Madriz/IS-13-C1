@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 abstract class Element {
-    protected ArrayList<Element> children; 
     protected float relativeWidth;
     protected float relativeHeight;
     protected float positionPercentX;
@@ -12,16 +11,13 @@ abstract class Element {
 
     // Constructors
     public Element( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean visibility ){
-        this.childrens = new ArrayList<Element>();
         this.relativeWidth = relHeight;
         this.relativeHeight = relWidth;
         this.positionPercentX = posPercentX;
         this.positionPercentY = posPercentY;
         this.visibility = visibility;
     }
-    
-    public Element( ){
-        this.childrens = new ArrayList<Element>();
+    public Element( flaot relHeight, float relWidth ){
         this.relativeWidth = 10;
         this.relativeHeight = 10;
         this.positionPercentX = 0;
@@ -30,9 +26,6 @@ abstract class Element {
     }
     
     // Getters
-    protected ArrayList<Element> getChildrens(){
-        return this.children;
-    }
     protected float getRelativeWidth(){
         return this.relativeWidth;
     }
@@ -70,10 +63,4 @@ abstract class Element {
     protected void resize( float relWidth, float relHeight ){}
     protected void move( float posPercentX, float posPercentY ){}
 
-    // Add Childrens Methoods
-    protected void pushChildren( Element component ){}
-    
-    // Delete Childrens Methods
-    protected void deleteChildren( Element childrenReference ){}
-    protected void popChildren(){}
 }
