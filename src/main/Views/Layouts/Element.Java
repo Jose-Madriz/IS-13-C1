@@ -1,22 +1,25 @@
 package main.Views.Layouts;
 
+import java.awt.Color;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public abstract class Element {
     /* 
         Los atributos de position y width/height tienen valores relativoas ala pantalla
         Los valores van desde 0-100%
     */
-    protected float relativeWidth;
-    protected float relativeHeight;
-    protected float positionPercentX;
-    protected float positionPercentY;
+    protected int relativeWidth;
+    protected int relativeHeight;
+    protected int positionPercentX;
+    protected int positionPercentY;
     protected boolean visibility;
-    public static float DEFAULT_WIDTH = 50;
-    public static float DEFAULT_HEIGHT = 60;
-
-    // TODO implementar representacion de colores
+    public static int DEFAULT_WIDTH = 50;
+    public static int DEFAULT_HEIGHT = 60;
+    Map<String, Color> palette;
 
     //constructors
-    public Element( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean visibility ){
+    public Element( int relHeight, int relWidth, int posPercentX, int posPercentY, boolean visibility ){
         this.relativeWidth = relHeight;
         this.relativeHeight = relWidth;
         this.positionPercentX = posPercentX;
@@ -25,8 +28,9 @@ public abstract class Element {
         
         // Validamos que los valores de cada valor relativo, en caso de que 
         this.validateRelatives();
+        this.initializeColors();
     }
-    public Element( float relHeight, float relWidth ){
+    public Element( int relHeight, int relWidth ){
         this.relativeWidth = relHeight;
         this.relativeHeight = relWidth;
         this.positionPercentX = 0;
@@ -35,6 +39,7 @@ public abstract class Element {
         
         // Validamos que los valores de cada valor relativo, en caso de que 
         this.validateRelatives();
+        this.initializeColors();
     }
     
     public Element(){
@@ -44,44 +49,48 @@ public abstract class Element {
         this.positionPercentY = 0;
         this.visibility = true;
         
-       // Validamos que los valores de cada valor relativo, en caso de que 
-       this.validateRelatives();
+        // Validamos que los valores de cada valor relativo, en caso de que 
+        this.validateRelatives();
+        this.initializeColors();
     }
 
     // Getters
-    public float getRelativeWidth(){
+    public int getRelativeWidth(){
         return this.relativeWidth;
     }
-    public float getRelativeHeight(){
+    public int getRelativeHeight(){
         return this.relativeHeight;
     }
-    public float getPositionPercentX(){
+    public int getPositionPercentX(){
         return this.positionPercentX;
     }
-    public float getPositionPercentY(){
+    public int getPositionPercentY(){
         return this.positionPercentY;
+    }
+    public Map<String, Color> getPalette(){
+        return this.palette;
     }
     public boolean isVisible(){
         return this.visibility;
     }
     
     // Seters
-    public void setRelativeWidth( float relWidth ){
+    public void setRelativeWidth( int relWidth ){
         this.relativeWidth = relWidth;
         // Validamos que los valores de cada valor relativo, en caso de que 
        this.validateRelatives();
     }
-    public void setRelativeHeight( float relHeight ){
+    public void setRelativeHeight( int relHeight ){
         this.relativeHeight = relHeight;
         // Validamos que los valores de cada valor relativo, en caso de que 
        this.validateRelatives();
     }
-    public void setPositionPercentX( float posPercentX ){
+    public void setPositionPercentX( int posPercentX ){
         this.positionPercentX = posPercentX;
         // Validamos que los valores de cada valor relativo, en caso de que 
        this.validateRelatives();
     }
-    public void setPositionPercentY( float posPercentY ){
+    public void setPositionPercentY( int posPercentY ){
         this.positionPercentY = posPercentY;
         // Validamos que los valores de cada valor relativo, en caso de que 
        this.validateRelatives();
@@ -98,5 +107,16 @@ public abstract class Element {
         this.relativeHeight = (this.relativeHeight > 100 || this.relativeHeight < 0) ? DEFAULT_HEIGHT : this.relativeHeight;
         this.positionPercentX = (this.positionPercentX > 100 || this.positionPercentX < 0) ? 0 : this.positionPercentX;
         this.positionPercentY = (this.positionPercentY > 100 || this.positionPercentY < 0) ? 0 : this.positionPercentY;
+    }
+
+    private void initializeColors(){
+        this.palette = new LinkedHashMap<>();
+
+        // Agregamos los colores usando los códigos hexadecimales como clave
+        palette.put("Color1", Color.decode("#7c5a69"));
+        palette.put("Color2", Color.decode("#b69d75"));
+        palette.put("Color3", Color.decode("#d3d3d2"));
+        palette.put("Color4", Color.decode("#1f2224"));
+        palette.put("Color5", Color.decode("#2c3d73"));
     }
 }

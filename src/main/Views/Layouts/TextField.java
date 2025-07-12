@@ -7,11 +7,11 @@ public class TextField extends Element{
     public JTextField component;
 
     // Constructor
-    public TextField( float relWidth, float relHeight, float posPercentX, float posPercentY, boolean visibility, String content ){
+    public TextField( int relWidth, int relHeight, int posPercentX, int posPercentY, boolean visibility, String content ){
         super( relWidth, relHeight, posPercentX, posPercentY, visibility );
         this.content = "";
     }
-    public TextField( float relWidth, float relHeight, String content){
+    public TextField( int relWidth, int relHeight, String content){
         super( relWidth, relHeight );
         this.content = "";
     }

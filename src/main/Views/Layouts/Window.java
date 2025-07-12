@@ -12,20 +12,25 @@ public class Window extends Element{
     public String title;
 
     // Constructors
-    public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis, Window prev ){
+    public Window( int relHeight, int relWidth, int posPercentX, int posPercentY, boolean vis, Window prev ){
         super( relHeight, relWidth, posPercentX, posPercentY, vis );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = prev;
     }
-    public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis ){
+    public Window( int relHeight, int relWidth, int posPercentX, int posPercentY, boolean vis ){
         super( relHeight, relWidth, posPercentX, posPercentY, vis );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = null;
     }
-    public Window( float relHeight, float relWidth, Window prev ){
+    public Window( int relHeight, int relWidth, Window prev ){
         super( relHeight, relWidth );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = prev;
+    }
+    public Window( int relHeight, int relWidth ){
+        super( relHeight, relWidth );
+        this.children = new ArrayList<JComponent>();
+        this.previousWindow = null;
     }
     public Window( ){
         super( );
@@ -71,12 +76,12 @@ public class Window extends Element{
     }
 
     //Other Methods
-    public void resize( float relWidth, float relHeight ){
+    public void resize( int relWidth, int relHeight ){
         this.relativeWidth = relWidth;
         this.relativeHeight = relHeight;
         setInstance();
     }
-    public void move( float posPercentX, float posPercentY ){
+    public void move( int posPercentX, int posPercentY ){
         this.positionPercentX = posPercentX;
         this.positionPercentY = posPercentY;
         setInstance();

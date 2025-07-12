@@ -6,11 +6,11 @@ public class Paragraph extends Element {
     private String content;
     JLabel component;
 
-    public Paragraph( float relWidth, float relHeight, float posPercentX, float posPercentY, boolean visibility, String content ){
+    public Paragraph( int relWidth, int relHeight, int posPercentX, int posPercentY, boolean visibility, String content ){
         super( relWidth, relHeight, posPercentX, posPercentY, visibility );
         this.content = content;
     }
-    public Paragraph( float relWidth, float relHeight, String content ){
+    public Paragraph( int relWidth, int relHeight, String content ){
         super( relWidth, relHeight );
         this.content = content;
     } 

@@ -6,11 +6,11 @@ public class Title extends Element{
     private String content;
     public JLabel component;
     
-    public Title( float relWidth, float relHeight, float posPercentX, float posPercentY, boolean visibility, String content ){
+    public Title( int relWidth, int relHeight, int posPercentX, int posPercentY, boolean visibility, String content ){
         super( relWidth, relHeight, posPercentX, posPercentY, visibility );
         this.content = content;
     }
-    public Title( float relWidth, float relHeight, String content ){
+    public Title( int relWidth, int relHeight, String content ){
         super( relWidth, relHeight );
         this.content = content;
     }
