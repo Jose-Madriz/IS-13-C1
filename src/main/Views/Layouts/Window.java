@@ -8,20 +8,29 @@ public class Window extends Element{
     Window previousWindow;
     JFrame frame;
     ArrayList<JComponent> children;
+
     public String title;
-    public static float DEFAULT_WIDTH = 50;
-    public static float DEFAULT_HEIGHT = 60;
 
     // Constructors
-    public Window( float relWidth, float relHeight, float posPercentX, float posPercentY, boolean visibility, Window prev ){
-        super( relWidth, relHeight, posPercentX, posPercentY, visibility );
-        this.previousWindow = prev;
+    public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis, Window prev ){
+        super( relHeight, relWidth, posPercentX, posPercentY, vis );
         this.children = new ArrayList<JComponent>();
+        this.previousWindow = prev;
     }
-    public Window( Window prev ){
-        super( DEFAULT_HEIGHT, DEFAULT_WIDTH );
+    public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis ){
+        super( relHeight, relWidth, posPercentX, posPercentY, vis );
+        this.children = new ArrayList<JComponent>();
+        this.previousWindow = null;
+    }
+    public Window( float relHeight, float relWidth, Window prev ){
+        super( relHeight, relWidth );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = prev;
+    }
+    public Window( ){
+        super( );
+        this.children = new ArrayList<JComponent>();
+        this.previousWindow = null;
     }
 
     //Setters
@@ -33,6 +42,8 @@ public class Window extends Element{
         
         int screenWidth = getScreenWidth();
         int screenHeight = getScreenHeight();
+
+        // Calcula el valor en pixeles de los tamaños relativos(porcentajes)
         int frameWidth = (int) (screenWidth * (this.relativeWidth / 100.0));
         int frameHeight = (int) (screenHeight * (this.relativeHeight / 100.0));
         int frameX = (int) (screenWidth * (this.positionPercentX / 100.0));
@@ -63,16 +74,31 @@ public class Window extends Element{
     public void resize( float relWidth, float relHeight ){
         this.relativeWidth = relWidth;
         this.relativeHeight = relHeight;
+        setInstance();
     }
     public void move( float posPercentX, float posPercentY ){
         this.positionPercentX = posPercentX;
         this.positionPercentY = posPercentY;
+        setInstance();
     }
 
     // Add Childrens Methoods
-    protected void pushChildren( JComponent child ){}
+    protected void pushChildren( JComponent child ){
+        this.children.add(child);
+        this.frame.add(child);
+    }
     
     // Delete Childrens Methods
-    protected void deleteChildren( JComponent childrenReference ){}
-    protected void popChildren(){}
+    protected void deleteChildren( JComponent childrenReference ){
+        if(  this.children.contains(childrenReference) ){
+            this.children.remove(childrenReference);
+            this.frame.remove(childrenReference);
+        }
+    }
+    protected void popChildren(){
+        if( this.children.size() > 0 ){
+            this.frame.remove(this.children.get(this.children.size() - 1));
+            this.children.remove(this.children.size() - 1);
+        }
+    }
 }
