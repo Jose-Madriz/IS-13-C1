@@ -3,6 +3,7 @@ package main.Views.Layouts;
 import java.awt.Color;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.awt.Toolkit;
 
 public abstract class Element {
     /* 
@@ -108,7 +109,28 @@ public abstract class Element {
         this.positionPercentX = (this.positionPercentX > 100 || this.positionPercentX < 0) ? 0 : this.positionPercentX;
         this.positionPercentY = (this.positionPercentY > 100 || this.positionPercentY < 0) ? 0 : this.positionPercentY;
     }
+    public void convertToRelative( ){
+        int screenWidth = getScreenWidth();
+        int screenHeight = getScreenHeight();
+        
+        // Calcula el valor en pixeles de los tamaños relativos(porcentajes)
+        int relWidth = (int) (screenWidth * (this.relativeWidth / 100.0));
+        int relHeight = (int) (screenHeight * (this.relativeHeight / 100.0));
+        int relX = (int) (screenWidth * (this.positionPercentX / 100.0));
+        int relY = (int) (screenHeight * (this.positionPercentY / 100.0));
 
+        this.relativeWidth = relWidth;
+        this.relativeHeight = relHeight;
+        this.positionPercentX = relX;
+        this.positionPercentY = relY;
+    }   
+    public int getScreenWidth(){
+        return  Toolkit.getDefaultToolkit().getScreenSize().width; 
+    }
+    public int getScreenHeight(){
+        return Toolkit.getDefaultToolkit().getScreenSize().height; 
+    }
+    
     private void initializeColors(){
         this.palette = new LinkedHashMap<>();
 
