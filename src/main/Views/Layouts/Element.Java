@@ -10,19 +10,19 @@ public abstract class Element {
         Los atributos de position y width/height tienen valores relativoas ala pantalla
         Los valores van desde 0-100%
     */
-    protected int relativeWidth;
-    protected int relativeHeight;
-    protected int positionPercentX;
-    protected int positionPercentY;
+    protected float relativeWidth;
+    protected float relativeHeight;
+    protected float positionPercentX;
+    protected float positionPercentY;
     protected boolean visibility;
-    public static int DEFAULT_WIDTH = 50;
-    public static int DEFAULT_HEIGHT = 60;
+    public static float DEFAULT_WIDTH = 50;
+    public static float DEFAULT_HEIGHT = 60;
     Map<String, Color> palette;
 
     //constructors
-    public Element( int relHeight, int relWidth, int posPercentX, int posPercentY, boolean visibility ){
+    public Element( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean visibility ){
         this.relativeWidth = relHeight;
-        this.relativeHeight = relWidth;
+        this.relativeHeight = relHeight;
         this.positionPercentX = posPercentX;
         this.positionPercentY = posPercentY;
         this.visibility = visibility;
@@ -31,9 +31,9 @@ public abstract class Element {
         this.validateRelatives();
         this.initializeColors();
     }
-    public Element( int relHeight, int relWidth ){
-        this.relativeWidth = relHeight;
-        this.relativeHeight = relWidth;
+    public Element( float relHeight, float relWidth ){
+        this.relativeWidth = relWidth;
+        this.relativeHeight = relHeight;
         this.positionPercentX = 0;
         this.positionPercentY = 0;
         this.visibility = true;
@@ -56,16 +56,16 @@ public abstract class Element {
     }
 
     // Getters
-    public int getRelativeWidth(){
+    public float getRelativeWidth(){
         return this.relativeWidth;
     }
-    public int getRelativeHeight(){
+    public float getRelativeHeight(){
         return this.relativeHeight;
     }
-    public int getPositionPercentX(){
+    public float getPositionPercentX(){
         return this.positionPercentX;
     }
-    public int getPositionPercentY(){
+    public float getPositionPercentY(){
         return this.positionPercentY;
     }
     public Map<String, Color> getPalette(){
@@ -76,22 +76,22 @@ public abstract class Element {
     }
     
     // Seters
-    public void setRelativeWidth( int relWidth ){
+    public void setRelativeWidth( float relWidth ){
         this.relativeWidth = relWidth;
         // Validamos que los valores de cada valor relativo, en caso de que 
        this.validateRelatives();
     }
-    public void setRelativeHeight( int relHeight ){
+    public void setRelativeHeight( float relHeight ){
         this.relativeHeight = relHeight;
         // Validamos que los valores de cada valor relativo, en caso de que 
        this.validateRelatives();
     }
-    public void setPositionPercentX( int posPercentX ){
+    public void setPositionPercentX( float posPercentX ){
         this.positionPercentX = posPercentX;
         // Validamos que los valores de cada valor relativo, en caso de que 
        this.validateRelatives();
     }
-    public void setPositionPercentY( int posPercentY ){
+    public void setPositionPercentY( float posPercentY ){
         this.positionPercentY = posPercentY;
         // Validamos que los valores de cada valor relativo, en caso de que 
        this.validateRelatives();
@@ -109,24 +109,27 @@ public abstract class Element {
         this.positionPercentX = (this.positionPercentX > 100 || this.positionPercentX < 0) ? 0 : this.positionPercentX;
         this.positionPercentY = (this.positionPercentY > 100 || this.positionPercentY < 0) ? 0 : this.positionPercentY;
     }
-    public void convertToRelative( int fatherWidth, int fatherHeight ){
-        
-        // Calcula el valor en pixeles de los tamaños relativos(porcentajes)
-        int relWidth = (int) (fatherWidth * (this.relativeWidth / 100.0));
-        int relHeight = (int) (fatherHeight * (this.relativeHeight / 100.0));
-        int relX = (int) (fatherWidth * (this.positionPercentX / 100.0));
-        int relY = (int) (fatherHeight* (this.positionPercentY / 100.0));
-
-        this.relativeWidth = relWidth;
-        this.relativeHeight = relHeight;
-        this.positionPercentX = relX;
-        this.positionPercentY = relY;
-    }   
     public int getScreenWidth(){
         return  Toolkit.getDefaultToolkit().getScreenSize().width; 
     }
     public int getScreenHeight(){
         return Toolkit.getDefaultToolkit().getScreenSize().height; 
+    }
+    public int convertRelativeWidth( int fatherWidth ){
+        return (int) (fatherWidth * (this.relativeWidth / 100.0));
+    }
+    public int convertRelativeHeight( int fatherHeight ){
+        return (int) (fatherHeight * (this.relativeWidth / 100.0));
+    }
+    public int convertRelativePositionX( int fatherWidth ){
+        float fixPosition = java.lang.Math.abs(this.positionPercentX - this.relativeWidth/2);
+        fixPosition = (fixPosition < 0) ? 0 : fixPosition;
+        return (int) (fatherWidth * fixPosition / 100.0);
+    }
+    public int convertRelativePositionY( int fatherHeight ){
+        float fixPosition = java.lang.Math.abs(this.positionPercentY - this.relativeHeight/2);
+        fixPosition = (fixPosition < 0) ? 0 : fixPosition;
+        return (int) (fatherHeight * fixPosition / 100.0);
     }
     
     private void initializeColors(){

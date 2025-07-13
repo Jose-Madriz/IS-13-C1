@@ -1,36 +1,35 @@
 package main.Views.Layouts;
 
 import java.util.ArrayList;
-import java.awt.Toolkit;
 import javax.swing.*;
 
 public class Window extends Element{
-    Window previousWindow;
-    JFrame frame;
-    ArrayList<JComponent> children;
+    public Window previousWindow;
+    public JFrame frame;
+    public ArrayList<JComponent> children;
 
     public String title;
 
     // Constructors
-    public Window( int relHeight, int relWidth, int posPercentX, int posPercentY, boolean vis, Window prev ){
+    public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis, Window prev ){
         super( relHeight, relWidth, posPercentX, posPercentY, vis );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = prev;
         this.title = "DefaultTitle";
     }
-    public Window( int relHeight, int relWidth, int posPercentX, int posPercentY, boolean vis ){
+    public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis ){
         super( relHeight, relWidth, posPercentX, posPercentY, vis );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = null;
         this.title = "DefaultTitle";
     }
-    public Window( int relHeight, int relWidth, Window prev ){
+    public Window( float relHeight, float relWidth, Window prev ){
         super( relHeight, relWidth );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = prev;
         this.title = "DefaultTitle";
     }
-    public Window( int relHeight, int relWidth ){
+    public Window( float relHeight, float relWidth ){
         super( relHeight, relWidth );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = null;
@@ -46,13 +45,17 @@ public class Window extends Element{
     //Setters
     public void setInstance(){
         this.frame = new JFrame();
+
+        int screenHeight = this.getScreenHeight();
+        int screenWidth = this.getScreenWidth();
         
-        this.convertToRelative( this.getScreenWidth(), this.getScreenHeight() );
-        
-        this.frame.setSize(this.relativeWidth, this.relativeHeight);
-        this.frame.setLocation(this.positionPercentX, this.positionPercentY);
+        this.frame.setSize(this.convertRelativeWidth(screenWidth), this.convertRelativeHeight(screenHeight));
+        this.frame.setLocation(this.convertRelativePositionX(screenWidth), this.convertRelativePositionY(screenWidth));
         this.frame.setVisible(this.visibility);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        this.frame.setTitle(this.title);
     }
     
     // Getters
@@ -61,7 +64,9 @@ public class Window extends Element{
     }
     public void getDetails(){
         System.out.println("Relative Width: " + this.relativeWidth + "%");
+        System.out.println("Width px: " + this.frame.getWidth());
         System.out.println("Relative Height: " + this.relativeHeight + "%");
+        System.out.println("Height px: " + this.frame.getHeight());
         System.out.println("Position X: " + this.positionPercentX + "%"); 
         System.out.println("Position Y: " + this.positionPercentY + "%"); 
         System.out.println("Visibility: " + this.visibility);
@@ -72,19 +77,23 @@ public class Window extends Element{
     }
 
     //Other Methods
-    public void resize( int relWidth, int relHeight ){
+    public void resize( float relWidth, float relHeight ){
         this.relativeWidth = relWidth;
         this.relativeHeight = relHeight;
+        this.convertRelativeHeight(getScreenHeight());
+        this.convertRelativeWidth(getScreenWidth());
         setInstance();
     }
-    public void move( int posPercentX, int posPercentY ){
+    public void move( float posPercentX, float posPercentY ){
         this.positionPercentX = posPercentX;
         this.positionPercentY = posPercentY;
+        this.convertRelativePositionX(getScreenWidth());
+        this.convertRelativePositionY(getScreenHeight());
         setInstance();
     }
 
     // Add Childrens Methoods
-    protected void pushChildren( JComponent child ){
+    public void pushChildren( JComponent child ){
         this.children.add(child);
         this.frame.add(child);
     }
