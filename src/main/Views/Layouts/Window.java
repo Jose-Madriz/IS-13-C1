@@ -9,7 +9,7 @@ public class Window extends Element{
     public ArrayList<JComponent> children;
 
     public String title;
-
+    //TODO implementar Layouts para las ventanas con JPanel y mejorar el posicionamiento
     // Constructors
     public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis, Window prev ){
         super( relHeight, relWidth, posPercentX, posPercentY, vis );
@@ -44,6 +44,8 @@ public class Window extends Element{
 
     //Setters
     public void setInstance(){
+
+        // TODO: Arreglar problema al redimensionar Pantallas: Los componentes de la ventana se desbordan
         this.frame = new JFrame();
 
         int screenHeight = this.getScreenHeight();
