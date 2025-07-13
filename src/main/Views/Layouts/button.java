@@ -18,7 +18,7 @@ public class Button extends Element{
         this.content = content;
         this.father = father;
     }
-    public Button( int relWidth, int relHeight){
+    public Button( int relWidth, int relHeight, Window father){
         super( relWidth, relHeight );
         this.content = "DefaultContent";
         this.father = father;
