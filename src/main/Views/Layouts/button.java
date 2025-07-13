@@ -8,31 +8,37 @@ public class Button extends Element{
     private JButton component;
 
     // Constructor
-    public Button( int relWidth, int relHeight, int posPercentX, int posPercentY, boolean visibility, String content ){
+    public Button( int relWidth, int relHeight, int posPercentX, int posPercentY, boolean visibility, String content, Window father ){
         super( relWidth, relHeight, posPercentX, posPercentY, visibility );
         this.content = content;
+        this.father = father;
     }
-    public Button( int relWidth, int relHeight, String content ){
+    public Button( int relWidth, int relHeight, String content, Window father ){
         super( relWidth, relHeight );
         this.content = content;
+        this.father = father;
     }
     public Button( int relWidth, int relHeight){
         super( relWidth, relHeight );
         this.content = "DefaultContent";
+        this.father = father;
     }
-    public Button( ){
+    public Button( Window father ){
         super( );
         this.content = "DefaultContent";
+        this.father = father;
     }
 
     // Setters
     public void setContent( String content ){
         this.content = content;
-        this.component.setText(content);
+        this.setInstance();
     }
     public void setInstance( ){
         this.component = new JButton();
         
+        this.convertToRelative( this.father.getRelativeWidth(), this.father.getRelativeHeight() );
+
         this.component.setSize( this.relativeWidth, this.relativeHeight );
         this.component.setLocation( this.positionPercentX, this.positionPercentY );
         this.component.setVisible(this.visibility);

@@ -109,15 +109,13 @@ public abstract class Element {
         this.positionPercentX = (this.positionPercentX > 100 || this.positionPercentX < 0) ? 0 : this.positionPercentX;
         this.positionPercentY = (this.positionPercentY > 100 || this.positionPercentY < 0) ? 0 : this.positionPercentY;
     }
-    public void convertToRelative( ){
-        int screenWidth = getScreenWidth();
-        int screenHeight = getScreenHeight();
+    public void convertToRelative( int fatherWidth, int fatherHeight ){
         
         // Calcula el valor en pixeles de los tamaños relativos(porcentajes)
-        int relWidth = (int) (screenWidth * (this.relativeWidth / 100.0));
-        int relHeight = (int) (screenHeight * (this.relativeHeight / 100.0));
-        int relX = (int) (screenWidth * (this.positionPercentX / 100.0));
-        int relY = (int) (screenHeight * (this.positionPercentY / 100.0));
+        int relWidth = (int) (fatherWidth * (this.relativeWidth / 100.0));
+        int relHeight = (int) (fatherHeight * (this.relativeHeight / 100.0));
+        int relX = (int) (fatherWidth * (this.positionPercentX / 100.0));
+        int relY = (int) (fatherHeight* (this.positionPercentY / 100.0));
 
         this.relativeWidth = relWidth;
         this.relativeHeight = relHeight;

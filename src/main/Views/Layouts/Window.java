@@ -16,63 +16,59 @@ public class Window extends Element{
         super( relHeight, relWidth, posPercentX, posPercentY, vis );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = prev;
+        this.title = "DefaultTitle";
     }
     public Window( int relHeight, int relWidth, int posPercentX, int posPercentY, boolean vis ){
         super( relHeight, relWidth, posPercentX, posPercentY, vis );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = null;
+        this.title = "DefaultTitle";
     }
     public Window( int relHeight, int relWidth, Window prev ){
         super( relHeight, relWidth );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = prev;
+        this.title = "DefaultTitle";
     }
     public Window( int relHeight, int relWidth ){
         super( relHeight, relWidth );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = null;
+        this.title = "DefaultTitle";
     }
     public Window( ){
         super( );
         this.children = new ArrayList<JComponent>();
         this.previousWindow = null;
+        this.title = "DefaultTitle";
     }
 
     //Setters
-    protected ArrayList<JComponent> getChildrens(){
-        return this.children;
-    }
     public void setInstance(){
         this.frame = new JFrame();
         
-        int screenWidth = getScreenWidth();
-        int screenHeight = getScreenHeight();
-
-        // Calcula el valor en pixeles de los tamaños relativos(porcentajes)
-        int frameWidth = (int) (screenWidth * (this.relativeWidth / 100.0));
-        int frameHeight = (int) (screenHeight * (this.relativeHeight / 100.0));
-        int frameX = (int) (screenWidth * (this.positionPercentX / 100.0));
-        int frameY = (int) (screenHeight * (this.positionPercentY / 100.0));
+        this.convertToRelative( this.getScreenWidth(), this.getScreenHeight() );
         
-        this.frame.setSize(frameWidth, frameHeight);
-        this.frame.setLocation(frameX, frameY);
+        this.frame.setSize(this.relativeWidth, this.relativeHeight);
+        this.frame.setLocation(this.positionPercentX, this.positionPercentY);
         this.frame.setVisible(this.visibility);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
+    
     // Getters
-    public int getScreenWidth(){
-        return  Toolkit.getDefaultToolkit().getScreenSize().width; 
-    }
-    public int getScreenHeight(){
-        return Toolkit.getDefaultToolkit().getScreenSize().height; 
+    protected ArrayList<JComponent> getChildrens(){
+        return this.children;
     }
     public void getDetails(){
         System.out.println("Relative Width: " + this.relativeWidth + "%");
         System.out.println("Relative Height: " + this.relativeHeight + "%");
         System.out.println("Position X: " + this.positionPercentX + "%"); 
         System.out.println("Position Y: " + this.positionPercentY + "%"); 
-        System.out.println("Visibility: " + this.visibility); 
+        System.out.println("Visibility: " + this.visibility);
+        System.out.println("Previous Window: " + this.previousWindow);
+        System.out.println("Children: " + this.children);
+        System.out.println("Frame: " + this.frame);
+        System.out.println("Title: " + this.title);
     }
 
     //Other Methods
