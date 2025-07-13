@@ -89,8 +89,8 @@ public class Window extends Element{
     public void move( float posPercentX, float posPercentY ){
         this.positionPercentX = posPercentX;
         this.positionPercentY = posPercentY;
-        this.convertRelativePositionX(getScreenWidth());
-        this.convertRelativePositionY(getScreenHeight());
+        this.convertRelativePositionX(this.getScreenWidth());
+        this.convertRelativePositionY(this.getScreenHeight());
         setInstance();
     }
 

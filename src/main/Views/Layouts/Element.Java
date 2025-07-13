@@ -7,7 +7,7 @@ import java.awt.Toolkit;
 
 public abstract class Element {
     /* 
-        Los atributos de position y width/height tienen valores relativoas ala pantalla
+        Los atributos de position y width/height tienen valores relativoas a la pantalla
         Los valores van desde 0-100%
     */
     protected float relativeWidth;
@@ -18,6 +18,8 @@ public abstract class Element {
     public static float DEFAULT_WIDTH = 50;
     public static float DEFAULT_HEIGHT = 60;
     Map<String, Color> palette;
+    private String font;
+    private int fontSize;
 
     //constructors
     public Element( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean visibility ){
