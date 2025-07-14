@@ -124,6 +124,12 @@ public abstract class Element {
     public int getScreenHeight(){
         return Toolkit.getDefaultToolkit().getScreenSize().height; 
     }
+    public Font getFont(){
+        return this.font;
+    }
+    public int getFonSize(){
+        return this.fontSize;
+    }
     public int convertRelativeWidth( int fatherWidth ){
         return (int) (fatherWidth * (this.relativeWidth / 100.0));
     }
