@@ -1,6 +1,7 @@
 package main.Views.Layouts;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.awt.Toolkit;
@@ -15,11 +16,11 @@ public abstract class Element {
     protected float positionPercentX;
     protected float positionPercentY;
     protected boolean visibility;
-    public static float DEFAULT_WIDTH = 50;
-    public static float DEFAULT_HEIGHT = 60;
+    protected static float DEFAULT_WIDTH = 50;
+    protected static float DEFAULT_HEIGHT = 60;
     Map<String, Color> palette;
-    private String font;
-    private int fontSize;
+    protected Font font;
+    protected int fontSize;
 
     //constructors
     public Element( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean visibility ){
@@ -102,6 +103,12 @@ public abstract class Element {
         this.visibility = visibility;
         // Validamos que los valores de cada valor relativo, en caso de que 
        this.validateRelatives();
+    }
+    public void setfont(String font){
+        this.font = new Font(font, Font.PLAIN, this.fontSize);
+    }
+    public void setFontSize(int fontSize){
+        this.fontSize = fontSize;
     }
 
     // Other Methods

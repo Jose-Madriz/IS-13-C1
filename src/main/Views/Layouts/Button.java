@@ -49,6 +49,7 @@ public class Button extends Element{
         this.component.setText( this.content );
         this.component.setBackground( this.palette.get("Color1") );
         this.component.setText( content );
+        this.component.setFont(this.font);
         this.father.pushChildren( this.component );
     }
     public void setFather( Window father ){

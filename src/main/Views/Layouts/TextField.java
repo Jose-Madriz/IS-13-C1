@@ -38,7 +38,7 @@ public class TextField extends Element{
     public void setInstance( ){
         this.component = new JTextField();
 
-       int fatherWidth = this.father.frame.getWidth();
+        int fatherWidth = this.father.frame.getWidth();
         int fatherHeight = this.father.frame.getHeight();
 
         this.component.setSize( this.convertRelativeWidth(fatherWidth), this.convertRelativeHeight(fatherHeight) );
@@ -47,6 +47,7 @@ public class TextField extends Element{
         this.component.setText( this.content );
         this.component.setBackground( this.palette.get("Color1") );
         this.component.setText( content );
+        this.component.setFont(this.font);
         this.father.pushChildren( this.component );
 
     }
