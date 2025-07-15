@@ -1,7 +1,6 @@
 package main.Views.Layouts;
 
 public class App {
-
     public static void main(String[] args){
         Window testWindow = new Window( 50, 50 );
         testWindow.setInstance( );

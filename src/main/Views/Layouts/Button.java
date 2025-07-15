@@ -8,6 +8,7 @@ public class Button extends Element{
     private JButton component;
 
     // TODO Como hacemos una clase abstracta para los componentes de la ventana?
+    // TODO Crear metodos para darle estilos a los botones
 
     // Constructor
     public Button( float relWidth, float relHeight, float posPercentX, float posPercentY, boolean visibility, String content, Window father ){
@@ -48,6 +49,7 @@ public class Button extends Element{
         this.component.setText( this.content );
         this.component.setBackground( this.palette.get("Color1") );
         this.component.setText( content );
+        this.component.setFont(this.font);
         this.father.pushChildren( this.component );
     }
     public void setFather( Window father ){

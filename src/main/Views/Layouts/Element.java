@@ -1,13 +1,14 @@
 package main.Views.Layouts;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.awt.Toolkit;
 
 public abstract class Element {
     /* 
-        Los atributos de position y width/height tienen valores relativoas ala pantalla
+        Los atributos de position y width/height tienen valores relativoas a la pantalla
         Los valores van desde 0-100%
     */
     protected float relativeWidth;
@@ -15,9 +16,11 @@ public abstract class Element {
     protected float positionPercentX;
     protected float positionPercentY;
     protected boolean visibility;
-    public static float DEFAULT_WIDTH = 50;
-    public static float DEFAULT_HEIGHT = 60;
+    protected static float DEFAULT_WIDTH = 50;
+    protected static float DEFAULT_HEIGHT = 60;
     Map<String, Color> palette;
+    protected Font font;
+    protected int fontSize;
 
     //constructors
     public Element( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean visibility ){
@@ -101,6 +104,12 @@ public abstract class Element {
         // Validamos que los valores de cada valor relativo, en caso de que 
        this.validateRelatives();
     }
+    public void setfont(String font){
+        this.font = new Font(font, Font.PLAIN, this.fontSize);
+    }
+    public void setFontSize(int fontSize){
+        this.fontSize = fontSize;
+    }
 
     // Other Methods
     private void validateRelatives(){
@@ -114,6 +123,12 @@ public abstract class Element {
     }
     public int getScreenHeight(){
         return Toolkit.getDefaultToolkit().getScreenSize().height; 
+    }
+    public Font getFont(){
+        return this.font;
+    }
+    public int getFonSize(){
+        return this.fontSize;
     }
     public int convertRelativeWidth( int fatherWidth ){
         return (int) (fatherWidth * (this.relativeWidth / 100.0));

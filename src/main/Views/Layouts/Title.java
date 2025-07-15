@@ -7,6 +7,7 @@ public class Title extends Element{
     private String content;
     public JLabel component;
     
+    
     // Constructor
     public Title( float relWidth, float relHeight, float posPercentX, float posPercentY, boolean visibility, String content, Window father ){
         super( relWidth, relHeight, posPercentX, posPercentY, visibility );
@@ -46,12 +47,14 @@ public class Title extends Element{
         this.component.setText( this.content );
         this.component.setBackground( this.palette.get("Color1") );
         this.component.setText( content );
+        this.component.setFont(this.font);
         this.father.pushChildren( this.component );
     }
     public void setFather( Window father ){
         this.father = father;
         this.father.pushChildren( this.component );
     }
+    //TODO: Crear metodo para aumentar tamaño de texto 
 
     // Getters 
     public String getContent(){

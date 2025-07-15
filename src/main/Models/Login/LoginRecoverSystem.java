@@ -1,4 +1,4 @@
-import java.awt.*;
+package main.Models.Login;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.awt.*;
 import javax.swing.*;
 
 public class LoginRecoverSystem extends JFrame {
