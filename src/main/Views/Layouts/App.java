@@ -1,27 +1,54 @@
 package main.Views.Layouts;
 
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import java.awt.*;
+
 public class App {
     public static void main(String[] args){
         Window testWindow = new Window( 50, 50 );
-        testWindow.setInstance( );
         
-        Button testButton = new Button(20, 7, 40, 70, true, "Boton", testWindow);
+        FlowLayout mainLayout = new FlowLayout(1, 10, 10);
+        Panel mainPanel = new Panel( 100.0f, 100.0f, testWindow.size );
+        mainPanel.setLayout(mainLayout);
+        mainPanel.getPanel().setBorder( BorderFactory.createEmptyBorder(20,20,20,20) );
+        mainPanel.getPanel().setBackground(new Color(353535));
+
+        testWindow.setPanel( mainPanel.getPanel() );
+        testWindow.setInstance();
         
-        Paragraph testPara = new Paragraph(50, 60, 15, 20, true, "Mucho texto y asi", testWindow);
+        Size buttonSize = new Size( 60.0f, 6.0f, testWindow.size );
         
-        Title testTitle = new Title(30, 30, 30, 10, true, "Titulo Arrecho", testWindow);
+        Panel buttonPanel = new Panel(  30.0f, 30.0f, testWindow.size );
+        FlowLayout buttonLayout = new FlowLayout(3, 30, 10);
+        buttonPanel.setLayout(buttonLayout);
+
+        buttonPanel.getPanel().setBackground(new Color(000000));
+
+        JButton button = new JButton("Boton1");
+        System.out.println( buttonSize.getDimension() );
+        button.setSize( buttonSize.getDimension() );
+        button.setVisible( true );
         
-        TextField testTextField = new TextField(40, 5, 50, 20, true, "Texfield para decir que eras una locotrona, gafa",testWindow);
+        JButton button2 = new JButton("Boton2");
+        button2.setVisible( true );
         
-        testButton.setInstance( );
-        testPara.setInstance();
-        testTitle.setInstance();
-        testTextField.setInstance();
+        JButton button3 = new JButton("Boton3");
+        button3.setVisible( true );
         
-        testWindow.getDetails( );
-        testButton.getDetails( );
-        testPara.getDetails();
-        testTitle.getDetails();
-        testTextField.getDetails();
+        JButton button4 = new JButton("Boton3");
+        button3.setVisible( true );
+
+        buttonPanel.getPanel().add( button );
+        buttonPanel.getPanel().add( button2 );
+        buttonPanel.getPanel().add( button3 );
+        buttonPanel.getPanel().add( button4 );
+        
+
+        mainPanel.addChildPanel(buttonPanel, FlowLayout.CENTER);
+
+        testWindow.getDetails();
     }
-} 
+
+}
