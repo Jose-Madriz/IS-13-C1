@@ -1,0 +1,13 @@
+[  
+  {
+    "nombre": "a",
+    "nombre2": "a",
+    "apellido": "a",
+    "apellido2": "a",
+    "cedula": 123,
+    "cargo": "estudiante",
+    "Pass": "123",
+    "saldo": 0.0,
+    "User": "Common"
+  }
+]
