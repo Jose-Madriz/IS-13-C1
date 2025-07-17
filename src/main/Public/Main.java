@@ -1,6 +1,6 @@
-package main.Views.MenuPrincipal;
+package main.Public;
 
-
+import main.Views.MenuPrincipal.*;
 
 public class Main {
     

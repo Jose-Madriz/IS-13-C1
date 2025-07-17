@@ -3,6 +3,7 @@ package test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import main.Views.MenuPrincipal.*;
+import main.Models.ModeloMenuPrincipal.*;
 
 public class MenuPrincipalTestTest{
 Menu m1=new Menu();
