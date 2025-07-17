@@ -18,34 +18,34 @@ public class Window {
 
     // Constructors
     @SuppressWarnings("unchecked")
-    public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis, Window prev ){
-        this.size = new Size( relWidth, relHeight, posPercentX, posPercentY, null);
+    public Window( float relWidth, float relHeight , float posPercentX, float posPercentY, boolean vis, Window prev ){
         this.children = new ArrayList<JComponent>();
         this.visibility = vis;
         this.previousWindow = prev;
         this.title = "DefaultTitle";
         this.frame = new JFrame();
+        this.size = new Size( relWidth, relHeight, posPercentX, posPercentY, null);
     }
     @SuppressWarnings("unchecked")
-    public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis ){
-        this.size = new Size( relWidth, relHeight, posPercentX, posPercentY, null);
+    public Window( float relWidth, float relHeight , float posPercentX, float posPercentY, boolean vis ){
         this.children = new ArrayList<JComponent>();
         this.visibility = vis;
         this.previousWindow = null;
         this.title = "DefaultTitle";
         this.frame = new JFrame();
+        this.size = new Size( relWidth, relHeight, posPercentX, posPercentY, null);
     }
     @SuppressWarnings("unchecked")
-    public Window( float relHeight, float relWidth, Window prev ){
-        this.size = new Size( relWidth, relHeight, 50, 50, null);
+    public Window( float relWidth, float relHeight , Window prev ){
         this.children = new ArrayList<JComponent>();
         this.visibility = true;
         this.previousWindow = prev;
         this.title = "DefaultTitle";
         this.frame = new JFrame();
+        this.size = new Size( relWidth, relHeight, 50, 50, null);
     }
     @SuppressWarnings("unchecked")
-    public Window( float relHeight, float relWidth ){
+    public Window( float relWidth, float relHeight  ){
         this.children = new ArrayList<JComponent>();
         this.previousWindow = null;
         this.visibility = true;
@@ -65,12 +65,11 @@ public class Window {
     
     //Setters
     public void setInstance(){
-        this.frame.setVisible(this.visibility);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setTitle(this.title);
         this.frame.pack();
         this.frame.setSize(this.size.getDimension());
-        frame.setLocationRelativeTo(null);
+        this.frame.setLocationRelativeTo(null);
     }
     public void setPanel( JPanel panel ){
         this.panel = panel;
@@ -82,6 +81,10 @@ public class Window {
     }
     public void setPreviousWindow( Window prev ){
         this.previousWindow = prev;
+    }
+    public void setVisible(boolean vis ){
+        this.visibility = vis;
+        this.frame.setVisible(vis);
     }
     
     // Getters
@@ -114,6 +117,7 @@ public class Window {
     public Size getSize(){
         return this.size;
     }
+    
     //Other Methods
     public void resize( float relWidth, float relHeight ){
 
