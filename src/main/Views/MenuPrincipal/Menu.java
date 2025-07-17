@@ -4,10 +4,10 @@ package main.Views.MenuPrincipal;
 
 public class Menu {
 
-String turno;
-String platillo;
-String horario;
-double calorias;
+public String turno;
+public String platillo;
+public String horario;
+public double calorias;
 
 public Menu(){
     
@@ -25,6 +25,7 @@ this.horario=_horario;
 this.calorias=_calorias;
 
 }
+
 
     
 }

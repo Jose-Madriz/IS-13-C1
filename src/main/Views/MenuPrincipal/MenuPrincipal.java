@@ -22,9 +22,9 @@ public class MenuPrincipal extends JFrame{
  JPanel panel = new JPanel();
 
  //Menus
-  Menu menu1 = new Menu();
-  Menu menu2 = new Menu();
-  Menu menu3 = new Menu();
+ public Menu menu1 = new Menu();
+ public Menu menu2 = new Menu();
+ public Menu menu3 = new Menu();
 
  //Colores a emplear
  Color Fondo = new Color(217,217,217);
@@ -306,5 +306,7 @@ if((menu3.turno).equals("Manana")){
 
 
     }
+
+    
 
 }
