@@ -11,6 +11,8 @@ import main.Views.Layouts.Styles;
 
 // TODO: Cambiar la fuente y el tamaño de texto
 // TODO: Como cambiar el boton de Registrarse por un label con "hipervinculo"?
+// TODO: Crear EventListeners para las vistas
+// TODO: Arreglar cambio de tamaño en los Botones
 
 /**
  * Clase principal que crea y muestra la ventana de login en Java Swing.
@@ -53,7 +55,7 @@ public class LoginView {
         LayoutManager formLayout = new FlowLayout(
             FlowLayout.CENTER,
             10,
-            10
+            20
         );
         this.formPanel.setLayout( formLayout );
 
