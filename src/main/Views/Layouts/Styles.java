@@ -5,16 +5,54 @@ import java.awt.Font;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Styles {
-    Map<String, Color> palette;
-    protected Font font;
-    protected int fontSize;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
-    Styles( Font font, int fontSize ){
-        this.font = font;
-        this.fontSize = fontSize;
+public class Styles {
+    private Map<String, Color> palette;
+    private static Font font = new Font( null , 1, 14 );
+    private static Font fontTitle = new Font( null , 1, 18 );
+    private static Border buttonBorder = BorderFactory.createEmptyBorder( 10, 5, 10, 5 );
+    private static Border fieldBorder = BorderFactory.createEmptyBorder( 10, 5, 10, 5 );
+    private static Border frameBorder = BorderFactory.createEmptyBorder( 25, 25, 25, 25 );
+
+    private Styles(){
         this.initializeColors();
     }
+
+    public static void stylizeButton( JButton button, int colorIndex, Size sizes ){
+        button.setFont( font );
+        button.setBorder( buttonBorder );
+        button.setSize( sizes.getDimension() );
+    }
+
+    public static void stylizeField( JPasswordField textField, int colorIndex, Size sizes ){
+        textField.setFont( font );
+        textField.setBorder( fieldBorder );
+        textField.setSize( sizes.getDimension() );
+    }
+    public static void stylizeField( JTextField textField, int colorIndex, Size sizes ){
+        textField.setFont( font );
+        textField.setBorder( fieldBorder );
+        textField.setSize( sizes.getDimension() );
+    }
+
+    public static void stylizeFrame( JFrame frame, Panel mainPanel, int colorIndex, Size sizes ){
+        frame.setFont( font );
+        mainPanel.getPanel().setBorder( frameBorder );
+        frame.setSize( sizes.getDimension() );
+    }
+
+    public static void stylizeLabel( JLabel label, int colorIndex, Size sizes){
+        label.setFont( font );
+        label.setSize( sizes.getDimension() );
+    }
+
 
     private void initializeColors(){
         this.palette = new LinkedHashMap<>();
