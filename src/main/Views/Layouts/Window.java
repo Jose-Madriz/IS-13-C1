@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.*;
 
-
-
 public class Window {
 
     private static float DEFAULT_WIDTH = 40;
@@ -17,8 +15,7 @@ public class Window {
     protected JPanel panel;
     protected Size size;
     public boolean visibility;
-    
-    //TODO implementar Layouts para las ventanas con JPanel y mejorar el posicionamiento
+
     // Constructors
     @SuppressWarnings("unchecked")
     public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis, Window prev ){
@@ -71,9 +68,9 @@ public class Window {
         this.frame.setVisible(this.visibility);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setTitle(this.title);
+        this.frame.pack();
         this.frame.setSize(this.size.getDimension());
         frame.setLocationRelativeTo(null);
-        this.frame.pack();
     }
     public void setPanel( JPanel panel ){
         this.panel = panel;
