@@ -68,8 +68,6 @@ public class Window {
     
     //Setters
     public void setInstance(){
-
-        // TODO: Arreglar problema al redimensionar Pantallas: Los componentes de la ventana se desbordan
         this.frame.setVisible(this.visibility);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setTitle(this.title);
