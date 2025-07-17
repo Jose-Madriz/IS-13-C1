@@ -100,18 +100,15 @@ public class LoginView {
         );
         buttonPanel.setLayout(buttonLayout);
         
-        this.loginTrigger.setFont( new Font(null , 1, 14) );
-        this.registerTrigger.setFont( new Font(null , 1, 14) );
-        this.loginTrigger.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
-        this.registerTrigger.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
-        this.loginTrigger.setSize( new Dimension(300, 40) );
-        this.registerTrigger.setSize( buttonSize.getDimension() );        
+        Styles.stylizeButton( this.loginTrigger, 0, buttonSize  );
+        Styles.stylizeButton( this.registerTrigger, 0, buttonSize  );
         
         buttonPanel.getPanel().add( this.loginTrigger );
         buttonPanel.getPanel().add( this.registerTrigger );
 
         this.formPanel.getPanel().add( buttonPanel.getPanel(), BorderLayout.CENTER );
 
+        // Añadiendo un EventListeners a cada boton
         this.loginTrigger.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -148,15 +145,17 @@ public class LoginView {
      * Inicializa los campos de entrada del usuario
      */
     private void initFields(){
+        // creamos un layout manager para panel general de campo
         LayoutManager fieldsLayout = new GridLayout( 
             2, 
             1, 
             40, 
             10 
         );
+        // agregamos el layout al panel general de campos
         fieldsPanel.setLayout( fieldsLayout );
-        
 
+        // inicializamos paneles para cada campo
         Panel CIPanel = new Panel ( 100.0f, 45.0f, this.fieldsPanel.getSize() );
         Panel passwordPanel = new Panel ( 100.0f, 45.0f, this.fieldsPanel.getSize() );
         LayoutManager fieldManager = new GridLayout(
@@ -166,37 +165,37 @@ public class LoginView {
             0
         );
 
+        // agregamos un layour a cada panel de campo
         CIPanel.setLayout( fieldManager );
         passwordPanel.setLayout( fieldManager );
-
-        JLabel CILabel = new JLabel("Cedula de Identidad:");
-        JLabel passwordLabel = new JLabel("Contraseña:");
         
+        // inicializamos tamaños 
         Size labelSize = new Size( 100.0f, 20.0f, passwordPanel.getSize() );
         Size fieldsSize = new Size( 100.0f, 60.0f, passwordPanel.getSize() );
 
-        Font fieldsFont = new Font( null,  1, 16 );
-        Border fieldsBorder = BorderFactory.createEmptyBorder(5, 10, 5, 10);
+        // inicializamos labels 
+        JLabel CILabel = new JLabel("Cedula de Identidad:");
+        JLabel passwordLabel = new JLabel("Contraseña:");
 
-        this.CIField.setSize( fieldsSize.getDimension() );
-        this.passwordField.setSize( fieldsSize.getDimension() );
-        this.CIField.setBorder( fieldsBorder );
-        this.passwordField.setBorder( fieldsBorder );
-        this.CIField.setFont( fieldsFont );
-        this.CIField.setFont( fieldsFont );
-        CILabel.setSize( labelSize.getDimension() );
-        passwordLabel.setSize( labelSize.getDimension() );
+        // agregando estilos a los Campos
+        Styles.stylizeField( this.CIField, 0, fieldsSize );
+        Styles.stylizeField( this.passwordField, 0, fieldsSize );
         
+        // agregando estilos a los Labels de cada campo
+        Styles.stylizeLabel( CILabel, 0, labelSize );
+        Styles.stylizeLabel( passwordLabel, 0, labelSize );
 
+        // agregamos los elementos a los paneles correspondientes de cada campo y label
         CIPanel.getPanel().add(CILabel, BorderLayout.NORTH);
         CIPanel.getPanel().add(this.CIField, BorderLayout.CENTER);
         passwordPanel.getPanel().add(passwordLabel, BorderLayout.NORTH);
         passwordPanel.getPanel().add(this.passwordField, BorderLayout.CENTER);
-        
 
+        // adgreganos ambos paneles de campo al panel general de campos
         fieldsPanel.getPanel().add( CIPanel.getPanel());
         fieldsPanel.getPanel().add( passwordPanel.getPanel());
 
+        // agregamos el panel de formulario al panel de formulario
         this.formPanel.getPanel().add( fieldsPanel.getPanel(), BorderLayout.CENTER );
     }
     
