@@ -1,5 +1,5 @@
 package main.Views.MenuPrincipal;
-
+import main.Models.ModeloMenuPrincipal.*;
 
 import java.awt.Color;
 import java.awt.Font;
