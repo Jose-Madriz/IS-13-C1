@@ -25,7 +25,6 @@ public class Size {
         this.setFatherSizes(fatherSize);
         this.createDimension();
     }
-    
     public Size( float relWidth, float relHeight, Size fatherSize ){
         this.relativeWidth = relWidth;
         this.relativeHeight = relHeight;
@@ -37,7 +36,10 @@ public class Size {
     
     // Getters
     public float getRelativeWidth(){
-        return this.convertRelativeWidth();
+        return this.relativeWidth;
+    }
+    public float getRelativeHeight(){
+        return this.relativeHeight;
     }
     public int getHeight(){
         return this.convertRelativeHeight();
