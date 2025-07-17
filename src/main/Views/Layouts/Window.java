@@ -1,103 +1,137 @@
 package main.Views.Layouts;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class Window extends Element{
-    public Window previousWindow;
-    public JFrame frame;
-    public ArrayList<JComponent> children;
+public class Window {
 
-    public String title;
-    //TODO implementar Layouts para las ventanas con JPanel y mejorar el posicionamiento
+    private static float DEFAULT_WIDTH = 40;
+    private static float DEFAULT_HEIGHT = 50;
+    protected Window previousWindow;
+    protected JFrame frame;
+    protected ArrayList<JComponent> children;
+    protected String title;
+    protected JPanel panel;
+    protected Size size;
+    public boolean visibility;
+
     // Constructors
-    public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis, Window prev ){
-        super( relHeight, relWidth, posPercentX, posPercentY, vis );
+    @SuppressWarnings("unchecked")
+    public Window( float relWidth, float relHeight , float posPercentX, float posPercentY, boolean vis, Window prev ){
         this.children = new ArrayList<JComponent>();
+        this.visibility = vis;
         this.previousWindow = prev;
         this.title = "DefaultTitle";
+        this.frame = new JFrame();
+        this.size = new Size( relWidth, relHeight, posPercentX, posPercentY, null);
     }
-    public Window( float relHeight, float relWidth, float posPercentX, float posPercentY, boolean vis ){
-        super( relHeight, relWidth, posPercentX, posPercentY, vis );
+    @SuppressWarnings("unchecked")
+    public Window( float relWidth, float relHeight , float posPercentX, float posPercentY, boolean vis ){
         this.children = new ArrayList<JComponent>();
+        this.visibility = vis;
         this.previousWindow = null;
         this.title = "DefaultTitle";
+        this.frame = new JFrame();
+        this.size = new Size( relWidth, relHeight, posPercentX, posPercentY, null);
     }
-    public Window( float relHeight, float relWidth, Window prev ){
-        super( relHeight, relWidth );
+    @SuppressWarnings("unchecked")
+    public Window( float relWidth, float relHeight , Window prev ){
         this.children = new ArrayList<JComponent>();
+        this.visibility = true;
         this.previousWindow = prev;
         this.title = "DefaultTitle";
+        this.frame = new JFrame();
+        this.size = new Size( relWidth, relHeight, 50, 50, null);
     }
-    public Window( float relHeight, float relWidth ){
-        super( relHeight, relWidth );
+    @SuppressWarnings("unchecked")
+    public Window( float relWidth, float relHeight  ){
         this.children = new ArrayList<JComponent>();
         this.previousWindow = null;
+        this.visibility = true;
         this.title = "DefaultTitle";
+        this.frame = new JFrame();
+        this.size = new Size( relWidth, relHeight, 50, 50, null);
     }
+    @SuppressWarnings("unchecked")
     public Window( ){
-        super( );
+        this.size = new Size( DEFAULT_WIDTH, DEFAULT_HEIGHT, 50, 50, null);
         this.children = new ArrayList<JComponent>();
+        this.visibility = true;
         this.previousWindow = null;
         this.title = "DefaultTitle";
+        this.frame = new JFrame();
     }
-
+    
     //Setters
     public void setInstance(){
-
-        // TODO: Arreglar problema al redimensionar Pantallas: Los componentes de la ventana se desbordan
-        this.frame = new JFrame();
-
-        int screenHeight = this.getScreenHeight();
-        int screenWidth = this.getScreenWidth();
-        
-        this.frame.setSize(this.convertRelativeWidth(screenWidth), this.convertRelativeHeight(screenHeight));
-        this.frame.setLocation(this.convertRelativePositionX(screenWidth), this.convertRelativePositionY(screenWidth));
-        this.frame.setVisible(this.visibility);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
         this.frame.setTitle(this.title);
+        this.frame.pack();
+        this.frame.setSize(this.size.getDimension());
+        this.frame.setLocationRelativeTo(null);
+    }
+    public void setPanel( JPanel panel ){
+        this.panel = panel;
+        this.frame.add(this.panel);
+        this.panel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+    }
+    public void setTitle( String title ){
+        this.title = title;
+    }
+    public void setPreviousWindow( Window prev ){
+        this.previousWindow = prev;
+    }
+    public void setVisible(boolean vis ){
+        this.visibility = vis;
+        this.frame.setVisible(vis);
     }
     
     // Getters
-    protected ArrayList<JComponent> getChildrens(){
-        return this.children;
-    }
     public void getDetails(){
-        System.out.println("Relative Width: " + this.relativeWidth + "%");
-        System.out.println("Width px: " + this.frame.getWidth());
-        System.out.println("Relative Height: " + this.relativeHeight + "%");
-        System.out.println("Height px: " + this.frame.getHeight());
-        System.out.println("Position X: " + this.positionPercentX + "%"); 
-        System.out.println("Position Y: " + this.positionPercentY + "%"); 
         System.out.println("Visibility: " + this.visibility);
         System.out.println("Previous Window: " + this.previousWindow);
         System.out.println("Children: " + this.children);
         System.out.println("Frame: " + this.frame);
         System.out.println("Title: " + this.title);
+        System.out.println("Dimensions: " + this.getDimension());
     }
-
+    public JFrame getFrame(){
+        return this.frame;
+    }
+    public Window getPreviousWindow(){
+        return this.previousWindow;
+    }
+    public String getTitle(){
+        return this.title;
+    }
+    public JPanel getPanel(){
+        return this.panel;
+    }
+    public boolean getVisibility(){
+        return this.visibility;
+    }
+    public Dimension getDimension(){
+        return this.size.getDimension();
+    }
+    public Size getSize(){
+        return this.size;
+    }
+    
     //Other Methods
     public void resize( float relWidth, float relHeight ){
-        this.relativeWidth = relWidth;
-        this.relativeHeight = relHeight;
-        this.convertRelativeHeight(getScreenHeight());
-        this.convertRelativeWidth(getScreenWidth());
+
         setInstance();
     }
     public void move( float posPercentX, float posPercentY ){
-        this.positionPercentX = posPercentX;
-        this.positionPercentY = posPercentY;
-        this.convertRelativePositionX(this.getScreenWidth());
-        this.convertRelativePositionY(this.getScreenHeight());
+
         setInstance();
     }
 
     // Add Childrens Methoods
-    public void pushChildren( JComponent child ){
+    public <LayoutType> void pushChildren( JPanel child, LayoutType layout){
         this.children.add(child);
-        this.frame.add(child);
+        this.panel.add(child);
     }
     
     // Delete Childrens Methods
