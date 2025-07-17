@@ -73,9 +73,9 @@ public class Window {
         this.frame.setVisible(this.visibility);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setTitle(this.title);
-        this.frame.pack();
         this.frame.setSize(this.size.getDimension());
         frame.setLocationRelativeTo(null);
+        this.frame.pack();
     }
     public void setPanel( JPanel panel ){
         this.panel = panel;
