@@ -1,35 +1,24 @@
 [
   {
-    "nombre": "Jose",
-    "nombre2": "Luis",
-    "apellido": "Jimenez",
-    "apellido2": "Rodriguez",
-    "cedula": 123123,
+    "nombre": "ADMIN",
+    "nombre2": "ADMIN",
+    "apellido": "ADMIN",
+    "apellido2": "ADMIN",
+    "cedula": 123456789,
     "cargo": "profesor",
-    "Pass": "qSPoeT93",
+    "Pass": "ADMIN123",
+    "saldo": 100.0,
+    "User": "VIP"
+  },
+  {
+    "nombre": "Commom",
+    "nombre2": "Commom",
+    "apellido": "Commom",
+    "apellido2": "Commom",
+    "cedula": 123456,
+    "cargo": "estudiante",
+    "Pass": "Common123",
     "saldo": 10.0,
-    "User": "Common"
-  },
-  {
-    "nombre": "Ana",
-    "nombre2": "Maria",
-    "apellido": "Torres",
-    "apellido2": "Perez",
-    "cedula": 123123123,
-    "cargo": "estudiante",
-    "Pass": "OyjAdnLt",
-    "saldo": 230.0,
-    "User": "Common"
-  },
-  {
-    "nombre": "as",
-    "nombre2": "as",
-    "apellido": "as",
-    "apellido2": "as",
-    "cedula": 1234,
-    "cargo": "estudiante",
-    "Pass": "cS9vxXft",
-    "saldo": 0.0,
     "User": "Common"
   }
 ]

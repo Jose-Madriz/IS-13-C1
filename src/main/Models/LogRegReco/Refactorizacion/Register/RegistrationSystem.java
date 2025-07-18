@@ -68,7 +68,7 @@ public class RegistrationSystem extends JFrame {
         // Botón de registro
         JButton registerButton = new JButton("Registrarse");
         registerButton.setFont(new Font("Arial", Font.BOLD, 14));
-        registerButton.setBackground(Color.decode("#000000ff"));
+        registerButton.setBackground(Color.decode("#3a9e6e"));
         registerButton.setForeground(Color.WHITE);
         registerButton.setFocusPainted(false);
         registerButton.addActionListener(this::registerUser);
@@ -77,7 +77,7 @@ public class RegistrationSystem extends JFrame {
         // Botón de cancelar
         JButton cancelButton = new JButton("Cancelar");
         cancelButton.setFont(new Font("Arial", Font.BOLD, 14));
-        cancelButton.setBackground(Color.decode("#6c2a2a"));
+        cancelButton.setBackground(Color.decode("#2e2e2e"));
         cancelButton.setForeground(Color.WHITE);
         cancelButton.setFocusPainted(false);
         cancelButton.addActionListener(e -> {
@@ -86,6 +86,7 @@ public class RegistrationSystem extends JFrame {
         });
         panel.add(cancelButton);
         parentFrame.pack();
+
         // Configurar efectos hover para los botones
         setupButtonHoverEffects(registerButton, cancelButton);
 
@@ -125,11 +126,11 @@ public class RegistrationSystem extends JFrame {
 
         cancelButton.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                cancelButton.setBackground(Color.decode("#9e3a3a"));
+                cancelButton.setBackground(Color.decode("#2e2e2e"));
             }
 
             public void mouseExited(MouseEvent e) {
-                cancelButton.setBackground(Color.decode("#6e4343ff"));
+                cancelButton.setBackground(Color.decode("#9e3a3a"));
             }
         });
     }

@@ -9,9 +9,8 @@ import java.util.List;
 import javax.swing.*;
 import main.Models.LogRegReco.Refactorizacion.Recover.RecoverySystem;
 import main.Models.LogRegReco.Refactorizacion.Register.RegistrationSystem;
-import main.Views.MenuPrincipal.MenuPrincipal;
-import main.Controllers.MenuController;
 import main.Models.LogRegReco.Refactorizacion.Usuario;
+import main.Views.MenuPrincipal.MenuPrincipal;
 
 public class LoginSystem extends JFrame {
 
@@ -30,25 +29,25 @@ public class LoginSystem extends JFrame {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(10, 20));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        mainPanel.setBackground(Color.decode("#1e1e1e"));
+        mainPanel.setBackground(Color.decode("#D9D9D9"));
 
         // Título
         JLabel titleLabel = new JLabel("INICIO DE SESIÓN", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setForeground(Color.BLACK);
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
         // Panel de formulario
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(3, 1, 10, 15));
-        formPanel.setBackground(Color.decode("#1e1e1e"));
+        formPanel.setBackground(Color.decode("#D9D9D9"));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
         // Campo CI
         JPanel ciPanel = new JPanel(new BorderLayout(5, 5));
-        ciPanel.setBackground(Color.decode("#1e1e1e"));
+        ciPanel.setBackground(Color.decode("#D9D9D9"));
         JLabel ciLabel = new JLabel("Cédula de Identidad:");
-        ciLabel.setForeground(Color.WHITE);
+        ciLabel.setForeground(Color.BLACK);
         ciLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         ciField = new JTextField();
         ciField.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -58,9 +57,9 @@ public class LoginSystem extends JFrame {
 
         // Campo Contraseña con botón de visibilidad
         JPanel passPanel = new JPanel(new BorderLayout(5, 5));
-        passPanel.setBackground(Color.decode("#1e1e1e"));
+        passPanel.setBackground(Color.decode("#D9D9D9"));
         JLabel passLabel = new JLabel("Contraseña:");
-        passLabel.setForeground(Color.WHITE);
+        passLabel.setForeground(Color.BLACK);
         passLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
         JPanel passFieldPanel = new JPanel(new BorderLayout());

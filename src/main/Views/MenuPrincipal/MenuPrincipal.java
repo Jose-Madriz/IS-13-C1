@@ -116,6 +116,7 @@ public MenuPrincipal(){
 
     
     //Saldo
+    ////MAXIMO 7 DIGITOS
       saldo.setText("Saldo: "+__s);
      saldo.setOpaque(true);
     saldo.setBounds(822,155,180,50);

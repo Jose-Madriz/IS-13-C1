@@ -36,7 +36,7 @@ public class RecoverySystem extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        panel.setBackground(Color.decode("#1e1e1e"));
+        panel.setBackground(Color.decode("#D9D9D9"));
 
         setupButtons(panel);
         setupFields(panel);
@@ -51,11 +51,11 @@ public class RecoverySystem extends JFrame {
 
     private void setupButtons(JPanel panel) {
         // Botón Continuar
-        JButton continueButton = createButton("Continuar", 280, 217, this::verifyRecovery);
+        JButton continueButton = createButton("Recuperar", 280, 217, this::verifyRecovery);
         panel.add(continueButton);
 
         // Botón Regresar
-        JButton backButton = createButton("Regresar", 280, 250, e -> {
+        JButton backButton = createButton("Iniciar Secion", 280, 250, e -> {
             this.dispose();
             parentFrame.setVisible(true);
         });
@@ -74,11 +74,11 @@ public class RecoverySystem extends JFrame {
 
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                button.setBackground(Color.decode("#232323"));
+                button.setBackground(Color.decode("#656565"));
             }
 
             public void mouseExited(MouseEvent e) {
-                button.setBackground(Color.decode("#2e2e2e"));
+                button.setBackground(Color.decode("#232323"));
             }
         });
         
@@ -92,8 +92,8 @@ public class RecoverySystem extends JFrame {
 
         // Campo Cargo
         JLabel cargoLabel = new JLabel("Cargo:");
-        cargoLabel.setForeground(Color.white);
-        cargoLabel.setBounds(223, 150, 230, 20);
+        cargoLabel.setForeground(Color.BLACK);
+        cargoLabel.setBounds(180, 167, 230, 20);
         panel.add(cargoLabel);
 
         String[] cargos = {"estudiante", "profesor", "empleado"};
@@ -126,18 +126,18 @@ public class RecoverySystem extends JFrame {
 
     private void setupInfoArea(JPanel panel) {
         JTextArea infoArea = new JTextArea("");
-        infoArea.setBounds(37, 65, 155, 238);
-        infoArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        infoArea.setBounds(480, 50, 155, 238);
+        infoArea.setFont(new Font("Arial", Font.BOLD, 15));
         infoArea.setBackground(Color.decode("#B2B2B2"));
         infoArea.setForeground(Color.decode("#656565"));
         infoArea.setBorder(BorderFactory.createLineBorder(Color.decode("#979797"), 1));
         infoArea.setLineWrap(true);
         infoArea.setWrapStyleWord(true);
         infoArea.setEditable(false);
-        infoArea.setText("Hola! Veo que estás recuperando tu cuenta. "
-                + "Ingresa los datos solicitados, y si coinciden "
-                + "te generaremos una nueva contraseña. "
-                + "En cargo selecciona una de las opciones disponibles.");
+        infoArea.setText("Bienvenido\n\nIngresa tus datos"
+                + " para generarte una nueva contraseña segura, "
+                + "recuerda ya haberte REGISTRADO.\n\n "
+                + "Asi podras disfrutar de nuestros servicion de nuevo.");
         panel.add(infoArea);
     }
 
