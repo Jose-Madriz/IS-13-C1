@@ -10,9 +10,6 @@ import main.Views.Layouts.Size;
 import main.Views.Layouts.Styles;
 
 // TODO: Cambiar la fuente y el tamaño de texto
-// TODO: Como cambiar el boton de Registrarse por un label con "hipervinculo"?
-// TODO: Crear EventListeners para las vistas
-// TODO: Arreglar cambio de tamaño en los Botones
 
 /**
  * Clase principal que crea y muestra la ventana de login en Java Swing.
@@ -27,7 +24,7 @@ public class RegisterView {
     JPasswordField confirmPasswordField;
     JTextField CIField;
     Panel buttonPanel;
-    JButton loginViewTrigger;
+    JButton  loginViewTrigger;
     JButton registerTrigger;
     JDialog dialogScreen;
     private final float DEFAULT_WIDTH = 30;
@@ -101,8 +98,8 @@ public class RegisterView {
         );
         buttonPanel.setLayout(buttonLayout);
         
-        Styles.stylizeButton(loginViewTrigger, 0, buttonSize);
-        Styles.stylizeButton(registerTrigger, 0, buttonSize);
+        Styles.stylizeButton( this.loginViewTrigger, 0, buttonSize  );
+        Styles.stylizeButton( this.registerTrigger, 0, buttonSize  );    
         
         buttonPanel.getPanel().add( this.loginViewTrigger );
         buttonPanel.getPanel().add( this.registerTrigger );
