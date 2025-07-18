@@ -53,7 +53,9 @@ public class Styles {
         label.setSize( sizes.getDimension() );
     }
 
-
+    public static void stylizeTitle( JLabel label, int colorIndex, Size sizes){
+        
+    }
     private void initializeColors(){
         this.palette = new LinkedHashMap<>();
 
