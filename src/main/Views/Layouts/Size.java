@@ -45,7 +45,7 @@ public class Size {
         return this.convertRelativeHeight();
     }
     public int getWidth(){
-        return this.convertRelativeHeight();
+        return this.convertRelativeWidth();
     }
     public int getPositionX(){
         return this.convertRelativePositionX();
@@ -94,8 +94,8 @@ public class Size {
             this.fatherHeight = this.getScreenHeight();
         }
         else{
-            this.fatherWidth = father.getFatherWidth();
-            this.fatherHeight = father.getFatherHeight();
+            this.fatherWidth = father.getWidth();
+            this.fatherHeight = father.getHeight();
         }
     }
     
@@ -111,7 +111,7 @@ public class Size {
         return (int) (fatherWidth * (this.relativeWidth / 100.0));
     }
     private int convertRelativeHeight( ){
-        return (int) (fatherHeight * (this.relativeWidth / 100.0));
+        return (int) (fatherHeight * (this.relativeHeight / 100.0));
     }
     private int convertRelativePositionX( ){
         float fixPosition = java.lang.Math.abs(this.positionPercentX - this.relativeWidth/2);
