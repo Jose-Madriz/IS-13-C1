@@ -16,6 +16,9 @@ public class CargarCostosTest {
     void valoresPositivosTest(){
         //Aquí se inicializaran los objetos para poder realizar la prueba unitaria
         //Objeto---->
+        //Si es necesario crear hacer llamadas de una función externa para obtener el dato
+        //hay que implementarlo
+
 
         //Esta variable almacenara el resultado de la operación
         float resultado=2;
@@ -30,11 +33,17 @@ public class CargarCostosTest {
     void MermaZeroTest(){
         //Aquí se inicializaran los objetos para poder realizar la prueba unitaria
         //Objeto---->
-        
+        //Si es necesario crear hacer llamadas de una función externa para obtener el dato
+        //hay que implementarlo
+
 
         //En el primer campo antes de la coma, va implementado el objeto haciendo
     //Referencia al campo de merma
-        Assertions.assertEquals(,0);
+       
+        Assertions.assertEquals(0,0);
+        //Para que verificar este mensaje en VScode debes seleccionar el apartado de 
+        //Consola de Depuración
+         System.out.println("La merma es Cero");
         
     }
 
@@ -45,7 +54,8 @@ public class CargarCostosTest {
         boolean zero=true;
          //Aquí se inicializaran los objetos para poder realizar la prueba unitaria
         //Objeto---->
-        
+        //Si es necesario crear hacer llamadas de una función externa para obtener el dato
+        //hay que implementarlo
 
         ///En el primer campo antes de la coma, va implementado el objeto haciendo
     //Referencia al campo de NB
@@ -55,6 +65,9 @@ public class CargarCostosTest {
         }
 
         Assertions.assertTrue(zero);
+        //Para que verificar este mensaje en VScode debes seleccionar el apartado de 
+        //Consola de Depuración
+         System.out.println("NB no debe ser igual a cero");
     }
 
       @Test
@@ -62,14 +75,20 @@ public class CargarCostosTest {
         
          //Aquí se inicializaran los objetos para poder realizar la prueba unitaria
         //Objeto---->
+        //Si es necesario crear hacer llamadas de una función externa para obtener el dato
+        //hay que implementarlo
+        //Variable en donde se guarda el resultado-->
        int resultado;
 
 
         ///En el primer campo antes de la coma, va implementado el objeto haciendo
-    //Referencia al campo de NB
+    //Referencia al campo de CF y CV
     //OJO La operacion y almacenarla en resultado
         if(==0&&==0){
            Assertions.assertEquals(, 0);
+            //Para que verificar este mensaje en VScode debes seleccionar el apartado de 
+        //Consola de Depuración
+         System.out.println("CF y CV no debe ser igual a cero");
         }
 
        
@@ -80,19 +99,23 @@ public class CargarCostosTest {
     void CFyCVNegativeTest(){
         //Este booleano evaluara más adelante si los datos de CF y CV son negativos
         //Si alguno de los dos lo es, el programa fallará
+        //Si es necesario crear hacer llamadas de una función externa para obtener el dato
+        //hay que implementarlo
         boolean zero=true;
          //Aquí se inicializaran los objetos para poder realizar la prueba unitaria
         //Objeto---->
         
 
         ///En el primer campo antes de la coma, va implementado el objeto haciendo
-    //Referencia al campo de NB
-    //OJO añadir el objeto .NB correspondiente a la condición
+        //Colocar en la condicion los campos del objeto asociado a CV y CF
         if(<0||<0){
             zero=false;
         }
 
         Assertions.assertTrue(zero);
+         //Para que verificar este mensaje en VScode debes seleccionar el apartado de 
+        //Consola de Depuración
+         System.out.println("CF y CV no debe ser negativos");
     }
     
 
@@ -100,6 +123,8 @@ public class CargarCostosTest {
     void MermaNegativeTest(){
          //Aquí se inicializaran los objetos para poder realizar la prueba unitaria
         //Objeto---->
+        //Si es necesario crear hacer llamadas de una función externa para obtener el dato
+        //hay que implementarlo
         int resultado=1;
         
     assertTrue(resultado > 0, "La merma debe ser positiva");
@@ -110,6 +135,8 @@ public class CargarCostosTest {
     void RoundTest(){
         //Aquí se inicializaran los objetos para poder realizar la prueba unitaria
         //Objeto---->
+        //Si es necesario crear hacer llamadas de una función externa para obtener el dato
+        //hay que implementarlo
         double num1=3.9;
 
         num1=Math.round(num1);
