@@ -1,9 +1,7 @@
 package main.Controllers;
 
 import java.util.Hashtable;
-
 import javax.swing.JOptionPane;
-
 import main.Views.Layouts.Window;
 
 public class CargarCostosController {
@@ -14,12 +12,17 @@ public class CargarCostosController {
     }
     // TODO Validar Datos
     public void ValidarDatos( Window window ){
+        if( data.get("CV").isEmpty() || data.get("CF").isEmpty() || data.get("NB").isEmpty() || data.get("merma").isEmpty() ) {
+            JOptionPane.showMessageDialog(window.getFrame(), "Campos Incompletos", "Error de Carga de Datos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         float NB = Float.parseFloat( data.get("NB") );
+        
+        
         if (NB <= 0.0f){
             JOptionPane.showMessageDialog( window.getFrame(), "Los valores son incorrectos", "Error de Carga de Datos", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
         String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;:,.{}()%$#@!`=+-_|\\/?<> ";  
         for( int i = 0; i < data.get("CV").length(); i++ ){
             if( errorValues.indexOf( data.get("CV").charAt(i) ) != -1
@@ -33,10 +36,6 @@ public class CargarCostosController {
         }
         
         
-        if( data.get("CV").isEmpty() || data.get("CF").isEmpty() || data.get("NB").isEmpty() || data.get("merma").isEmpty() ) {
-            JOptionPane.showMessageDialog(window.getFrame(), "Campos Incompletos", "Error de Carga de Datos", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         
         float CV = Float.parseFloat( data.get("CV") );
         float CF = Float.parseFloat( data.get("CF") );

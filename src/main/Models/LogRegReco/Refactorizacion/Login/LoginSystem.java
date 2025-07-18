@@ -10,6 +10,7 @@ import javax.swing.*;
 import main.Models.LogRegReco.Refactorizacion.Recover.RecoverySystem;
 import main.Models.LogRegReco.Refactorizacion.Register.RegistrationSystem;
 import main.Models.LogRegReco.Refactorizacion.Usuario;
+import main.Views.CargarCostos.CargarCostosView;
 import main.Views.MenuPrincipal.MenuPrincipal;
 
 public class LoginSystem extends JFrame {
@@ -347,14 +348,23 @@ public class LoginSystem extends JFrame {
         }
     }
 
-    private void showWelcomeMessage(Object[] userData) {
+
+    public void showWelcomeMessage(Object[] userData) {
 String n=userData[0] + " " + userData[1] + " "+ userData[2] + " " + userData[3];
 double s=(double)userData[7];
         this.setVisible(false);
         MenuPrincipal menup = new MenuPrincipal();
-menup.setVisible(true);
 
-menup.IniciarComponentes(n,s);
+if (userData[8].equals("Common"))
+{
+    menup.setVisible(true);
+    menup.IniciarComponentes(n,s);
+}
+else
+{
+    CargarCostosView test = new CargarCostosView();
+    test.ShowCargarCostosView();
+}
 
 //_menucontroller._saldo=(double) userData[7] ;
 
