@@ -10,9 +10,6 @@ import main.Views.Layouts.Size;
 import main.Views.Layouts.Styles;
 
 // TODO: Cambiar la fuente y el tamaño de texto
-// TODO: Como cambiar el boton de Registrarse por un label con "hipervinculo"?
-// TODO: Crear EventListeners para las vistas
-// TODO: Arreglar cambio de tamaño en los Botones
 
 /**
  * Clase principal que crea y muestra la ventana de login en Java Swing.
@@ -101,8 +98,8 @@ public class RegisterView {
         );
         buttonPanel.setLayout(buttonLayout);
         
-        this.loginViewTrigger.setSize( buttonSize.getDimension() );
-        this.registerTrigger.setSize( buttonSize.getDimension() );        
+        Styles.stylizeButton( this.loginViewTrigger, 0, buttonSize  );
+        Styles.stylizeButton( this.registerTrigger, 0, buttonSize  );    
         
         buttonPanel.getPanel().add( this.loginViewTrigger );
         buttonPanel.getPanel().add( this.registerTrigger );
@@ -183,12 +180,15 @@ public class RegisterView {
         Size fieldsSize = new Size( 100.0f, 60.0f, passwordPanel.getSize() );
 
 
-        this.CIField.setSize( fieldsSize.getDimension() );
-        this.passwordField.setSize( fieldsSize.getDimension() );
-        this.confirmPasswordField.setSize( fieldsSize.getDimension() );
-        CILabel.setSize( labelSize.getDimension() );
-        passwordLabel.setSize( labelSize.getDimension() );
-        confirmPasswordLabel.setSize( labelSize.getDimension() );
+        // agregando estilos a los Campos
+        Styles.stylizeField( this.CIField, 0, fieldsSize );
+        Styles.stylizeField( this.passwordField, 0, fieldsSize );
+        Styles.stylizeField( this.confirmPasswordField, 0, fieldsSize );
+        
+        // agregando estilos a los Labels de cada campo
+        Styles.stylizeLabel( CILabel, 0, labelSize );
+        Styles.stylizeLabel( passwordLabel, 0, labelSize );
+        Styles.stylizeLabel( confirmPasswordLabel, 0, labelSize );
         
 
         CIPanel.getPanel().add(CILabel, BorderLayout.NORTH);
