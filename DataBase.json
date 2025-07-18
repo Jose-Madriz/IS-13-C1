@@ -1,0 +1,35 @@
+[
+  {
+    "nombre": "Jose",
+    "nombre2": "Luis",
+    "apellido": "Jimenez",
+    "apellido2": "Rodriguez",
+    "cedula": 123123,
+    "cargo": "profesor",
+    "Pass": "qSPoeT93",
+    "saldo": 10.0,
+    "User": "Common"
+  },
+  {
+    "nombre": "Ana",
+    "nombre2": "Maria",
+    "apellido": "Torres",
+    "apellido2": "Perez",
+    "cedula": 123123123,
+    "cargo": "estudiante",
+    "Pass": "OyjAdnLt",
+    "saldo": 230.0,
+    "User": "Common"
+  },
+  {
+    "nombre": "as",
+    "nombre2": "as",
+    "apellido": "as",
+    "apellido2": "as",
+    "cedula": 1234,
+    "cargo": "estudiante",
+    "Pass": "cS9vxXft",
+    "saldo": 0.0,
+    "User": "Common"
+  }
+]

@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.*;
 import main.Models.LogRegReco.Refactorizacion.Recover.RecoverySystem;
 import main.Models.LogRegReco.Refactorizacion.Register.RegistrationSystem;
+import main.Views.MenuPrincipal.MenuPrincipal;
+import main.Controllers.MenuController;
 import main.Models.LogRegReco.Refactorizacion.Usuario;
 
 public class LoginSystem extends JFrame {
@@ -347,6 +349,18 @@ public class LoginSystem extends JFrame {
     }
 
     private void showWelcomeMessage(Object[] userData) {
+String n=userData[0] + " " + userData[1] + " "+ userData[2] + " " + userData[3];
+double s=(double)userData[7];
+        this.setVisible(false);
+        MenuPrincipal menup = new MenuPrincipal();
+menup.setVisible(true);
+
+menup.IniciarComponentes(n,s);
+
+//_menucontroller._saldo=(double) userData[7] ;
+
+/* 
+ 
         String message = "¡Bienvenido " + userData[0] + " " + userData[1] + " "
                 + userData[2] + " " + userData[3] + "!\n"
                 + "Cédula: " + userData[4] + "\n"
@@ -354,14 +368,16 @@ public class LoginSystem extends JFrame {
                 + "Contraseña: " + userData[6] + "\n"
                 + "Saldo:" + userData[7] + "\n"
                 + "User: " + userData[8];
-
+ 
         JOptionPane.showMessageDialog(this,
                 message,
                 "Inicio de Sesión Exitoso", JOptionPane.INFORMATION_MESSAGE);
+*/
     }
 
     private void openRecoveryWindow() {
         RecoverySystem recoveryWindow = new RecoverySystem(usuarios, this);
+         
         recoveryWindow.setVisible(true);
         this.dispose();
     }
@@ -371,4 +387,5 @@ public class LoginSystem extends JFrame {
         registrationWindow.setVisible(true);
         this.setVisible(false);
     }
+      
 }

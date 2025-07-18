@@ -30,14 +30,14 @@ public class RegistrationSystem extends JFrame {
         this.parentFrame = parent;
 
         setTitle("Registro de Usuario");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 500);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(10, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        panel.setBackground(Color.decode("#000000ff"));
+        panel.setBackground(Color.decode("#D9D9D9"));
 
         // Campos del formulario
         addLabelAndField(panel, "Primer Nombre*:", nombreField = new JTextField());
@@ -48,12 +48,12 @@ public class RegistrationSystem extends JFrame {
 
         // Combo box para cargo
         JLabel cargoLabel = new JLabel("Cargo*:");
-        cargoLabel.setForeground(Color.WHITE);
+        cargoLabel.setForeground(Color.BLACK);
         panel.add(cargoLabel);
 
         String[] cargos = {"estudiante", "profesor", "empleado"};
         cargoComboBox = new JComboBox<>(cargos);
-        cargoComboBox.setBackground(Color.decode("#000000ff"));
+        cargoComboBox.setBackground(Color.decode("#FFFFFF"));
         cargoComboBox.setForeground(Color.BLACK);
         panel.add(cargoComboBox);
 
@@ -94,20 +94,20 @@ public class RegistrationSystem extends JFrame {
 
     private void addLabelAndField(JPanel panel, String labelText, JTextField textField) {
         JLabel label = new JLabel(labelText);
-        label.setForeground(Color.WHITE);
+        label.setForeground(Color.BLACK);
         panel.add(label);
 
-        textField.setBackground(Color.decode("#B2B2B2"));
+        textField.setBackground(Color.decode("#FFFFFF"));
         textField.setForeground(Color.BLACK);
         panel.add(textField);
     }
 
     private void addLabelAndPasswordField(JPanel panel, String labelText, JPasswordField passwordField) {
         JLabel label = new JLabel(labelText);
-        label.setForeground(Color.WHITE);
+        label.setForeground(Color.BLACK);
         panel.add(label);
 
-        passwordField.setBackground(Color.decode("#3b0505ff"));
+        passwordField.setBackground(Color.decode("#FFFFFF"));
         passwordField.setForeground(Color.BLACK);
         panel.add(passwordField);
     }

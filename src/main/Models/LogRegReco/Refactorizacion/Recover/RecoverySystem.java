@@ -92,7 +92,7 @@ public class RecoverySystem extends JFrame {
 
         // Campo Cargo
         JLabel cargoLabel = new JLabel("Cargo:");
-        cargoLabel.setForeground(Color.WHITE);
+        cargoLabel.setForeground(Color.white);
         cargoLabel.setBounds(223, 150, 230, 20);
         panel.add(cargoLabel);
 
