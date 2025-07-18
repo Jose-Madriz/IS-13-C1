@@ -27,8 +27,8 @@ public class RegisterView {
     JPasswordField confirmPasswordField;
     JTextField CIField;
     Panel buttonPanel;
-    JButton  loginTrigger;
-    JButton registerViewTrigger;
+    JButton loginViewTrigger;
+    JButton registerTrigger;
     JDialog dialogScreen;
     private final float DEFAULT_WIDTH = 30;
     private final float DEFAULT_HEIGHT = 50;
@@ -38,8 +38,8 @@ public class RegisterView {
         this.CIField = new JTextField(20);
         this.passwordField = new JPasswordField(20);
         this.confirmPasswordField = new JPasswordField(20);
-        this.loginTrigger = new JButton("Iniciar Sesión");
-        this.registerViewTrigger = new JButton("Registrarse");
+        this.loginViewTrigger = new JButton("Iniciar Sesión");
+        this.registerTrigger = new JButton("Registrarse");
         this.frame = new Window( DEFAULT_WIDTH, DEFAULT_HEIGHT );
         this.mainPanel = new Panel( 100.0f, 100.0f, this.frame.getSize() );
         this.formPanel = new Panel( 90.0f, 90.0f, this.mainPanel.getSize());
@@ -101,13 +101,65 @@ public class RegisterView {
         );
         buttonPanel.setLayout(buttonLayout);
         
-        this.loginTrigger.setSize( buttonSize.getDimension() );
-        this.registerViewTrigger.setSize( buttonSize.getDimension() );        
+        Styles.stylizeButton(loginViewTrigger, 0, buttonSize);
+        Styles.stylizeButton(registerTrigger, 0, buttonSize);
         
-        buttonPanel.getPanel().add( this.loginTrigger );
-        buttonPanel.getPanel().add( this.registerViewTrigger );
+        buttonPanel.getPanel().add( this.loginViewTrigger );
+        buttonPanel.getPanel().add( this.registerTrigger );
 
         this.formPanel.getPanel().add( buttonPanel.getPanel(), BorderLayout.CENTER );
+
+        this.registerTrigger.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed( ActionEvent e) {
+                
+                String userCI = CIField.getText(); // Obtiene el texto del campo de usuario
+                // Obtiene la contraseña de forma segura como un array de caracteres y la convierte a String.
+                String password = new String(passwordField.getPassword());
+                String confirmPassword = new String(confirmPasswordField.getPassword());
+
+                // Validaciones
+                String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                for( int i = 0; i < userCI.length(); i++ ){
+                    if( errorValues.indexOf( userCI.charAt(i) ) != -1 ){
+                        JOptionPane.showMessageDialog( frame.getFrame(), "La Cedula es invalida.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+                if( password.length() < 8 || password.equals("") ){
+                    JOptionPane.showMessageDialog(frame.getFrame(), "La Contraseña debe tener al menos 8 caracteres.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if( userCI.equals( "" ) == false ){
+                    JOptionPane.showMessageDialog(frame.getFrame(), "Cedula invalida.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Lógica de validación 
+                // validateCredentials es una llamada a la clase Controlador
+                if ( /*validateCI() && validatePassword &&*/ password.equals( confirmPassword ) ) {
+                    // Si las credenciales son correctas, muestra un mensaje de éxito.
+                    JOptionPane.showMessageDialog(frame.getFrame(), "¡Registro exitoso!", "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
+
+                    frame.getFrame().dispose(); // Cierra la ventana de login
+                    
+                    // redirecciona al inicio de sesion(Se hace en el controlador)
+                } else {
+                    // Si las credenciales son incorrectas, muestra un mensaje de error.
+                    JOptionPane.showMessageDialog(frame.getFrame(), "Cedula de identidad invalida, actualizar sus datos.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        this.loginViewTrigger.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed( ActionEvent e) {
+                
+                // Cerrar vista de Login
+                frame.getFrame().dispose();
+
+                // Llamar a la vista de Inicio de Sesion (Sucede en la clase controlador)
+            }
+        });
     }
     
     /**
@@ -145,12 +197,12 @@ public class RegisterView {
         Size fieldsSize = new Size( 100.0f, 60.0f, passwordPanel.getSize() );
 
 
-        this.CIField.setSize( fieldsSize.getDimension() );
-        this.passwordField.setSize( fieldsSize.getDimension() );
-        this.confirmPasswordField.setSize( fieldsSize.getDimension() );
-        CILabel.setSize( labelSize.getDimension() );
-        passwordLabel.setSize( labelSize.getDimension() );
-        confirmPasswordLabel.setSize( labelSize.getDimension() );
+        Styles.stylizeField(CIField, 0, fieldsSize);
+        Styles.stylizeField(passwordField, 0, fieldsSize);
+        Styles.stylizeField(confirmPasswordField, 0, fieldsSize);
+        Styles.stylizeLabel(CILabel, 0, labelSize);
+        Styles.stylizeLabel(passwordLabel, 0, labelSize);
+        Styles.stylizeLabel(confirmPasswordLabel, 0, labelSize);
         
 
         CIPanel.getPanel().add(CILabel, BorderLayout.NORTH);
