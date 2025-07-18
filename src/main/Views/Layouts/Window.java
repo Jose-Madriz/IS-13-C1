@@ -83,6 +83,10 @@ public class Window {
     public void setPreviousWindow( Window prev ){
         this.previousWindow = prev;
     }
+    public void setVisible( boolean visibility ){
+        this.visibility = visibility;
+        this.frame.setVisible(visibility);
+    }
     
     // Getters
     public void getDetails(){
