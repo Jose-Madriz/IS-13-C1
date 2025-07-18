@@ -80,7 +80,7 @@ public class RegisterView {
         mainPanel.getPanel().setBorder( BorderFactory.createEmptyBorder(20, 50, 20, 50 ) );
 
         this.frame.setPanel( mainPanel.panel );
-        this.frame.setTitle("Iniciar Sesion");
+        this.frame.setTitle("Registrarse");
         this.frame.getFrame().setResizable(false);
         this.frame.setVisible(true);
     }

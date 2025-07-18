@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import main.Views.Layouts.Window;
+import main.Controllers.LoginController;
 import main.Views.Layouts.Panel;
 import main.Views.Layouts.Size;
 import main.Views.Layouts.Styles;
@@ -29,6 +30,7 @@ public class LoginView {
     private JButton registerTrigger;
     private final float DEFAULT_WIDTH = 30;
     private final float DEFAULT_HEIGHT = 40;
+    private LoginController controller;
     
 
     public LoginView (){
@@ -114,6 +116,7 @@ public class LoginView {
                 String userCI = CIField.getText(); // Obtiene el texto del campo de usuario
                 // Obtiene la contraseña de forma segura como un array de caracteres y la convierte a String.
                 String password = new String(passwordField.getPassword());
+
 
                 // Validaciones
                 String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;:,.{}()%$#@!`=+-_|\\/?<> ";

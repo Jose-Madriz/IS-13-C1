@@ -3,6 +3,7 @@ package main.Views.CargarCostos;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -10,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import main.Controllers.CargarCostosController;
 import main.Views.Layouts.Panel;
 import main.Views.Layouts.Size;
 import main.Views.Layouts.Styles;
@@ -29,7 +31,7 @@ public class CargarCostosView {
     private JButton guardarCambiosTrigger;
     private final float DEFAULT_WIDTH = 30;
     private final float DEFAULT_HEIGHT = 40;
-    
+    private CargarCostosController controller;
 
     public CargarCostosView (){
         // inicializando los objetos de cada elemento grafico
@@ -118,47 +120,30 @@ public class CargarCostosView {
                 String nbValue = new String(NBField.getText());
                 String mermaValue = new String(mermaField.getText());
 
-                // Validaciones
-                String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;:,.{}()%$#@!`=+-_|\\/?<> ";  
-                for( int i = 0; i < cvValue.length(); i++ ){
-                    if( errorValues.indexOf( cvValue.charAt(i) ) != -1
-                        || errorValues.indexOf( cfValue.charAt(i) ) != -1
-                        || errorValues.indexOf( nbValue.charAt(i) ) != -1
-                        || errorValues.indexOf( mermaValue.charAt(i) ) != -1 ){    
-
-                        JOptionPane.showMessageDialog( frame.getFrame(), "Los valores son incorrectos", "Error de Carga de Datos", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                }
-
-                if( cvValue.isEmpty() || cfValue.isEmpty() || nbValue.isEmpty() || mermaValue.isEmpty() ) {
-                    JOptionPane.showMessageDialog(frame.getFrame(), "Campos Incompletos", "Error de Carga de Datos", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                float costoTotal = 20.0f;
-
-                if( costoTotal <= 0 ){
-                    JOptionPane.showMessageDialog(frame.getFrame(), "El costo no puede ser 0", "Error de Carga de Datos", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                JOptionPane.showMessageDialog(CFField, "El costo total es: " + costoTotal, "Vista Previa de Costo", JOptionPane.INFORMATION_MESSAGE);
+                Hashtable<String, String> data = new Hashtable<>();
+                data.put("CV", cvValue);
+                data.put("CF", cfValue);
+                data.put("NB", nbValue);
+                data.put("merma", mermaValue);
+                
+                // Validaciones 
+                controller = new CargarCostosController( data );
+                controller.ValidarDatos( frame );
                 
             }
                  
         });
-            this.guardarCambiosTrigger.addActionListener( new ActionListener() {
-                @Override
-                public void actionPerformed( ActionEvent e) {
-                    
-                    // Enviar Datos al Sistema (Sucede en la clase controlador)
-                    
+        this.guardarCambiosTrigger.addActionListener( new ActionListener() {
+            @Override
+            public void actionPerformed( ActionEvent e) {
+                
+                // Enviar Datos al Sistema (Sucede en la clase controlador)
+                // controller.CargarDatos();
 
-                    // Cerrar vista de Login
-                    frame.getFrame().dispose();
+                // Cerrar vista de Login
+                frame.getFrame().dispose();
 
-                }
+            }
         });
     }
     

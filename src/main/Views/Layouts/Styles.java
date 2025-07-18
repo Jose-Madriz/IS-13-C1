@@ -47,6 +47,11 @@ public class Styles {
         mainPanel.getPanel().setBorder( frameBorder );
         frame.setSize( sizes.getDimension() );
     }
+    public static void stylizeAdminFrame( JFrame frame, Panel mainPanel, int colorIndex, Size sizes ){
+        frame.setFont( font );
+        mainPanel.getPanel().setBorder( frameBorder );
+        frame.setSize( sizes.getDimension() );
+    }
 
     public static void stylizeLabel( JLabel label, int colorIndex, Size sizes){
         label.setFont( font );
