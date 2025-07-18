@@ -283,7 +283,7 @@ if((menu3.turno).equals("Manana")){
       int i=0;
     try{
        
-        BufferedReader lector=new BufferedReader(new FileReader("DataBasemenu.txt"));
+        BufferedReader lector=new BufferedReader(new FileReader("DataBaseMenu.txt"));
         String linea="";
         while ((linea=lector.readLine())!=null) {
             String [] bloques=linea.split(",");
