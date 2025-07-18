@@ -116,7 +116,18 @@ public class LoginView {
                 // Obtiene la contraseña de forma segura como un array de caracteres y la convierte a String.
                 String password = new String(passwordField.getPassword());
 
-                // Lógica de validación 
+                // Validaciones
+                String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                for( int i = 0; i < userCI.length(); i++ ){
+                    if( errorValues.indexOf( userCI.charAt(i) ) != -1 ){
+                        JOptionPane.showMessageDialog( frame.getFrame(), "La Cedula es invalida.", "Error de Inicio de Sesion", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+                if( userCI.equals( "" ) || password.equals("") ){
+                    JOptionPane.showMessageDialog(frame.getFrame(), "Campos Incompletos", "Error de Inicio de Sesion", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 // validateCredentials es una llamada a la clase Controlador
                 if ( /*validateCredentials()*/ true) {
                     // Si las credenciales son correctas, muestra un mensaje de éxito.
@@ -125,7 +136,7 @@ public class LoginView {
                     frame.getFrame().dispose(); // Cierra la ventana de login
                 } else {
                     // Si las credenciales son incorrectas, muestra un mensaje de error.
-                    JOptionPane.showMessageDialog(frame.getFrame(), "Cedula de Identidad o contraseña incorrectos.", "Error de Login", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame.getFrame(), "Cedula de Identidad o contraseña incorrectos.", "Error de Inicio de Sesion", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

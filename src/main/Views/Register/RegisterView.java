@@ -123,12 +123,12 @@ public class RegisterView {
                         return;
                     }
                 }
-                if( password.length() < 8 || password.equals("") ){
-                    JOptionPane.showMessageDialog(frame.getFrame(), "La Contraseña debe tener al menos 8 caracteres.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                if( userCI.equals( "" ) || password.equals("") || confirmPassword.equals("") ){
+                    JOptionPane.showMessageDialog(frame.getFrame(), "Campos Incompletos", "Error de Registro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if( userCI.equals( "" ) == false ){
-                    JOptionPane.showMessageDialog(frame.getFrame(), "Cedula invalida.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                if( password.length() < 8  ){
+                    JOptionPane.showMessageDialog(frame.getFrame(), "La Contraseña debe tener al menos 8 caracteres.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
