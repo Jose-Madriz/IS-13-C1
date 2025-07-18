@@ -16,9 +16,9 @@ public class Panel{
     public Size fatherSizes;
 
     //constructors
-    public Panel( String type, float relHeight, float relWidth, float posPercentX, float posPercentY, boolean visibility, Size fatherSizes){
+    public Panel( String type, float relWidth, float relHeight, float posPercentX, float posPercentY, boolean visibility, Size fatherSizes){
         this.fatherSizes = fatherSizes;
-        this.size = new Size(relHeight, relWidth, posPercentX, posPercentY, fatherSizes);
+        this.size = new Size( relWidth, relHeight, 0, 0, fatherSizes);
         this.panel = new JPanel();
         this.children = new ArrayList<Component>();
         this.visibility = visibility;
@@ -26,9 +26,9 @@ public class Panel{
         
         this.init();
     }
-    public Panel( String type, float relHeight, float relWidth, float posPercentX, float posPercentY, Size fatherSizes){
+    public Panel( String type, float relWidth, float relHeight, float posPercentX, float posPercentY, Size fatherSizes){
         this.fatherSizes = fatherSizes;
-        this.size = new Size(relHeight, relWidth, posPercentX, posPercentY, fatherSizes);
+        this.size = new Size( relWidth, relHeight, 0, 0, fatherSizes);
         this.panel = new JPanel();
         this.children = new ArrayList<Component>();
         this.visibility = true;
@@ -36,9 +36,9 @@ public class Panel{
         
         this.init();
     }
-    public Panel( String type, float relHeight, float relWidth, Size fatherSizes){
+    public Panel( String type, float relWidth, float relHeight, Size fatherSizes){
         this.fatherSizes = fatherSizes;
-        this.size = new Size(relHeight, relWidth, 0, 0, fatherSizes);
+        this.size = new Size( relWidth, relHeight, 0, 0, fatherSizes);
         this.panel = new JPanel();
         this.children = new ArrayList<Component>();
         this.visibility = true;
@@ -46,7 +46,7 @@ public class Panel{
         
         this.init(type);
     }
-    public Panel( float relHeight, float relWidth, Size fatherSizes ){
+    public Panel(  float relWidth, float relHeight, Size fatherSizes ){
         this.fatherSizes = fatherSizes;
         this.size = new Size(relWidth, relHeight, 0, 0, fatherSizes);
         this.panel = new JPanel();
@@ -66,6 +66,9 @@ public class Panel{
     }
     public JPanel getPanel(){
         return this.panel;
+    }
+    public Size getSize(){
+        return this.size;
     }
     
     // Seters
@@ -118,6 +121,10 @@ public class Panel{
     }
     public void init( ){
         this.panel.setLayout( new FlowLayout() );   
+        this.panel.setVisible(this.visibility);
+        this.panel.setPreferredSize(this.size.getDimension());
+        this.panel.setSize(this.size.getDimension());
+        this.panel.setLocation(this.size.getPositionX(), this.size.getPositionY());
     }
     public void addChildPanel( Panel child, Object layoutConstrains ){
         this.panel.add(child.getPanel(), layoutConstrains);
