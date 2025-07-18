@@ -132,7 +132,7 @@ public class LoginView {
                 if ( /*validateCredentials()*/ true) {
                     // Si las credenciales son correctas, muestra un mensaje de éxito.
                     JOptionPane.showMessageDialog(frame.getFrame(), "¡Inicio de sesión exitoso!", "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
-                    // Aquí podrías cerrar la ventana de login y abrir la ventana principal de tu aplicación.
+
                     frame.getFrame().dispose(); // Cierra la ventana de login
                 } else {
                     // Si las credenciales son incorrectas, muestra un mensaje de error.
