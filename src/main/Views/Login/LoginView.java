@@ -1,7 +1,6 @@
 package main.Views.Login;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -117,14 +116,14 @@ public class LoginView {
                 String password = new String(passwordField.getPassword());
 
                 // Validaciones
-                String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;:,.{}()%$#@!`=+-_|\\/?<> ";
                 for( int i = 0; i < userCI.length(); i++ ){
                     if( errorValues.indexOf( userCI.charAt(i) ) != -1 ){
                         JOptionPane.showMessageDialog( frame.getFrame(), "La Cedula es invalida.", "Error de Inicio de Sesion", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                 }
-                if( userCI.equals( "" ) || password.equals("") ){
+                if( userCI.isEmpty() || password.isEmpty() ){
                     JOptionPane.showMessageDialog(frame.getFrame(), "Campos Incompletos", "Error de Inicio de Sesion", JOptionPane.ERROR_MESSAGE);
                     return;
                 }

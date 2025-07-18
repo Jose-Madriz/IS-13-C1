@@ -111,23 +111,49 @@ public class CargarCostosView {
 
         // Añadiendo un EventListeners a cada boton
         this.VistaPreviaTrigger.addActionListener(new ActionListener() {
-             @Override
-             public void actionPerformed( ActionEvent e) {
-                 String userCI = CVField.getText(); // Obtiene el texto del campo de usuario
-                 // Obtiene la contraseña de forma segura como un array de caracteres y la convierte a String.
-                 String cfValue = new String(CFField.getText());
-                 String nbValue = new String(NBField.getText());
-                 String mermaValue = new String(mermaField.getText());
+            @Override
+            public void actionPerformed( ActionEvent e) {
+                String cvValue = CVField.getText(); // Obtiene el texto del campo de usuario
+                String cfValue = new String(CFField.getText());
+                String nbValue = new String(NBField.getText());
+                String mermaValue = new String(mermaField.getText());
 
-                 // Validaciones
-             }
+                // Validaciones
+                String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;:,.{}()%$#@!`=+-_|\\/?<> ";  
+                for( int i = 0; i < cvValue.length(); i++ ){
+                    if( errorValues.indexOf( cvValue.charAt(i) ) != -1
+                        || errorValues.indexOf( cfValue.charAt(i) ) != -1
+                        || errorValues.indexOf( nbValue.charAt(i) ) != -1
+                        || errorValues.indexOf( mermaValue.charAt(i) ) != -1 ){    
+
+                        JOptionPane.showMessageDialog( frame.getFrame(), "Los valores son incorrectos", "Error de Carga de Datos", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+
+                if( cvValue.isEmpty() || cfValue.isEmpty() || nbValue.isEmpty() || mermaValue.isEmpty() ) {
+                    JOptionPane.showMessageDialog(frame.getFrame(), "Campos Incompletos", "Error de Carga de Datos", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                float costoTotal = 20.0f;
+
+                if( costoTotal <= 0 ){
+                    JOptionPane.showMessageDialog(frame.getFrame(), "El costo no puede ser 0", "Error de Carga de Datos", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                JOptionPane.showMessageDialog(CFField, "El costo total es: " + costoTotal, "Vista Previa de Costo", JOptionPane.INFORMATION_MESSAGE);
+                
+            }
                  
         });
-             this.guardarCambiosTrigger.addActionListener( new ActionListener() {
+            this.guardarCambiosTrigger.addActionListener( new ActionListener() {
                 @Override
                 public void actionPerformed( ActionEvent e) {
                     
-                    // Llamar a la vista de Registro (Sucede en la clase controlador)
+                    // Enviar Datos al Sistema (Sucede en la clase controlador)
+                    
 
                     // Cerrar vista de Login
                     frame.getFrame().dispose();
@@ -216,7 +242,6 @@ public class CargarCostosView {
     public void ShowCargarCostosView() {
         this.frame.setInstance();
     }
-
     public static void main(String[] args) {
         CargarCostosView test = new CargarCostosView();
         test.ShowCargarCostosView();

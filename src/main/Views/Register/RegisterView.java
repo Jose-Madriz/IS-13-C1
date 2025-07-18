@@ -116,14 +116,14 @@ public class RegisterView {
                 String confirmPassword = new String(confirmPasswordField.getPassword());
 
                 // Validaciones
-                String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;:,.{}()%$#@!`=+-_|\\/?<> ";
                 for( int i = 0; i < userCI.length(); i++ ){
                     if( errorValues.indexOf( userCI.charAt(i) ) != -1 ){
                         JOptionPane.showMessageDialog( frame.getFrame(), "La Cedula es invalida.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                 }
-                if( userCI.equals( "" ) || password.equals("") || confirmPassword.equals("") ){
+                if( userCI.isEmpty() || password.isEmpty() || confirmPassword.equals("") ){
                     JOptionPane.showMessageDialog(frame.getFrame(), "Campos Incompletos", "Error de Registro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
