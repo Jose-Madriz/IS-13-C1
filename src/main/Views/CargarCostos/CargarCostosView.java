@@ -4,10 +4,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
 import main.Controllers.CargarCostosController;
 import main.Views.Layouts.Panel;
 import main.Views.Layouts.Size;
@@ -43,7 +45,7 @@ public class CargarCostosView {
         // Inicializando los paneles 
         this.mainPanel = new Panel( 100.0f, 100.0f, this.frame.getSize() );
         this.formPanel = new Panel( 90.0f, 80.0f, this.mainPanel.getSize());
-        this.buttonPanel = new Panel( 70.0f, 20.0f, this.formPanel.getSize() );
+        this.buttonPanel = new Panel( 50.0f, 20.0f, this.formPanel.getSize() );
         this.fieldsPanel = new Panel( 70.0f, 60.f, this.formPanel.getSize() );
         
         this.initComponents();
@@ -82,10 +84,9 @@ public class CargarCostosView {
         mainPanel.getPanel().setBorder( BorderFactory.createEmptyBorder(20, 50, 20, 50 ) );
 
         this.frame.setPanel( mainPanel.panel );
-        this.frame.setTitle("Cargar Datos de Costos");
+        this.frame.setTitle("Iniciar Sesion");
         this.frame.getFrame().setResizable(false);
         this.frame.setVisible(true);
-        this.frame.getFrame().pack();
     }
 
     /*
@@ -113,38 +114,32 @@ public class CargarCostosView {
         this.VistaPreviaTrigger.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed( ActionEvent e) {
-                String cvValue = CVField.getText(); // Obtiene el texto del campo de usuario
-                String cfValue = CFField.getText();
-                String nbValue = NBField.getText();
-                String mermaValue = mermaField.getText();
-
-                Hashtable<String, String> data = new Hashtable<>();
-                data.put("CV", cvValue);
-                data.put("CF", cfValue);
-                data.put("NB", nbValue);
-                data.put("merma", mermaValue);
-                
-                // Validaciones 
-                controller = new CargarCostosController( data );
+                CreateData();
                 controller.ValidarDatos( frame );
-                
-            }
+            }   
                  
         });
         this.guardarCambiosTrigger.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed( ActionEvent e) {
-                
+                CreateData();
+                controller.ValidarDatos( frame );
+
                 // Enviar Datos al Sistema (Sucede en la clase controlador)
                 // controller.CargarDatos();
-
                 // Cerrar vista de Login
                 frame.getFrame().dispose();
 
             }
         });
     }
-    
+ 
+    /*
+     * Inicializa el objeto controlador de la vista 
+     */
+    private void initController( Hashtable<String, String> data ){
+        this.controller = new CargarCostosController( data );
+    }
     /**
      * Inicializa los campos de entrada del usuario
      */
@@ -225,6 +220,25 @@ public class CargarCostosView {
     public void ShowCargarCostosView() {
         this.frame.setInstance();
     }
+    
+    /*
+     * Encapsula la data para enviarla al controlador
+     */
+    private void  CreateData(){
+        String cvValue = this.CVField.getText(); // Obtiene el texto del campo de usuario
+        String cfValue = CFField.getText();
+        String nbValue = NBField.getText();
+        String mermaValue = mermaField.getText();
+
+        Hashtable<String, String> data = new Hashtable<>();
+        data.put("CV", cvValue);
+        data.put("CF", cfValue);
+        data.put("NB", nbValue);
+        data.put("merma", mermaValue);
+
+        this.initController(data);
+        
+    } 
     public static void main(String[] args) {
         CargarCostosView test = new CargarCostosView();
         test.ShowCargarCostosView();

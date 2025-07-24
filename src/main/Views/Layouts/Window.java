@@ -70,6 +70,7 @@ public class Window {
         this.frame.pack();
         this.frame.setSize(this.size.getDimension());
         this.frame.setLocationRelativeTo(null);
+        this.setVisible(visibility);
     }
     public void setPanel( JPanel panel ){
         this.panel = panel;

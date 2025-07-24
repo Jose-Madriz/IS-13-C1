@@ -30,14 +30,14 @@ public class RegistrationSystem extends JFrame {
         this.parentFrame = parent;
 
         setTitle("Registro de Usuario");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(10, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        panel.setBackground(Color.decode("#D9D9D9"));
+        panel.setBackground(Color.decode("#000000ff"));
 
         // Campos del formulario
         addLabelAndField(panel, "Primer Nombre*:", nombreField = new JTextField());
@@ -48,12 +48,12 @@ public class RegistrationSystem extends JFrame {
 
         // Combo box para cargo
         JLabel cargoLabel = new JLabel("Cargo*:");
-        cargoLabel.setForeground(Color.BLACK);
+        cargoLabel.setForeground(Color.WHITE);
         panel.add(cargoLabel);
 
         String[] cargos = {"estudiante", "profesor", "empleado"};
         cargoComboBox = new JComboBox<>(cargos);
-        cargoComboBox.setBackground(Color.decode("#FFFFFF"));
+        cargoComboBox.setBackground(Color.decode("#000000ff"));
         cargoComboBox.setForeground(Color.BLACK);
         panel.add(cargoComboBox);
 
@@ -68,7 +68,7 @@ public class RegistrationSystem extends JFrame {
         // Botón de registro
         JButton registerButton = new JButton("Registrarse");
         registerButton.setFont(new Font("Arial", Font.BOLD, 14));
-        registerButton.setBackground(Color.decode("#3a9e6e"));
+        registerButton.setBackground(Color.decode("#000000ff"));
         registerButton.setForeground(Color.WHITE);
         registerButton.setFocusPainted(false);
         registerButton.addActionListener(this::registerUser);
@@ -77,7 +77,7 @@ public class RegistrationSystem extends JFrame {
         // Botón de cancelar
         JButton cancelButton = new JButton("Cancelar");
         cancelButton.setFont(new Font("Arial", Font.BOLD, 14));
-        cancelButton.setBackground(Color.decode("#2e2e2e"));
+        cancelButton.setBackground(Color.decode("#6c2a2a"));
         cancelButton.setForeground(Color.WHITE);
         cancelButton.setFocusPainted(false);
         cancelButton.addActionListener(e -> {
@@ -86,7 +86,6 @@ public class RegistrationSystem extends JFrame {
         });
         panel.add(cancelButton);
         parentFrame.pack();
-
         // Configurar efectos hover para los botones
         setupButtonHoverEffects(registerButton, cancelButton);
 
@@ -95,20 +94,20 @@ public class RegistrationSystem extends JFrame {
 
     private void addLabelAndField(JPanel panel, String labelText, JTextField textField) {
         JLabel label = new JLabel(labelText);
-        label.setForeground(Color.BLACK);
+        label.setForeground(Color.WHITE);
         panel.add(label);
 
-        textField.setBackground(Color.decode("#FFFFFF"));
+        textField.setBackground(Color.decode("#B2B2B2"));
         textField.setForeground(Color.BLACK);
         panel.add(textField);
     }
 
     private void addLabelAndPasswordField(JPanel panel, String labelText, JPasswordField passwordField) {
         JLabel label = new JLabel(labelText);
-        label.setForeground(Color.BLACK);
+        label.setForeground(Color.WHITE);
         panel.add(label);
 
-        passwordField.setBackground(Color.decode("#FFFFFF"));
+        passwordField.setBackground(Color.decode("#3b0505ff"));
         passwordField.setForeground(Color.BLACK);
         panel.add(passwordField);
     }
@@ -126,11 +125,11 @@ public class RegistrationSystem extends JFrame {
 
         cancelButton.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                cancelButton.setBackground(Color.decode("#2e2e2e"));
+                cancelButton.setBackground(Color.decode("#9e3a3a"));
             }
 
             public void mouseExited(MouseEvent e) {
-                cancelButton.setBackground(Color.decode("#9e3a3a"));
+                cancelButton.setBackground(Color.decode("#6e4343ff"));
             }
         });
     }

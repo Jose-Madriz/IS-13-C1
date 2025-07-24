@@ -10,8 +10,6 @@ import javax.swing.*;
 import main.Models.LogRegReco.Refactorizacion.Recover.RecoverySystem;
 import main.Models.LogRegReco.Refactorizacion.Register.RegistrationSystem;
 import main.Models.LogRegReco.Refactorizacion.Usuario;
-import main.Views.CargarCostos.CargarCostosView;
-import main.Views.MenuPrincipal.MenuPrincipal;
 
 public class LoginSystem extends JFrame {
 
@@ -30,25 +28,25 @@ public class LoginSystem extends JFrame {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(10, 20));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        mainPanel.setBackground(Color.decode("#D9D9D9"));
+        mainPanel.setBackground(Color.decode("#1e1e1e"));
 
         // Título
         JLabel titleLabel = new JLabel("INICIO DE SESIÓN", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.BLACK);
+        titleLabel.setForeground(Color.WHITE);
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
         // Panel de formulario
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(3, 1, 10, 15));
-        formPanel.setBackground(Color.decode("#D9D9D9"));
+        formPanel.setBackground(Color.decode("#1e1e1e"));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
         // Campo CI
         JPanel ciPanel = new JPanel(new BorderLayout(5, 5));
-        ciPanel.setBackground(Color.decode("#D9D9D9"));
+        ciPanel.setBackground(Color.decode("#1e1e1e"));
         JLabel ciLabel = new JLabel("Cédula de Identidad:");
-        ciLabel.setForeground(Color.BLACK);
+        ciLabel.setForeground(Color.WHITE);
         ciLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         ciField = new JTextField();
         ciField.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -58,9 +56,9 @@ public class LoginSystem extends JFrame {
 
         // Campo Contraseña con botón de visibilidad
         JPanel passPanel = new JPanel(new BorderLayout(5, 5));
-        passPanel.setBackground(Color.decode("#D9D9D9"));
+        passPanel.setBackground(Color.decode("#1e1e1e"));
         JLabel passLabel = new JLabel("Contraseña:");
-        passLabel.setForeground(Color.BLACK);
+        passLabel.setForeground(Color.WHITE);
         passLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
         JPanel passFieldPanel = new JPanel(new BorderLayout());
@@ -348,28 +346,7 @@ public class LoginSystem extends JFrame {
         }
     }
 
-
-    public void showWelcomeMessage(Object[] userData) {
-String n=userData[0] + " " + userData[1] + " "+ userData[2] + " " + userData[3];
-double s=(double)userData[7];
-        this.setVisible(false);
-        MenuPrincipal menup = new MenuPrincipal();
-
-if (userData[8].equals("Common"))
-{
-    menup.setVisible(true);
-    menup.IniciarComponentes(n,s);
-}
-else
-{
-    CargarCostosView test = new CargarCostosView();
-    test.ShowCargarCostosView();
-}
-
-//_menucontroller._saldo=(double) userData[7] ;
-
-/* 
- 
+    private void showWelcomeMessage(Object[] userData) {
         String message = "¡Bienvenido " + userData[0] + " " + userData[1] + " "
                 + userData[2] + " " + userData[3] + "!\n"
                 + "Cédula: " + userData[4] + "\n"
@@ -377,16 +354,14 @@ else
                 + "Contraseña: " + userData[6] + "\n"
                 + "Saldo:" + userData[7] + "\n"
                 + "User: " + userData[8];
- 
+
         JOptionPane.showMessageDialog(this,
                 message,
                 "Inicio de Sesión Exitoso", JOptionPane.INFORMATION_MESSAGE);
-*/
     }
 
     private void openRecoveryWindow() {
         RecoverySystem recoveryWindow = new RecoverySystem(usuarios, this);
-         
         recoveryWindow.setVisible(true);
         this.dispose();
     }
@@ -396,5 +371,4 @@ else
         registrationWindow.setVisible(true);
         this.setVisible(false);
     }
-      
 }
