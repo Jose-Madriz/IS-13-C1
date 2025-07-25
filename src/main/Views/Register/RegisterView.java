@@ -1,228 +1,217 @@
 package main.Views.Register;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import main.Views.Layouts.Window;
+import javax.swing.*;
+import main.Controllers.Register.RegisterController;
+import main.Models.DatabaseManager;
 import main.Views.Layouts.Panel;
-import main.Views.Layouts.Size;
-import main.Views.Layouts.Styles;
+import main.Views.Layouts.Window;
+import main.Views.Login.LoginView;
 
-// TODO: Cambiar la fuente y el tamaño de texto
-
-/**
- * Clase principal que crea y muestra la ventana de login en Java Swing.
- */
 public class RegisterView {
+    private Panel mainPanel;
+    private Window frame;
+    private Panel formPanel;
+    private JTextField nombreField;
+    private JTextField nombre2Field;
+    private JTextField apellidoField;
+    private JTextField apellido2Field;
+    private JTextField cedulaField;
+    private JComboBox<String> cargoComboBox;
+    private JPasswordField passwordField;
+    private JPasswordField confirmPasswordField;
+    private JButton loginViewTrigger;
+    private JButton registerTrigger;
+    private RegisterController controller;
+    private DatabaseManager dbManager;
+    private LoginView loginView;
+    private final float DEFAULT_WIDTH = 45;
+    private final float DEFAULT_HEIGHT = 70;
 
-    Panel mainPanel;
-    Window frame;
-    Panel formPanel;
-    Panel fieldsPanel;
-    JPasswordField passwordField;
-    JPasswordField confirmPasswordField;
-    JTextField CIField;
-    Panel buttonPanel;
-    JButton  loginViewTrigger;
-    JButton registerTrigger;
-    JDialog dialogScreen;
-    private final float DEFAULT_WIDTH = 30;
-    private final float DEFAULT_HEIGHT = 50;
-    
+    public RegisterView(LoginView loginView) {
+        this.loginView = loginView;
+        DatabaseManager dbManager = DatabaseManager.getInstance();
+        this.controller = new RegisterController(dbManager);
 
-    public RegisterView (){
-        this.CIField = new JTextField(20);
+        // Inicialización de campos
+        this.nombreField = new JTextField(20);
+        this.nombre2Field = new JTextField(20);
+        this.apellidoField = new JTextField(20);
+        this.apellido2Field = new JTextField(20);
+        this.cedulaField = new JTextField(20);
+        
+        String[] cargos = {"Estudiante", "Profesor", "Trabajador"};
+        this.cargoComboBox = new JComboBox<>(cargos);
+        
         this.passwordField = new JPasswordField(20);
         this.confirmPasswordField = new JPasswordField(20);
-        this.loginViewTrigger = new JButton("Iniciar Sesión");
+        
+        this.loginViewTrigger = new JButton("Cancelar");
         this.registerTrigger = new JButton("Registrarse");
-        this.frame = new Window( DEFAULT_WIDTH, DEFAULT_HEIGHT );
-        this.mainPanel = new Panel( 100.0f, 100.0f, this.frame.getSize() );
-        this.formPanel = new Panel( 90.0f, 90.0f, this.mainPanel.getSize());
-        this.buttonPanel = new Panel( 50.0f, 20.0f, this.formPanel.getSize() );
-        this.fieldsPanel = new Panel( 70.0f, 60.f, this.formPanel.getSize() );
+        
+        this.frame = new Window(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        this.mainPanel = new Panel(100.0f, 100.0f, this.frame.getSize());
+        this.formPanel = new Panel(95.0f, 95.0f, this.mainPanel.getSize());
         
         this.initComponents();
     }
 
-    /*
-     * ConFigura e inicializa todos los componentes de esta vista 
-     */
-    private void initComponents(){
-
-        LayoutManager formLayout = new FlowLayout(
-            FlowLayout.CENTER,
-            10,
-            10
-        );
-        this.formPanel.setLayout( formLayout );
+    private void initComponents() {
+        this.formPanel.setLayout(new BorderLayout(10, 10));
+        this.formPanel.getPanel().setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+        this.formPanel.getPanel().setBackground(Color.decode("#D9D9D9"));
 
         this.initFrame();
         this.initFields();
         this.initButtons();
 
-        this.mainPanel.getPanel().add( this.formPanel.getPanel(), BorderLayout.CENTER );
+        this.mainPanel.getPanel().add(this.formPanel.getPanel(), BorderLayout.CENTER);
     }
 
-    /*
-     * ConFigura e inicializa la ventana 
-     */
-    private void initFrame(){
-        LayoutManager mainLayout = new FlowLayout(
-            FlowLayout.CENTER,
-            10,
-            10
-        );
-        mainPanel.setLayout( mainLayout );
-        mainPanel.getPanel().setBorder( BorderFactory.createEmptyBorder(20, 50, 20, 50 ) );
-
-        this.frame.setPanel( mainPanel.panel );
-        this.frame.setTitle("Registrarse");
+    private void initFrame() {
+        this.mainPanel.setLayout(new BorderLayout());
+        this.frame.setPanel(mainPanel.panel);
+        this.frame.setTitle("Registro de Usuario");
         this.frame.getFrame().setResizable(false);
     }
 
-    /*
-     * ConFigura e inicializa los botones 
-     */
-    private void initButtons(){
-        Size buttonSize = new Size( 40.0f, 100.0f, this.buttonPanel.getSize() );
+    private void initButtons() {
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        buttonPanel.setOpaque(false);
         
-        LayoutManager buttonLayout = new FlowLayout( 
-            3, 
-            15, 
-            10 
-        );
-        buttonPanel.setLayout(buttonLayout);
+        // Estilizar botones
+        registerTrigger.setFont(new Font("Arial", Font.BOLD, 14));
+        registerTrigger.setBackground(Color.decode("#3a9e6e"));
+        registerTrigger.setForeground(Color.WHITE);
+        registerTrigger.setFocusPainted(false);
         
-        Styles.stylizeButton( this.loginViewTrigger, 0, buttonSize  );
-        Styles.stylizeButton( this.registerTrigger, 0, buttonSize  );    
+        loginViewTrigger.setFont(new Font("Arial", Font.BOLD, 14));
+        loginViewTrigger.setBackground(Color.decode("#2e2e2e"));
+        loginViewTrigger.setForeground(Color.WHITE);
+        loginViewTrigger.setFocusPainted(false);
         
-        buttonPanel.getPanel().add( this.loginViewTrigger );
-        buttonPanel.getPanel().add( this.registerTrigger );
+        // Efectos hover
+        registerTrigger.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                registerTrigger.setBackground(Color.decode("#2a6c4e"));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                registerTrigger.setBackground(Color.decode("#3a9e6e"));
+            }
+        });
+        
+        loginViewTrigger.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                loginViewTrigger.setBackground(Color.decode("#9e3a3a"));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                loginViewTrigger.setBackground(Color.decode("#2e2e2e"));
+            }
+        });
+        
+        // ActionListener para Registrarse
+        registerTrigger.addActionListener(e -> {
+            String nombre = nombreField.getText().trim();
+            String nombre2 = nombre2Field.getText().trim();
+            String apellido = apellidoField.getText().trim();
+            String apellido2 = apellido2Field.getText().trim();
+            String cedula = cedulaField.getText().trim();
+            String cargo = (String) cargoComboBox.getSelectedItem();
+            String password = new String(passwordField.getPassword());
+            String confirmPassword = new String(confirmPasswordField.getPassword());
 
-        this.formPanel.getPanel().add( buttonPanel.getPanel(), BorderLayout.CENTER );
-
-        this.registerTrigger.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed( ActionEvent e) {
+            if (controller.validateRegistrationData(frame, nombre, nombre2, apellido, apellido2,
+                    cedula, cargo, password, confirmPassword)) {
                 
-                String userCI = CIField.getText(); // Obtiene el texto del campo de usuario
-                // Obtiene la contraseña de forma segura como un array de caracteres y la convierte a String.
-                String password = new String(passwordField.getPassword());
-                String confirmPassword = new String(confirmPasswordField.getPassword());
-
-                // Validaciones
-                String errorValues = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;:,.{}()%$#@!`=+-_|\\/?<> ";
-                for( int i = 0; i < userCI.length(); i++ ){
-                    if( errorValues.indexOf( userCI.charAt(i) ) != -1 ){
-                        JOptionPane.showMessageDialog( frame.getFrame(), "La Cedula es invalida.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                }
-                if( userCI.isEmpty() || password.isEmpty() || confirmPassword.equals("") ){
-                    JOptionPane.showMessageDialog(frame.getFrame(), "Campos Incompletos", "Error de Registro", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                if( password.length() < 8  ){
-                    JOptionPane.showMessageDialog(frame.getFrame(), "La Contraseña debe tener al menos 8 caracteres.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                // Lógica de validación 
-                // validateCredentials es una llamada a la clase Controlador
-                if ( /*validateCI() && validatePassword &&*/ password.equals( confirmPassword ) ) {
-                    // Si las credenciales son correctas, muestra un mensaje de éxito.
-                    JOptionPane.showMessageDialog(frame.getFrame(), "¡Registro exitoso!", "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
-
-                    frame.getFrame().dispose(); // Cierra la ventana de login
+                if (controller.registerUser(frame, nombre, nombre2, apellido, apellido2,
+                        cedula, cargo, password)) {
                     
-                    // redirecciona al inicio de sesion(Se hace en el controlador)
-                } else {
-                    // Si las credenciales son incorrectas, muestra un mensaje de error.
-                    JOptionPane.showMessageDialog(frame.getFrame(), "Cedula de identidad invalida, actualizar sus datos.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame.getFrame(),
+                            "¡Registro exitoso! Ahora puedes iniciar sesión",
+                            "Registro Completado", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    frame.getFrame().dispose();
+                    loginView.getFrame().setVisible(true);
                 }
             }
         });
-        this.loginViewTrigger.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed( ActionEvent e) {
-                
-                // Cerrar vista de Login
-                frame.getFrame().dispose();
-
-                // Llamar a la vista de Inicio de Sesion (Sucede en la clase controlador)
-            }
+        
+        // ActionListener para Cancelar
+        loginViewTrigger.addActionListener(e -> {
+            frame.getFrame().dispose();
+            loginView.getFrame().setVisible(true);
         });
+        
+        buttonPanel.add(registerTrigger);
+        buttonPanel.add(loginViewTrigger);
+        
+        this.formPanel.getPanel().add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private void initFields() {
+        JPanel fieldsContainer = new JPanel();
+        fieldsContainer.setLayout(new BoxLayout(fieldsContainer, BoxLayout.Y_AXIS));
+        fieldsContainer.setOpaque(false);
+        
+        addRequiredField(fieldsContainer, "Primer Nombre*:", nombreField);
+        addRequiredField(fieldsContainer, "Segundo Nombre:", nombre2Field);
+        addRequiredField(fieldsContainer, "Primer Apellido*:", apellidoField);
+        addRequiredField(fieldsContainer, "Segundo Apellido:", apellido2Field);
+        addRequiredField(fieldsContainer, "Cédula*:", cedulaField);
+        
+        // Campo de cargo
+        JPanel cargoPanel = new JPanel(new BorderLayout(5, 5));
+        cargoPanel.setOpaque(false);
+        cargoPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+        JLabel cargoLabel = new JLabel("Cargo*:");
+        cargoLabel.setForeground(Color.BLACK);
+        cargoComboBox.setBackground(Color.WHITE);
+        cargoComboBox.setForeground(Color.BLACK);
+        cargoComboBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        cargoPanel.add(cargoLabel, BorderLayout.NORTH);
+        cargoPanel.add(cargoComboBox, BorderLayout.CENTER);
+        fieldsContainer.add(cargoPanel);
+        fieldsContainer.add(Box.createRigidArea(new Dimension(0, 5)));
+        
+        addRequiredField(fieldsContainer, "Contraseña*:", passwordField);
+        addRequiredField(fieldsContainer, "Confirmar Contraseña*:", confirmPasswordField);
+        
+        this.formPanel.getPanel().add(fieldsContainer, BorderLayout.CENTER);
     }
     
-    /**
-     * Inicializa los campos de entrada del usuario
-     */
-    private void initFields(){
-        LayoutManager fieldsLayout = new GridLayout( 
-            3, 
-            1, 
-            40, 
-            10 
-        );
-        fieldsPanel.setLayout( fieldsLayout );
+    private void addRequiredField(JPanel container, String labelText, JComponent field) {
+        JPanel panel = new JPanel(new BorderLayout(5, 5));
+        panel.setOpaque(false);
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
         
-
-        Panel CIPanel = new Panel ( 100.0f, 30.0f, this.fieldsPanel.getSize() );
-        Panel passwordPanel = new Panel ( 100.0f, 30.0f, this.fieldsPanel.getSize() );
-        Panel confirmPasswordPanel = new Panel ( 100.0f, 30.0f, this.fieldsPanel.getSize() );
-        LayoutManager fieldManager = new GridLayout(
-            2,
-            1,
-            300, 
-            0
-        );
-
-        CIPanel.setLayout( fieldManager );
-        passwordPanel.setLayout( fieldManager );
-        confirmPasswordPanel.setLayout( fieldManager );
-
-        JLabel CILabel = new JLabel("Cedula de Identidad:");
-        JLabel passwordLabel = new JLabel("Contraseña:");
-        JLabel confirmPasswordLabel = new JLabel("Confirmar Contraseña:");
+        JLabel label = new JLabel(labelText);
+        label.setForeground(Color.BLACK);
         
-        Size labelSize = new Size( 100.0f, 20.0f, passwordPanel.getSize() );
-        Size fieldsSize = new Size( 100.0f, 60.0f, passwordPanel.getSize() );
-
-
-        Styles.stylizeField(CIField, 0, fieldsSize);
-        Styles.stylizeField(passwordField, 0, fieldsSize);
-        Styles.stylizeField(confirmPasswordField, 0, fieldsSize);
-        Styles.stylizeLabel(CILabel, 0, labelSize);
-        Styles.stylizeLabel(passwordLabel, 0, labelSize);
-        Styles.stylizeLabel(confirmPasswordLabel, 0, labelSize);
+        if (field instanceof JTextField) {
+            ((JTextField)field).setBackground(Color.WHITE);
+            ((JTextField)field).setForeground(Color.BLACK);
+            ((JTextField)field).setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        } else if (field instanceof JPasswordField) {
+            ((JPasswordField)field).setBackground(Color.WHITE);
+            ((JPasswordField)field).setForeground(Color.BLACK);
+            ((JPasswordField)field).setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        }
         
-
-        CIPanel.getPanel().add(CILabel, BorderLayout.NORTH);
-        CIPanel.getPanel().add(this.CIField, BorderLayout.CENTER);
-        passwordPanel.getPanel().add(passwordLabel, BorderLayout.NORTH);
-        passwordPanel.getPanel().add(this.passwordField, BorderLayout.CENTER);
-        confirmPasswordPanel.getPanel().add(confirmPasswordLabel, BorderLayout.CENTER);
-        confirmPasswordPanel.getPanel().add(this.confirmPasswordField, BorderLayout.CENTER);
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(field, BorderLayout.CENTER);
         
-
-        fieldsPanel.getPanel().add( CIPanel.getPanel());
-        fieldsPanel.getPanel().add( passwordPanel.getPanel());
-        fieldsPanel.getPanel().add( confirmPasswordPanel.getPanel());
-
-        this.formPanel.getPanel().add( fieldsPanel.getPanel(), BorderLayout.CENTER );
+        container.add(panel);
+        container.add(Box.createRigidArea(new Dimension(0, 5)));
     }
-    
-    /**
-     * Muestra la ventana instanciada de RegisterView
-     */
+
     public void ShowRegisterView() {
         this.frame.setInstance();
     }
 
-    public static void main(String[] args){
-        RegisterView test = new RegisterView();
-        test.ShowRegisterView();
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            RegisterView registerView = new RegisterView(null);
+            registerView.ShowRegisterView();
+        });
     }
 }

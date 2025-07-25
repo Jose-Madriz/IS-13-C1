@@ -1,109 +1,131 @@
-package main.Views.Login;
+    package main.Views.Login;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+    import java.awt.*;
+    import javax.swing.*;
+    import main.Controllers.Login.LoginController;
+    import main.Models.DatabaseManager;
+    import main.Views.Layouts.Panel;
+    import main.Views.Layouts.Window;
+    import main.Views.Register.RegisterView;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import main.Views.Layouts.Window;
-import main.Controllers.Login.LoginController;
-import main.Models.Login.DatabaseManager;
-import main.Views.Layouts.Panel;
-import main.Views.Layouts.Size;
-import main.Views.Layouts.Styles;
+    public class LoginView {
 
-public class LoginView {
+        private Panel mainPanel;
+        public Window frame;
+        private Panel formPanel;
+        private Panel fieldsPanel;
+        private JToggleButton showPassButton;
+        private JPasswordField passwordField;
+        private JTextField CIField;
+        private Panel buttonPanel;
+        private JButton loginTrigger;
+        private JButton registerTrigger;
+        private final float DEFAULT_WIDTH = 30;
+        private final float DEFAULT_HEIGHT = 40;
+        private LoginController controller;
+        private DatabaseManager dbManager;
 
-    private Panel mainPanel;
-    public Window frame;
-    private Panel formPanel;
-    private Panel fieldsPanel;
-    private JToggleButton showPassButton;
-    private JPasswordField passwordField;
-    private JTextField CIField;
-    private Panel buttonPanel;
-    private JButton loginTrigger;
-    private JButton registerTrigger;
-    private final float DEFAULT_WIDTH = 30;
-    private final float DEFAULT_HEIGHT = 40;
-    private LoginController controller;
-    private DatabaseManager dbManager;
+        public LoginView() {
+            // Inicializar DatabaseManager y Controller
+            DatabaseManager dbManager = DatabaseManager.getInstance();
+            this.controller = new LoginController(dbManager);
 
-    public LoginView() {
-        // Inicializar DatabaseManager y Controller
-        this.dbManager = new DatabaseManager();
-        this.controller = new LoginController(dbManager);
+            // Inicializando componentes gráficos
+            this.CIField = new JTextField(20);
+            this.passwordField = new JPasswordField(20);
+            this.loginTrigger = new JButton("Iniciar Sesión");
+            this.registerTrigger = new JButton("¿No tienes cuenta? Regístrate");
+            this.frame = new Window(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
-        // Inicializando componentes gráficos
-        this.CIField = new JTextField(20);
-        this.passwordField = new JPasswordField(20);
-        this.loginTrigger = new JButton("Iniciar Sesión");
-        this.registerTrigger = new JButton("Registrarse");
-        this.frame = new Window(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+            // Inicializando paneles 
+            this.mainPanel = new Panel(100.0f, 100.0f, this.frame.getSize());
+            this.formPanel = new Panel(90.0f, 80.0f, this.mainPanel.getSize());
+            this.buttonPanel = new Panel(50.0f, 20.0f, this.formPanel.getSize());
+            this.fieldsPanel = new Panel(70.0f, 60.f, this.formPanel.getSize());
 
-        // Inicializando paneles 
-        this.mainPanel = new Panel(100.0f, 100.0f, this.frame.getSize());
-        this.formPanel = new Panel(90.0f, 80.0f, this.mainPanel.getSize());
-        this.buttonPanel = new Panel(50.0f, 20.0f, this.formPanel.getSize());
-        this.fieldsPanel = new Panel(70.0f, 60.f, this.formPanel.getSize());
+            this.initComponents();
+        }
 
-        this.initComponents();
-    }
+        private void initComponents() {
+            // Cambiamos a BorderLayout para mejor organización
+            this.formPanel.setLayout(new BorderLayout(10, 20));
+            this.formPanel.getPanel().setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-    private void initComponents() {
-        LayoutManager formLayout = new FlowLayout(
-                FlowLayout.CENTER,
-                10,
-                20
-        );
-        this.formPanel.setLayout(formLayout);
+            this.initFrame();
+            this.initFields();
+            this.initButtons();
 
-        this.initFrame();
-        this.initFields();
-        this.initButtons();
+            this.mainPanel.getPanel().add(this.formPanel.getPanel(), BorderLayout.CENTER);
+            this.frame.setInstance();
+        }
 
-        this.mainPanel.getPanel().add(this.formPanel.getPanel(), BorderLayout.CENTER);
-        this.frame.setInstance();
-    }
+        private void initFrame() {
+            LayoutManager mainLayout = new FlowLayout(
+                    FlowLayout.CENTER,
+                    10,
+                    10
+            );
+            mainPanel.setLayout(mainLayout);
+            mainPanel.getPanel().setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
-    private void initFrame() {
-        LayoutManager mainLayout = new FlowLayout(
-                FlowLayout.CENTER,
-                10,
-                10
-        );
-        mainPanel.setLayout(mainLayout);
-        mainPanel.getPanel().setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+            this.frame.setPanel(mainPanel.panel);
+            this.frame.setTitle("Iniciar Sesion");
+            this.frame.getFrame().setResizable(false);
+            this.frame.setVisible(true);
+        }
 
-        this.frame.setPanel(mainPanel.panel);
-        this.frame.setTitle("Iniciar Sesion");
-        this.frame.getFrame().setResizable(false);
-        this.frame.setVisible(true);
-    }
+        private void initButtons() {
+            // Panel principal para botones con BoxLayout vertical
+            JPanel buttonsPanel = new JPanel();
+            buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+            buttonsPanel.setOpaque(false);
+            buttonsPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
-    private void initButtons() {
-        Size buttonSize = new Size(60.0f, 100.0f, this.buttonPanel.getSize());
+            // Botón de login
+            loginTrigger = new JButton("Iniciar Sesión");
+            loginTrigger.setAlignmentX(Component.CENTER_ALIGNMENT);
+            loginTrigger.setPreferredSize(new Dimension(200, 40));
+            loginTrigger.setMaximumSize(new Dimension(200, 40));
+            loginTrigger.setFont(new Font("Arial", Font.BOLD, 14));
+            loginTrigger.setBackground(new Color(58, 158, 110));
+            loginTrigger.setForeground(Color.WHITE);
+            loginTrigger.setFocusPainted(false);
 
-        LayoutManager buttonLayout = new FlowLayout(
-                3,
-                15,
-                10
-        );
-        buttonPanel.setLayout(buttonLayout);
+            // Espaciado entre botones
+            buttonsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        Styles.stylizeButton(this.loginTrigger, 0, buttonSize);
-        Styles.stylizeButton(this.registerTrigger, 0, buttonSize);
+            // Botón de registro (como enlace)
+            registerTrigger = new JButton("¿No tienes cuenta? Regístrate aquí");
+            registerTrigger.setAlignmentX(Component.CENTER_ALIGNMENT);
+            registerTrigger.setBorderPainted(false);
+            registerTrigger.setContentAreaFilled(false);
+            registerTrigger.setForeground(new Color(0, 100, 200));
+            registerTrigger.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            registerTrigger.setFont(new Font("Arial", Font.PLAIN, 12));
 
-        buttonPanel.getPanel().add(this.loginTrigger);
-        buttonPanel.getPanel().add(this.registerTrigger);
+            // Efecto hover para el botón de registro
+            registerTrigger.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    registerTrigger.setForeground(new Color(0, 70, 200));
+                    registerTrigger.setText("<html><u>¿No tienes cuenta? Regístrate aquí</u></html>");
+                }
 
-        this.formPanel.getPanel().add(buttonPanel.getPanel(), BorderLayout.CENTER);
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    registerTrigger.setForeground(new Color(0, 100, 200));
+                    registerTrigger.setText("¿No tienes cuenta? Regístrate aquí");
+                }
+            });
 
-        // ActionListener para el botón de login
-        this.loginTrigger.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            // Añadir botones al panel
+            buttonsPanel.add(loginTrigger);
+            buttonsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+            buttonsPanel.add(registerTrigger);
+
+            // Añadir panel de botones al formulario
+            this.formPanel.getPanel().add(buttonsPanel, BorderLayout.SOUTH);
+
+            // ActionListeners (mantén los mismos que ya tenías)
+            loginTrigger.addActionListener(e -> {
                 String ci = CIField.getText();
                 String password = new String(passwordField.getPassword());
 
@@ -115,97 +137,85 @@ public class LoginView {
                     frame.getFrame().dispose();
                     // Aquí iría la apertura de la siguiente ventana
                 }
-            }
-        });
+            });
 
-        // ActionListener para el botón de registro
-        this.registerTrigger.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.getFrame().dispose();
-                // Aquí iría la apertura de la vista de registro
-            }
-        });
+            registerTrigger.addActionListener(e -> {
+                frame.getFrame().setVisible(false);
+                RegisterView registerView = new RegisterView(LoginView.this);
+                registerView.ShowRegisterView();
+            });
+        }
+
+        private void initFields() {
+            JPanel fieldsContainer = new JPanel();
+            fieldsContainer.setLayout(new BoxLayout(fieldsContainer, BoxLayout.Y_AXIS));
+            fieldsContainer.setOpaque(false);
+
+            // Campo CI
+            JPanel ciPanel = new JPanel(new BorderLayout(5, 5));
+            ciPanel.setOpaque(false);
+            ciPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+
+            JLabel ciLabel = new JLabel("Cédula de Identidad:");
+            CIField = new JTextField(20);
+            CIField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+
+            ciPanel.add(ciLabel, BorderLayout.NORTH);
+            ciPanel.add(CIField, BorderLayout.CENTER);
+
+            // Campo Contraseña
+            JPanel passPanel = new JPanel(new BorderLayout(5, 5));
+            passPanel.setOpaque(false);
+            passPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+
+            JLabel passLabel = new JLabel("Contraseña:");
+            passwordField = new JPasswordField(20);
+            passwordField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+
+            // Botón para mostrar contraseña
+            showPassButton = new JToggleButton("Mostrar");
+            showPassButton.setFont(new Font("Arial", Font.PLAIN, 10));
+            showPassButton.addActionListener(e -> {
+                if (showPassButton.isSelected()) {
+                    passwordField.setEchoChar((char) 0);
+                    showPassButton.setText("Ocultar");
+                } else {
+                    passwordField.setEchoChar('•');
+                    showPassButton.setText("Mostrar");
+                }
+            });
+
+            JPanel passFieldPanel = new JPanel(new BorderLayout());
+            passFieldPanel.add(passwordField, BorderLayout.CENTER);
+            passFieldPanel.add(showPassButton, BorderLayout.EAST);
+
+            passPanel.add(passLabel, BorderLayout.NORTH);
+            passPanel.add(passFieldPanel, BorderLayout.CENTER);
+
+            // Añadir campos al contenedor
+            fieldsContainer.add(ciPanel);
+            fieldsContainer.add(Box.createRigidArea(new Dimension(0, 15)));
+            fieldsContainer.add(passPanel);
+
+            this.formPanel.getPanel().add(fieldsContainer, BorderLayout.CENTER);
+        }
+
+        public void showLoginView() {
+            this.frame.setInstance();
+        }
+
+        public void setVisible(boolean visible) {
+            frame.getFrame().setVisible(visible);
+        }
+
+        public Window getFrame() {
+            return this.frame;
+        }
+
+        public static void main(String[] args) {
+            SwingUtilities.invokeLater(() -> {
+                LoginView loginView = new LoginView();
+                loginView.showLoginView();
+            });
+        }
     }
-
-    private void initFields() {
-        LayoutManager fieldsLayout = new GridLayout(
-                2,
-                1,
-                40,
-                10
-        );
-        fieldsPanel.setLayout(fieldsLayout);
-
-        Panel CIPanel = new Panel(100.0f, 45.0f, this.fieldsPanel.getSize());
-        Panel passwordPanel = new Panel(100.0f, 45.0f, this.fieldsPanel.getSize());
-        LayoutManager fieldManager = new GridLayout(
-                2,
-                1,
-                300,
-                0
-        );
-
-        CIPanel.setLayout(fieldManager);
-        passwordPanel.setLayout(fieldManager);
-
-        Size labelSize = new Size(100.0f, 20.0f, passwordPanel.getSize());
-        Size fieldsSize = new Size(100.0f, 60.0f, passwordPanel.getSize());
-
-        JLabel CILabel = new JLabel("Cedula de Identidad:");
-        JLabel passwordLabel = new JLabel("Contraseña:");
-
-        Styles.stylizeField(this.CIField, 0, fieldsSize);
-        Styles.stylizeField(this.passwordField, 0, fieldsSize);
-
-        Styles.stylizeLabel(CILabel, 0, labelSize);
-        Styles.stylizeLabel(passwordLabel, 0, labelSize);
-
-        CIPanel.getPanel().add(CILabel, BorderLayout.NORTH);
-        CIPanel.getPanel().add(this.CIField, BorderLayout.CENTER);
-
-        // Panel para contraseña con botón de visibilidad
-        JPanel passwordContainer = new JPanel(new BorderLayout());
-        passwordContainer.setOpaque(false);
-        passwordContainer.setBorder(new EmptyBorder(0, 0, 0, 0));
-
-        passwordContainer.add(passwordField, BorderLayout.CENTER);
-
-        // Botón para mostrar/ocultar contraseña
-        this.showPassButton = new JToggleButton("Ver");
-        this.showPassButton.setFont(new Font("Arial", Font.PLAIN, 10));
-        this.showPassButton.addActionListener(e -> {
-            if (showPassButton.isSelected()) {
-                passwordField.setEchoChar((char) 0);
-                showPassButton.setText("Ocultar");
-            } else {
-                passwordField.setEchoChar('•');
-                showPassButton.setText("Ver");
-            }
-        });
-
-        JPanel buttonWrapper = new JPanel(new BorderLayout());
-        buttonWrapper.setOpaque(false);
-        buttonWrapper.add(showPassButton, BorderLayout.EAST);
-        passwordContainer.add(buttonWrapper, BorderLayout.EAST);
-
-        passwordPanel.getPanel().add(passwordLabel, BorderLayout.NORTH);
-        passwordPanel.getPanel().add(passwordContainer, BorderLayout.CENTER);
-
-        fieldsPanel.getPanel().add(CIPanel.getPanel());
-        fieldsPanel.getPanel().add(passwordPanel.getPanel());
-
-        this.formPanel.getPanel().add(fieldsPanel.getPanel(), BorderLayout.CENTER);
-    }
-
-    public void showLoginView() {
-        this.frame.setInstance();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            LoginView loginView = new LoginView();
-            loginView.showLoginView();
-        });
-    }
-}

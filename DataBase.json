@@ -6,9 +6,9 @@
     "apellido2": "ADMIN",
     "cedula": 123456789,
     "cargo": "profesor",
-    "Pass": "ADMIN123",
-    "saldo": 100.0,
-    "User": "VIP"
+    "pass": "ADMIN123",
+    "saldo": 100,00,
+    "user": "VIP"
   },
   {
     "nombre": "Commom",
@@ -17,8 +17,8 @@
     "apellido2": "Commom",
     "cedula": 123456,
     "cargo": "estudiante",
-    "Pass": "Common123",
-    "saldo": 10.0,
-    "User": "Common"
+    "pass": "Common123",
+    "saldo": 10,00,
+    "user": "Common"
   }
 ]

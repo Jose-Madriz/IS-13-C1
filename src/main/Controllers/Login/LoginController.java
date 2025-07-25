@@ -1,7 +1,7 @@
 package main.Controllers.Login;
 
 import javax.swing.JOptionPane;
-import main.Models.Login.DatabaseManager;
+import main.Models.DatabaseManager;
 import main.Models.Usuario;
 import main.Views.Layouts.Window;
 
