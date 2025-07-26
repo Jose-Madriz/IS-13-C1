@@ -113,6 +113,7 @@ public class DatabaseManager {
         File dbFile = new File(DB_PATH);
         
         if (!dbFile.exists()) {
+            System.err.println("Archivo DataBase.json no encontrado, inicializando lista vacía");
             return;
         }
 
@@ -127,12 +128,14 @@ public class DatabaseManager {
             String jsonString = jsonContent.toString();
             
             if (jsonString.isEmpty() || !jsonString.startsWith("[") || !jsonString.endsWith("]")) {
+                System.err.println("DataBase.json está vacío o malformado");
                 return;
             }
 
             jsonString = jsonString.substring(1, jsonString.length() - 1).trim();
             
             if (jsonString.isEmpty()) {
+                System.err.println("DataBase.json no contiene usuarios");
                 return;
             }
 
@@ -203,6 +206,7 @@ public class DatabaseManager {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Error al leer DataBase.json: " + e.getMessage());
             mostrarError("Error al leer la base de datos: " + e.getMessage());
         }
     }
