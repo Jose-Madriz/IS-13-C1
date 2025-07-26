@@ -1,11 +1,9 @@
 package main.Models.ModeloMenuPrincipal;
 
 
-
-
-
 public class Menu {
 
+    
 public String turno;
 public String platillo;
 public String horario;
@@ -28,6 +26,7 @@ this.calorias=_calorias;
 
 }
 
+public Menu menu1=null;
+public Menu menu2=null;
 
-    
 }
