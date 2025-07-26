@@ -66,10 +66,10 @@ public class RegisterController {
         }
 
         // Validar nombres y apellidos (solo letras)
-        if (!nombre.matches("[a-zA-Z]+")
-                || (!nombre2.isEmpty() && !nombre2.matches("[a-zA-Z]+"))
-                || !apellido.matches("[a-zA-Z]+")
-                || (!apellido2.isEmpty() && !apellido2.matches("[a-zA-Z]+"))) {
+        if (!nombre.matches("[a-zA-ZñÑ]+")
+                || (!nombre2.isEmpty() && !nombre2.matches("[a-zA-ZñÑ]+"))
+                || !apellido.matches("[a-zA-ZñÑ]+")
+                || (!apellido2.isEmpty() && !apellido2.matches("[a-zA-ZñÑ]+"))) {
             JOptionPane.showMessageDialog(window.getFrame(),
                     "Los nombres y apellidos solo pueden contener letras sin acentos",
                     "Error en el registro", JOptionPane.WARNING_MESSAGE);
