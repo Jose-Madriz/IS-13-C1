@@ -1,7 +1,7 @@
 package main.Views.MenuPrincipal;
-import main.Models.LogRegReco.Refactorizacion.Login.LoginSystem;
-import main.Models.ModeloMenuPrincipal.*;
-
+import main.Views.Login.*;
+import main.Models.ModeloMenuPrincipal.Menu;
+import main.Controllers.MenuUsuarioController;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -29,9 +29,6 @@ public class MenuPrincipal extends JFrame{
   //Inicialización del panel
  JPanel panel = new JPanel();
 
- //Menus
- public Menu menu1 = new Menu();
- public Menu menu2 = new Menu();
 
  //Colores a emplear
  Color Fondo = new Color(217,217,217);
@@ -64,13 +61,16 @@ JButton boton = new JButton("Cerrar Sesión");
 JButton boton2=new JButton("Recargar saldo"); 
 JButton boton3=new JButton("Perfil");
 
+//Controlador
+
+
 ActionListener botonAction= new ActionListener() {
 
   @Override
   public void actionPerformed(ActionEvent e) {
   dispose();
     SwingUtilities.invokeLater(() -> {
-           LoginSystem loginSystem = new LoginSystem();
+           LoginView loginSystem = new LoginView();
             loginSystem.setVisible(true);
         });
 
@@ -78,6 +78,13 @@ ActionListener botonAction= new ActionListener() {
  
 };
  
+Menu menu1=new Menu();
+Menu menu2=new Menu();
+MenuUsuarioController usuario=new MenuUsuarioController();
+
+
+
+
 
 //Constructor de la ventana
 public MenuPrincipal(){
@@ -86,6 +93,7 @@ public MenuPrincipal(){
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
     setResizable(false);
+  
 }
 
 
@@ -98,12 +106,10 @@ public MenuPrincipal(){
     panel.setLayout(null);
     this.getContentPane().add(panel);
     panel.setBackground(Fondo);
-
-    CargarDatos(menu1, menu2);
     ColocarBoton();
+     usuario.CargarDatos(menu1, menu2);
     ColocarTextos(_n,_s);
     }
-
 
     public void ColocarTextos(String __n,double __s){
 
@@ -249,53 +255,7 @@ if((menu2.turno).equals("Manana")){
 
     }
 
-
-    public void CargarDatos(Menu _menu1,Menu _menu2){
-
-      //Contador
-      int i=0;
-    try{
-       
-        BufferedReader lector=new BufferedReader(new FileReader("DataBaseMenu.txt"));
-        String linea="";
-        while ((linea=lector.readLine())!=null) {
-            String [] bloques=linea.split(",");
-            if( bloques.length==4){
-            if(i==0){
-            String turno= bloques[0];
-            String platillo=bloques[1];
-            String horario= bloques[2];
-            double calorias=Double.parseDouble(bloques[3]);
-            _menu1.turno=turno;
-           _menu1.platillo=platillo;
-            _menu1.horario=horario;
-           _menu1.calorias=calorias;
-           i++;
-            }else if(i==1){
-                String turno= bloques[0];
-            String platillo=bloques[1];
-            String horario= bloques[2];
-            double calorias=Double.parseDouble(bloques[3]);
-            _menu2.turno=turno;
-           _menu2.platillo=platillo;
-            _menu2.horario=horario;
-           _menu2.calorias=calorias; 
-             i++; 
-        
-            }
-             }
-       
-        }
-        lector.close();
-    }catch(IOException e){
-        System.out.println("Error al cargar el archivo. "+e.getMessage());
-    }
-
-
-
-    }
-
-
+   
     
     
 
