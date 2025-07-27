@@ -1,5 +1,6 @@
 package main.Views.MenuPrincipal;
 import main.Views.Login.*;
+import main.Models.DatabaseManager;
 import main.Models.ModeloMenuPrincipal.Menu;
 import main.Controllers.MenuUsuarioController;
 import main.Controllers.Login.*;
@@ -29,7 +30,9 @@ import javax.swing.SwingUtilities;
 public class MenuPrincipal extends JFrame {
     //Inicialización del panel
     JPanel panel = new JPanel();
-
+    double saldo_auxiliar;
+    int cedulaSaldo;
+    
     //Colores a emplear
     Color Fondo = new Color(217,217,217);
     Color titulos = new Color(167,167,167);
@@ -62,6 +65,7 @@ public class MenuPrincipal extends JFrame {
         public void actionPerformed(ActionEvent e) {
             dispose();
             SwingUtilities.invokeLater(() -> {
+              DatabaseManager dbManager = DatabaseManager.getInstance();
                 LoginView loginSystem = new LoginView();
                 loginSystem.setVisible(true);
             });
@@ -71,9 +75,10 @@ public class MenuPrincipal extends JFrame {
     ActionListener botonRecarga= new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            RecargarMenuUsuario recargaMenu=new RecargarMenuUsuario();
-            recargaMenu.setVisible(true);
-            recargaMenu.IniciarComponentes2();
+           
+           RecargarMenuUsuario recargaMenu=new RecargarMenuUsuario();
+          recargaMenu.setVisible(true);
+           recargaMenu.IniciarComponentes2(saldo,saldo_auxiliar,cedulaSaldo);
         }
     };
 
@@ -101,18 +106,23 @@ public class MenuPrincipal extends JFrame {
 
 //Aqui se inicializa los componentes pincipales, por el momento va a estar de esta manera, pero después 
 //lo ordenaremos
-    public void IniciarComponentes(String _n,String _p,double _s,MenuUsuarioController _controller){
+    public void IniciarComponentes(String _n,String _p,double _s,MenuUsuarioController _controller, int _c){
         //Añadir panel
+        cedulaSaldo =_c;
+        saldo_auxiliar=_s;
+       
         panel.setLayout(null);
         this.getContentPane().add(panel);
         panel.setBackground(Fondo);
         ColocarBoton();
         _controller.CargarDatos(menu1, menu2);
         ColocarTextos(_n,_p,_s);
+        
     }
 
     public void ColocarTextos(String __n,String __p,double __s){
         //Titulo 1
+
         titulo1.setText("Bienvenido, "+__n+ " "+__p);
         titulo1.setOpaque(true);
         titulo1.setBounds(180,40,620,70);
@@ -181,32 +191,33 @@ public class MenuPrincipal extends JFrame {
         panel.add(recuadro);
 
         //Comprobación Turno1
-        if((menu1.turno).equals("Manana")){
-            turno1.setText("Horario: "+menu1.horario+"\n\nPlatillo:  "+menu1.platillo+"\n\nCalorías: "+menu1.calorias);
-        }else if((menu1.turno).equals("Tarde")){
-            turno2.setText("Horario: "+menu1.horario+"\n\nPlatillo:  "+menu1.platillo+"\n\nCalorías: "+menu1.calorias);
-        }
+  if((menu1.turno).equals("Manana")){
+       turno1.setText("<html>Horario: <p>"+menu1.horario+"<html> <p><p>"+"<html> Platillo:  <p>"+menu1.platillo+"<html> <p><p>"+"<html> Calorías: <p>"+menu1.calorias);
+}else if((menu1.turno).equals("Tarde")){
+  turno2.setText("<html>Horario: <p>"+menu1.horario+"<html> <p><p>"+"<html> Platillo:  <p>"+menu1.platillo+"<html> <p><p>"+"<html> Calorías: <p>"+menu1.calorias);
+}
 
-        //Verificar NO Disponible Turno1
-        if((menu1.platillo).equals("No Disponible")&&(menu1.turno).equals("Manana")){
-            turno1.setText("NO DISPONIBLE");
-        }else if((menu1.platillo).equals("No Disponible")&&(menu1.turno).equals("Tarde")){
-            turno2.setText("NO DISPONIBLE");
-        }
+//Verificar NO Disponible Turno1
+  if((menu1.platillo).equals("No Disponible")&&(menu1.turno).equals("Manana")){
+    turno1.setText("NO DISPONIBLE");
+  }else if((menu1.platillo).equals("No Disponible")&&(menu1.turno).equals("Tarde")){
+    turno2.setText("NO DISPONIBLE");
+  }
 
-        //Comprobación Turno2
-        if((menu2.turno).equals("Manana")){
-            turno1.setText("Horario: "+menu2.horario+"\n\nPlatillo:  "+menu2.platillo+"\n\nCalorías: "+menu2.calorias);
-        }else if((menu2.turno).equals("Tarde")){
-            turno2.setText("Horario: "+menu2.horario+"\n\nPlatillo:  "+menu2.platillo+"\n\nCalorías: "+menu2.calorias);
-        }
 
-        //Verificar NO Disponible Turno2
-        if((menu2.platillo).equals("No Disponible")&&(menu2.turno).equals("Manana")){
-            turno1.setText("NO DISPONIBLE");
-        }else if((menu2.platillo).equals("No Disponible")&&(menu2.turno).equals("Tarde")){
-            turno2.setText("NO DISPONIBLE");
-        }
+//Comprobación Turno2
+if((menu2.turno).equals("Manana")){
+       turno1.setText("<html>Horario: <p>"+menu2.horario+"<html> <p><p>"+"<html> Platillo:  <p>"+menu2.platillo+"<html> <p><p>"+"<html> Calorías: <p>"+menu2.calorias);
+}else if((menu2.turno).equals("Tarde")){
+  turno2.setText("<html>Horario: <p>"+menu2.horario+"<html> <p><p>"+"<html> Platillo:  <p>"+menu2.platillo+"<html> <p><p>"+"<html> Calorías: <p>"+menu2.calorias);
+}
+
+//Verificar NO Disponible Turno2
+  if((menu2.platillo).equals("No Disponible")&&(menu2.turno).equals("Manana")){
+    turno1.setText("NO DISPONIBLE");
+  }else if((menu2.platillo).equals("No Disponible")&&(menu2.turno).equals("Tarde")){
+    turno2.setText("NO DISPONIBLE");
+  }
 
         boton.addActionListener(botonAction);
         boton2.addActionListener(botonRecarga);
