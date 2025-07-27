@@ -1,9 +1,13 @@
 package main.Controllers.Login;
 
 import javax.swing.JOptionPane;
+
+import main.Controllers.MenuUsuarioController;
 import main.Models.DatabaseManager;
 import main.Models.Usuario;
+import main.Models.ModeloMenuPrincipal.Menu;
 import main.Views.Layouts.Window;
+import main.Views.MenuPrincipal.MenuPrincipal;
 
 public class LoginController {
     private DatabaseManager dbManager;
@@ -49,7 +53,7 @@ public class LoginController {
                 return false;
             }
 
-            JOptionPane.showMessageDialog(frame.getFrame(), 
+         /*    JOptionPane.showMessageDialog(frame.getFrame(), 
                     "¡Bienvenido " 
                     + usuario.getNombre() + " " 
                     + usuario.getNombre2() + " "  
@@ -61,6 +65,15 @@ public class LoginController {
                     + usuario.getSaldo() + " " 
                     + usuario.getUser() + " " + "!", 
                     "Inicio exitoso", JOptionPane.INFORMATION_MESSAGE);
+            return true;*/
+
+            if((usuario.getUser().equals("Common"))){
+
+            MenuUsuarioController controller=new MenuUsuarioController();
+                     MenuPrincipal __menu=new MenuPrincipal();
+                      __menu.setVisible(true);
+                      __menu.IniciarComponentes(usuario.getNombre(),usuario.getApellido(),usuario.getSaldo(),controller);
+            }
             return true;
 
         } catch (NumberFormatException ex) {
