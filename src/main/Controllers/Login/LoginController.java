@@ -68,11 +68,13 @@ public class LoginController {
             return true;*/
 
             if((usuario.getUser().equals("Common"))){
-
+                
+              
             MenuUsuarioController controller=new MenuUsuarioController();
-                     MenuPrincipal __menu=new MenuPrincipal();
+                    
+                 MenuPrincipal __menu=new MenuPrincipal();
                       __menu.setVisible(true);
-                      __menu.IniciarComponentes(usuario.getNombre(),usuario.getApellido(),usuario.getSaldo(),controller);
+                      __menu.IniciarComponentes(usuario.getNombre(),usuario.getApellido(),usuario.getSaldo(),controller,usuario.getCedula());
             }
             return true;
 
