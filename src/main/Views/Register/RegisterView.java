@@ -9,24 +9,24 @@ import main.Views.Layouts.Window;
 import main.Views.Login.LoginView;
 
 public class RegisterView {
-    private Panel mainPanel;
-    private Window frame;
-    private Panel formPanel;
-    private JTextField nombreField;
-    private JTextField nombre2Field;
-    private JTextField apellidoField;
-    private JTextField apellido2Field;
-    private JTextField cedulaField;
-    private JComboBox<String> cargoComboBox;
-    private JPasswordField passwordField;
-    private JPasswordField confirmPasswordField;
-    private JButton loginViewTrigger;
-    private JButton registerTrigger;
-    private RegisterController controller;
-    private DatabaseManager dbManager;
-    private LoginView loginView;
-    private final float DEFAULT_WIDTH = 45;
-    private final float DEFAULT_HEIGHT = 70;
+    protected Panel mainPanel;
+    protected Window frame;
+    protected Panel formPanel;
+    protected JTextField nombreField;
+    protected JTextField nombre2Field;
+    protected JTextField apellidoField;
+    protected JTextField apellido2Field;
+    protected JTextField cedulaField;
+    protected JComboBox<String> cargoComboBox;
+    protected JPasswordField passwordField;
+    protected JPasswordField confirmPasswordField;
+    protected JButton loginViewTrigger;
+    protected JButton registerTrigger;
+    protected RegisterController controller;
+    protected DatabaseManager dbManager;
+    protected LoginView loginView;
+    protected final float DEFAULT_WIDTH = 45;
+    protected final float DEFAULT_HEIGHT = 70;
 
     public RegisterView(LoginView loginView) {
         this.loginView = loginView;
