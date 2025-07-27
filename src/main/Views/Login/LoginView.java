@@ -7,6 +7,7 @@ import main.Models.DatabaseManager;
 import main.Views.Layouts.Panel;
 import main.Views.Layouts.Window;
 import main.Views.Recover.RecoverPasswordView;
+import main.Views.Register.RegisterAdminView;
 import main.Views.Register.RegisterView;
 
 public class LoginView {
@@ -110,6 +111,15 @@ public class LoginView {
         recoverTrigger.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         recoverTrigger.setFont(new Font("Arial", Font.PLAIN, 12));
 
+        // TESTING: Botón de registro VIP (para admin)
+        JButton registerAdminTrigger = new JButton("Registrarse como VIP");
+        registerAdminTrigger.setAlignmentX(Component.CENTER_ALIGNMENT);
+        registerAdminTrigger.setBorderPainted(false);
+        registerAdminTrigger.setContentAreaFilled(false);
+        registerAdminTrigger.setForeground(new Color(0, 100, 200));
+        registerAdminTrigger.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        registerAdminTrigger.setFont(new Font("Arial", Font.PLAIN, 12));
+
         // Efecto hover para el botón de registro
         registerTrigger.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -136,12 +146,27 @@ public class LoginView {
             }
         });
 
+        // Efecto hover para el botón de registro VIP
+        registerAdminTrigger.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                registerAdminTrigger.setForeground(new Color(0, 70, 200));
+                registerAdminTrigger.setText("Registrarse como VIP");
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                registerAdminTrigger.setForeground(new Color(0, 100, 200));
+                registerAdminTrigger.setText("Registrarse como VIP");
+            }
+        });
+
         // Añadir botones al panel
         buttonsPanel.add(loginTrigger);
         buttonsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         buttonsPanel.add(registerTrigger);
         buttonsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         buttonsPanel.add(recoverTrigger);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        buttonsPanel.add(registerAdminTrigger);
 
         // Añadir panel de botones al formulario
         this.formPanel.getPanel().add(buttonsPanel, BorderLayout.SOUTH);
@@ -171,6 +196,12 @@ public class LoginView {
             frame.getFrame().setVisible(false);
             RecoverPasswordView recoverView = new RecoverPasswordView(LoginView.this);
             recoverView.showRecoverView();
+        });
+
+        registerAdminTrigger.addActionListener(e -> {
+            frame.getFrame().setVisible(false);
+            RegisterAdminView registerAdminView = new RegisterAdminView(LoginView.this);
+            registerAdminView.ShowRegisterAdminView();
         });
     }
 
