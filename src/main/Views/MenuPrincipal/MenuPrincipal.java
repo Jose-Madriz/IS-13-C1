@@ -2,6 +2,8 @@ package main.Views.MenuPrincipal;
 import main.Views.Login.*;
 import main.Models.ModeloMenuPrincipal.Menu;
 import main.Controllers.MenuUsuarioController;
+import main.Controllers.Login.*;
+
 
 import java.awt.Color;
 import java.awt.Font;
@@ -11,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.ReadOnlyBufferException;
 
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
@@ -77,15 +80,23 @@ ActionListener botonAction= new ActionListener() {
   }
  
 };
+
+ActionListener botonRecarga= new ActionListener() {
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+        RecargarMenuUsuario recargaMenu=new RecargarMenuUsuario();
+        recargaMenu.setVisible(true);
+        recargaMenu.IniciarComponentes2();
+        
+  }
  
-Menu menu1=new Menu();
-Menu menu2=new Menu();
-MenuUsuarioController usuario=new MenuUsuarioController();
+};
 
-
-
-
-
+ 
+   Menu menu1=new Menu();
+   Menu menu2=new Menu();
+  
 //Constructor de la ventana
 public MenuPrincipal(){
     setSize(1100,750);
@@ -100,22 +111,24 @@ public MenuPrincipal(){
 
 //Aqui se inicializa los componentes pincipales, por el momento va a estar de esta manera, pero después 
 //lo ordenaremos
-    public void IniciarComponentes(String _n,double _s){
+    public void IniciarComponentes(String _n,String _p,double _s,MenuUsuarioController _controller){
     
     //Añadir panel
     panel.setLayout(null);
     this.getContentPane().add(panel);
     panel.setBackground(Fondo);
     ColocarBoton();
-     usuario.CargarDatos(menu1, menu2);
-    ColocarTextos(_n,_s);
+     _controller.CargarDatos(menu1, menu2);
+    ColocarTextos(_n,_p,_s);
+    
+   
     }
 
-    public void ColocarTextos(String __n,double __s){
+    public void ColocarTextos(String __n,String __p,double __s){
 
       
    //Titulo 1
-   titulo1.setText("Bienvenido, "+__n);
+   titulo1.setText("Bienvenido, "+__n+ " "+__p);
     titulo1.setOpaque(true);
     titulo1.setBounds(180,40,620,70);
     titulo1.setForeground(Color.BLACK);
@@ -227,10 +240,11 @@ if((menu2.turno).equals("Manana")){
 
 
      boton.addActionListener(botonAction);
-    }
-   
 
-   
+     boton2.addActionListener(botonRecarga);
+    }
+
+
     public void ColocarBoton(){
 
 
