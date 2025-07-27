@@ -1,6 +1,7 @@
 import javax.swing.SwingUtilities;
 import main.Models.DatabaseManager;
 import main.Views.Login.LoginView;
+import main.Views.MenuPrincipal.MenuPrincipal;
 
 public class App {
     public static void main(String[] args) {
@@ -10,5 +11,6 @@ public class App {
             LoginView login = new LoginView();
             login.showLoginView();
         });
-    }
+
+    };
 }
