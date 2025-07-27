@@ -8,12 +8,8 @@ import main.Models.ModeloMenuPrincipal.Menu;
 
 public class MenuUsuarioController{
 
-    public MenuUsuarioController usuario;
+    public MenuUsuarioController controller;
 
-   public MenuUsuarioController getInstance(){
-    
-    return usuario;
-  }
      //Controlador
     public void CargarDatos(Menu menu1,Menu menu2){
       //Contador
