@@ -16,7 +16,7 @@ public class Panel{
     public Size fatherSizes;
 
     //constructors
-    public Panel( String type, float relWidth, float relHeight, float posPercentX, float posPercentY, boolean visibility, Size fatherSizes){
+    public Panel( String type, float relWidth, float relHeight, float posPercentX, float posPercentY, boolean visibility, Size fatherSizes ){
         this.fatherSizes = fatherSizes;
         this.size = new Size( relWidth, relHeight, 0, 0, fatherSizes);
         this.panel = new JPanel();
@@ -26,7 +26,7 @@ public class Panel{
         
         this.init();
     }
-    public Panel( String type, float relWidth, float relHeight, float posPercentX, float posPercentY, Size fatherSizes){
+    public Panel( String type, float relWidth, float relHeight, float posPercentX, float posPercentY, Size fatherSizes ){
         this.fatherSizes = fatherSizes;
         this.size = new Size( relWidth, relHeight, 0, 0, fatherSizes);
         this.panel = new JPanel();
@@ -36,7 +36,7 @@ public class Panel{
         
         this.init();
     }
-    public Panel( String type, float relWidth, float relHeight, Size fatherSizes){
+    public Panel( String type, float relWidth, float relHeight, Size fatherSizes ){
         this.fatherSizes = fatherSizes;
         this.size = new Size( relWidth, relHeight, 0, 0, fatherSizes);
         this.panel = new JPanel();

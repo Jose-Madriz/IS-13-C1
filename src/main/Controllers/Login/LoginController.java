@@ -7,7 +7,7 @@ import main.Models.DatabaseManager;
 import main.Models.Usuario;
 import main.Models.ModeloMenuPrincipal.Menu;
 import main.Views.Layouts.Window;
-import main.Views.MenuPrincipal.MenuPrincipal;
+import main.Views.MenuUser.MenuPrincipal;
 
 public class LoginController {
     private DatabaseManager dbManager;

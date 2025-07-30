@@ -6,7 +6,7 @@ import main.Controllers.Change.ChangePassController;
 import main.Models.DatabaseManager;
 import main.Views.Layouts.Panel;
 import main.Views.Layouts.Window;
-import main.Views.MenuPrincipal.MenuPrincipal;
+import main.Views.MenuUser.MenuPrincipal;
 
 public class ChangePassView {
     private Panel mainPanel;

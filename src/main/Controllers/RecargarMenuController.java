@@ -2,7 +2,7 @@ package main.Controllers;
 
 import main.Models.DatabaseManager;
 import main.Models.Usuario;
-import main.Views.MenuPrincipal.RecargarMenuUsuario;
+import main.Views.MenuUser.RecargarMenuUsuario;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;

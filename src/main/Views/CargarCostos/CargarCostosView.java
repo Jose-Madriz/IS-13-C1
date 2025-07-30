@@ -31,8 +31,9 @@ public class CargarCostosView {
     private final float DEFAULT_WIDTH = 30;
     private final float DEFAULT_HEIGHT = 40;
     private CargarCostosController controller;
+    private int menuNumber;
 
-    public CargarCostosView (){
+    public CargarCostosView ( int menuNumber ){
         // inicializando los objetos de cada elemento grafico
         this.CFField = new JTextField(20);
         this.CVField = new JTextField(20);
@@ -41,6 +42,7 @@ public class CargarCostosView {
         this.VistaPreviaTrigger = new JButton("Vista Previa");
         this.guardarCambiosTrigger = new JButton("Guardar Cambios");
         this.frame = new Window( DEFAULT_WIDTH, DEFAULT_HEIGHT );
+        this.menuNumber = menuNumber;
 
         // Inicializando los paneles 
         this.mainPanel = new Panel( 100.0f, 100.0f, this.frame.getSize() );
@@ -84,7 +86,11 @@ public class CargarCostosView {
         mainPanel.getPanel().setBorder( BorderFactory.createEmptyBorder(20, 50, 20, 50 ) );
 
         this.frame.setPanel( mainPanel.panel );
-        this.frame.setTitle("Iniciar Sesion");
+        String menuTitle = "Mañana";
+        if(menuNumber == 2){
+            menuTitle = "Tarde";
+        }
+        this.frame.setTitle("Menu " + menuTitle + " " + "- Cargar Costo de Bandeja ");
         this.frame.getFrame().setResizable(false);
         this.frame.setVisible(true);
     }
@@ -126,7 +132,7 @@ public class CargarCostosView {
                 controller.ValidarDatos( frame );
 
                 // Enviar Datos al Sistema (Sucede en la clase controlador)
-                // controller.CargarDatos();
+                controller.cargarCosto( menuNumber );
                 // Cerrar vista de Login
                 frame.getFrame().dispose();
 
@@ -240,7 +246,7 @@ public class CargarCostosView {
         
     } 
     public static void main(String[] args) {
-        CargarCostosView test = new CargarCostosView();
+        CargarCostosView test = new CargarCostosView( 1 );
         test.ShowCargarCostosView();
     }
 }

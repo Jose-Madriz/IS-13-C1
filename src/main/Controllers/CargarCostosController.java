@@ -4,13 +4,17 @@ import java.util.Hashtable;
 
 import javax.swing.JOptionPane;
 
+import main.Models.ModeloMenuPrincipal.Menu;
 import main.Views.Layouts.Window;
 
 public class CargarCostosController {
     protected Hashtable<String, String> data; // viene de la vista
+    private Menu menus;
     // Aqui va una referencia a la clase Modelo
     public CargarCostosController( Hashtable<String, String> data ){
         this.data = data;
+        this.menus = new Menu();
+        menus.fetchMenus();
     }
     // TODO Validar Datos
     public void ValidarDatos( Window window ){
@@ -41,7 +45,7 @@ public class CargarCostosController {
             return;
         }
         
-        float costoTotal = CalcularCosto(CV, CF, NB, merma);
+        double costoTotal = CalcularCosto(CV, CF, NB, merma);
 
         if( costoTotal <= 0 ){
             JOptionPane.showMessageDialog(window.getFrame(), "El costo no puede ser 0\n Costo total: " + costoTotal, "Advertencia", JOptionPane.ERROR_MESSAGE);
@@ -51,16 +55,35 @@ public class CargarCostosController {
         JOptionPane.showMessageDialog(window.getFrame(), "El costo total es: " + costoTotal, "Advertencia", JOptionPane.INFORMATION_MESSAGE);
     }
     // TODO Cargar Costo 
-    // Esto se hace llamando a un metodo de la clase Modelo
-    private void CargarCosto(){
+    public  void cargarCosto( int menuNumber ){
 
+        float NB = Float.parseFloat( data.get("NB").strip() );
+        float CV = Float.parseFloat( data.get("CV").strip() );
+        float CF = Float.parseFloat( data.get("CF").strip() );
+        float merma = Float.parseFloat( data.get("merma").strip() );
+
+        double costoTotal = CalcularCosto(CV, CF, NB, merma);
+
+        if( menuNumber > 2  || menuNumber < 1){
+            System.err.println("El Numero de menu seleccionado no es valido");
+            return;
+        }
+        if( menuNumber == 1 && menus.menu1Exist() ){
+            
+            this.menus.menu1.precio = costoTotal;
+        }
+        if( menuNumber == 2 && menus.menu2Exist() ){
+
+            this.menus.menu2.precio = costoTotal;
+        }
+
+        menus.rewriteMenus();
     }
-
     // TODO Calcular Costo
-    public float CalcularCosto(float CV, float CF, float NB, float merma){
-        float costo;
+    public double CalcularCosto(float CV, float CF, float NB, float merma){
+        double costo;
 
-        costo = (float) Math.round(((CF + CV)/NB)*(1+merma));
+        costo = (double) Math.round(((CF + CV)/NB)*(1+merma));
 
         return costo;
     }   

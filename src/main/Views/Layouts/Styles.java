@@ -61,14 +61,15 @@ public class Styles {
     public static void stylizeTitle( JLabel label, int colorIndex, Size sizes){
         
     }
+    
     private void initializeColors(){
         this.palette = new LinkedHashMap<>();
 
         // Agregamos los colores usando los códigos hexadecimales como clave
-        palette.put("Color1", Color.decode("#7c5a69"));
-        palette.put("Color2", Color.decode("#b69d75"));
-        palette.put("Color3", Color.decode("#d3d3d2"));
+        palette.put("Color1", Color.decode("#772c4dff"));
+        palette.put("Color2", Color.decode("#db9c36ff"));
+        palette.put("Color3", Color.decode("#fdfdfdff"));
         palette.put("Color4", Color.decode("#1f2224"));
-        palette.put("Color5", Color.decode("#2c3d73"));
+        palette.put("Color5", Color.decode("#2a3b72ff"));
     }
 }

@@ -1,4 +1,4 @@
-package main.Views.MenuPrincipal;
+package main.Views.MenuUser;
 
 import java.awt.Color;
 import java.awt.Font;

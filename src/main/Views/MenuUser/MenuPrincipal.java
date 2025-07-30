@@ -1,4 +1,4 @@
-package main.Views.MenuPrincipal;
+package main.Views.MenuUser;
 
 import main.Views.Login.*;
 import main.Models.DatabaseManager;
@@ -197,21 +197,21 @@ public class MenuPrincipal extends JFrame {
             turno2.setText("<html>Horario: <p>" + menu1.horario + "<html> <p><p>" + "<html> Platillo:  <p>" + menu1.platillo + "<html> <p><p>" + "<html> Calorías: <p>" + menu1.calorias);
         }
 
-//Verificar NO Disponible Turno1
+        //Verificar NO Disponible Turno1
         if ((menu1.platillo).equals("No Disponible") && (menu1.turno).equals("Manana")) {
             turno1.setText("NO DISPONIBLE");
         } else if ((menu1.platillo).equals("No Disponible") && (menu1.turno).equals("Tarde")) {
             turno2.setText("NO DISPONIBLE");
         }
 
-//Comprobación Turno2
+        //Comprobación Turno2
         if ((menu2.turno).equals("Manana")) {
             turno1.setText("<html>Horario: <p>" + menu2.horario + "<html> <p><p>" + "<html> Platillo:  <p>" + menu2.platillo + "<html> <p><p>" + "<html> Calorías: <p>" + menu2.calorias);
         } else if ((menu2.turno).equals("Tarde")) {
             turno2.setText("<html>Horario: <p>" + menu2.horario + "<html> <p><p>" + "<html> Platillo:  <p>" + menu2.platillo + "<html> <p><p>" + "<html> Calorías: <p>" + menu2.calorias);
         }
 
-//Verificar NO Disponible Turno2
+        //Verificar NO Disponible Turno2
         if ((menu2.platillo).equals("No Disponible") && (menu2.turno).equals("Manana")) {
             turno1.setText("NO DISPONIBLE");
         } else if ((menu2.platillo).equals("No Disponible") && (menu2.turno).equals("Tarde")) {
