@@ -1,5 +1,12 @@
 package main.Controllers.Register;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import main.Models.DatabaseManager;
 import main.Models.MasterBaseManager;
@@ -16,17 +23,15 @@ public class RegisterController {
         this.masterBaseManager = MasterBaseManager.getInstance();
     }
 
-    public boolean validateRegistrationData(Window window,
-            String nombre, String nombre2,
-            String apellido, String apellido2,
-            String cedulaStr, String cargo,
-            String password, String confirmPassword) {
+    public boolean validateRegistrationData(Window window, String nombre, String nombre2,
+            String apellido, String apellido2, String cedulaStr, String cargo,
+            String password, String confirmPassword, File imageFile) {
 
         // Validar campos obligatorios
         if (nombre.isEmpty() || apellido.isEmpty() || cedulaStr.isEmpty()
-                || password.isEmpty() || confirmPassword.isEmpty()) {
+                || password.isEmpty() || confirmPassword.isEmpty() || imageFile == null) {
             JOptionPane.showMessageDialog(window.getFrame(),
-                    "Por favor complete todos los campos obligatorios (*)",
+                    "Por favor complete todos los campos obligatorios (*) y seleccione una imagen",
                     "Error en el registro", JOptionPane.WARNING_MESSAGE);
             return false;
         }
@@ -92,6 +97,15 @@ public class RegisterController {
             return false;
         }
 
+        // Validar formato de imagen
+        String fileExtension = getFileExtension(imageFile);
+        if (!fileExtension.equalsIgnoreCase("jpg") && !fileExtension.equalsIgnoreCase("png")) {
+            JOptionPane.showMessageDialog(window.getFrame(),
+                    "Solo se permiten imágenes en formato JPG o PNG",
+                    "Error en el registro", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
         return true;
     }
 
@@ -99,15 +113,34 @@ public class RegisterController {
         return dbManager.buscarPorCI(cedula) != null;
     }
 
-    public boolean registerUser(Window window,
-            String nombre, String nombre2,
-            String apellido, String apellido2,
-            String cedulaStr, String cargo,
-            String password) {
+    public boolean registerUser(Window window, String nombre, String nombre2,
+            String apellido, String apellido2, String cedulaStr, String cargo,
+            String password, File imageFile) {
 
         int cedula = Integer.parseInt(cedulaStr);
+        String imageHash = generateImageHash(imageFile);
+        if (imageHash == null) {
+            JOptionPane.showMessageDialog(window.getFrame(),
+                    "Error al procesar la imagen",
+                    "Error en el registro", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
 
-        // Crear nuevo usuario con rol "Common" y saldo inicial 0.0
+        // Guardar la imagen en la carpeta DataBaseImg
+        String fileExtension = getFileExtension(imageFile);
+        String imagePath = "DataBaseImg/" + cedula + "." + fileExtension;
+        try {
+            BufferedImage image = ImageIO.read(imageFile);
+            File outputFile = new File(imagePath);
+            ImageIO.write(image, fileExtension, outputFile);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(window.getFrame(),
+                    "Error al guardar la imagen: " + e.getMessage(),
+                    "Error en el registro", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        // Crear nuevo usuario con rol "Common", saldo inicial 0.0 y el hash de la imagen
         Usuario nuevoUsuario = new Usuario(
                 nombre,
                 nombre2,
@@ -117,9 +150,42 @@ public class RegisterController {
                 cargo,
                 password,
                 0.0,
-                "Common"
+                "Common",
+                imageHash
         );
 
         return dbManager.agregarUsuario(nuevoUsuario);
+    }
+
+    private String generateImageHash(File imageFile) {
+        try {
+            BufferedImage image = ImageIO.read(imageFile);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(image, getFileExtension(imageFile), outputStream);
+            byte[] imageBytes = outputStream.toByteArray();
+
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(imageBytes);
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hashBytes) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (IOException | NoSuchAlgorithmException e) {
+            return null;
+        }
+    }
+
+    private String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return "";
+        }
+        return name.substring(lastIndexOf + 1);
     }
 }

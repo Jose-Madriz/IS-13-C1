@@ -1,6 +1,8 @@
 package main.Views.Login;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 import main.Controllers.Login.LoginController;
 import main.Models.DatabaseManager;
@@ -129,7 +131,7 @@ public class LoginView {
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 registerTrigger.setForeground(new Color(0, 100, 200));
-                registerTrigger.setText("¿No tienes cuenta? Regístrate aquí");
+                registerTrigger.setText("¿No tienes cuenta? Regístrate");
             }
         });
 
@@ -172,20 +174,8 @@ public class LoginView {
         this.formPanel.getPanel().add(buttonsPanel, BorderLayout.SOUTH);
 
         // ActionListeners
-        loginTrigger.addActionListener(e -> {
-            String ci = CIField.getText().trim();
-            String password = new String(passwordField.getPassword()).trim();
-
-            if (!controller.validateData(frame, ci, password)) {
-                return;
-            }
-
-            if (controller.validateUser(frame, ci, password)) {
-                frame.getFrame().dispose();
-                // Aquí iría la apertura de la siguiente ventana
-            }
-        });
-
+        loginTrigger.addActionListener(e -> performLogin());
+        
         registerTrigger.addActionListener(e -> {
             frame.getFrame().setVisible(false);
             RegisterView registerView = new RegisterView(LoginView.this);
@@ -205,6 +195,20 @@ public class LoginView {
         });
     }
 
+    private void performLogin() {
+        String ci = CIField.getText().trim();
+        String password = new String(passwordField.getPassword()).trim();
+
+        if (!controller.validateData(frame, ci, password)) {
+            return;
+        }
+
+        if (controller.validateUser(frame, ci, password)) {
+            frame.getFrame().dispose();
+            // Aquí iría la apertura de la siguiente ventana (por ejemplo, MenuPrincipal)
+        }
+    }
+
     private void initFields() {
         JPanel fieldsContainer = new JPanel();
         fieldsContainer.setLayout(new BoxLayout(fieldsContainer, BoxLayout.Y_AXIS));
@@ -221,6 +225,16 @@ public class LoginView {
         CIField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         CIField.setFont(new Font("Arial", Font.PLAIN, 12));
 
+        // Añadir KeyListener para la tecla Enter en CIField
+        CIField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    performLogin();
+                }
+            }
+        });
+
         ciPanel.add(ciLabel, BorderLayout.NORTH);
         ciPanel.add(CIField, BorderLayout.CENTER);
 
@@ -234,6 +248,16 @@ public class LoginView {
         passwordField = new JPasswordField(20);
         passwordField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         passwordField.setFont(new Font("Arial", Font.PLAIN, 12));
+
+        // Añadir KeyListener para la tecla Enter en passwordField
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    performLogin();
+                }
+            }
+        });
 
         // Botón para mostrar contraseña
         showPassButton = new JToggleButton("Mostrar");

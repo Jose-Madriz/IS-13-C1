@@ -1,11 +1,16 @@
 package main.Models;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class DatabaseManager {
+
     private static final String DB_PATH = "DataBase.json";
     private List<Usuario> usuarios;
     private static DatabaseManager instance;
@@ -54,15 +59,15 @@ public class DatabaseManager {
                     "Error de registro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
+
         usuarios.add(nuevoUsuario);
         boolean guardadoExitoso = guardarUsuarios();
-        
+
         if (!guardadoExitoso) {
             usuarios.remove(nuevoUsuario); // Revertir si falla el guardado
             return false;
         }
-        
+
         return true;
     }
 
@@ -83,6 +88,119 @@ public class DatabaseManager {
         return false;
     }
 
+    public boolean updateUserImage(int cedula, File imageFile) {
+        Usuario usuario = buscarPorCI(cedula);
+        if (usuario == null) {
+            return false;
+        }
+
+        // Validar formato de imagen
+        String fileExtension = getFileExtension(imageFile);
+        if (!fileExtension.equalsIgnoreCase("jpg") && !fileExtension.equalsIgnoreCase("png")) {
+            JOptionPane.showMessageDialog(null,
+                    "Solo se permiten imágenes en formato JPG o PNG",
+                    "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        // Generar hash de la imagen
+        String imageHash = generateImageHash(imageFile);
+        if (imageHash == null) {
+            JOptionPane.showMessageDialog(null,
+                    "Error al procesar la imagen",
+                    "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        // Crear carpeta si no existe
+        File dir = new File("DataBaseImg");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        // Eliminar cualquier imagen existente con la misma cédula
+        File[] existingImages = dir.listFiles((d, name)
+                -> name.startsWith(cedula + ".")
+                && (name.endsWith(".jpg") || name.endsWith(".png"))
+        );
+        if (existingImages != null) {
+            for (File existingImage : existingImages) {
+                try {
+                    existingImage.delete();
+                } catch (SecurityException e) {
+                    JOptionPane.showMessageDialog(null,
+                            "Error al eliminar la imagen existente: " + e.getMessage(),
+                            "Error", JOptionPane.WARNING_MESSAGE);
+                    return false;
+                }
+            }
+        }
+
+        // Guardar la nueva imagen
+        String imagePath = "DataBaseImg/" + cedula + "." + fileExtension;
+        try {
+            BufferedImage image = ImageIO.read(imageFile);
+            File outputFile = new File(imagePath);
+            ImageIO.write(image, fileExtension, outputFile);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Error al guardar la imagen: " + e.getMessage(),
+                    "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        // Actualizar el hash en el usuario
+        usuario.setImageHash(imageHash);
+        return actualizarUsuario(usuario);
+    }
+
+    public boolean verifyImageHash(int cedula, File imageFile) {
+        Usuario usuario = buscarPorCI(cedula);
+        if (usuario == null || usuario.getImageHash() == null || usuario.getImageHash().isEmpty()) {
+            // Permitir cambio si no hay hash registrado (retrocompatibilidad)
+            return true;
+        }
+
+        String uploadedImageHash = generateImageHash(imageFile);
+        if (uploadedImageHash == null) {
+            return false;
+        }
+
+        return uploadedImageHash.equals(usuario.getImageHash());
+    }
+
+    private String generateImageHash(File imageFile) {
+        try {
+            BufferedImage image = ImageIO.read(imageFile);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(image, getFileExtension(imageFile), outputStream);
+            byte[] imageBytes = outputStream.toByteArray();
+
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(imageBytes);
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hashBytes) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (IOException | NoSuchAlgorithmException e) {
+            return null;
+        }
+    }
+
+    private String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return "";
+        }
+        return name.substring(lastIndexOf + 1);
+    }
+
     public synchronized boolean guardarUsuarios() {
         try (FileWriter writer = new FileWriter(DB_PATH)) {
             writer.write("[\n");
@@ -97,7 +215,9 @@ public class DatabaseManager {
                 writer.write(String.format("    \"cargo\": \"%s\",\n", escapeJson(u.getCargo())));
                 writer.write(String.format("    \"pass\": \"%s\",\n", escapeJson(u.getPass())));
                 writer.write(String.format("    \"saldo\": %.2f,\n", u.getSaldo()));
-                writer.write(String.format("    \"user\": \"%s\"\n", escapeJson(u.getUser())));
+                writer.write(String.format("    \"user\": \"%s\",\n", escapeJson(u.getUser())));
+                // No escapar imageHash, ya que es una cadena hexadecimal
+                writer.write(String.format("    \"imageHash\": \"%s\"\n", u.getImageHash() != null ? u.getImageHash() : ""));
                 writer.write(i < usuarios.size() - 1 ? "  },\n" : "  }\n");
             }
             writer.write("]");
@@ -111,7 +231,7 @@ public class DatabaseManager {
     private synchronized void cargarUsuarios() {
         usuarios.clear();
         File dbFile = new File(DB_PATH);
-        
+
         if (!dbFile.exists()) {
             System.err.println("Archivo DataBase.json no encontrado, inicializando lista vacía");
             return;
@@ -126,14 +246,14 @@ public class DatabaseManager {
             }
 
             String jsonString = jsonContent.toString();
-            
+
             if (jsonString.isEmpty() || !jsonString.startsWith("[") || !jsonString.endsWith("]")) {
                 System.err.println("DataBase.json está vacío o malformado");
                 return;
             }
 
             jsonString = jsonString.substring(1, jsonString.length() - 1).trim();
-            
+
             if (jsonString.isEmpty()) {
                 System.err.println("DataBase.json no contiene usuarios");
                 return;
@@ -143,7 +263,7 @@ public class DatabaseManager {
 
             for (String userObj : userObjects) {
                 userObj = userObj.trim();
-                
+
                 if (userObj.startsWith("{")) {
                     userObj = userObj.substring(1);
                 }
@@ -157,10 +277,15 @@ public class DatabaseManager {
                 for (String field : fields) {
                     field = field.trim();
                     String[] parts = field.split(":", 2);
-                    if (parts.length != 2) continue;
+                    if (parts.length != 2) {
+                        continue;
+                    }
 
                     String key = parts[0].trim().replace("\"", "");
-                    String value = parts[1].trim().replace("\"", "");
+                    String value = parts[1].trim();
+                    if (value.startsWith("\"") && value.endsWith("\"")) {
+                        value = value.substring(1, value.length() - 1);
+                    }
 
                     switch (key.toLowerCase()) {
                         case "nombre":
@@ -198,6 +323,9 @@ public class DatabaseManager {
                         case "user":
                             usuario.setUser(value);
                             break;
+                        case "imageHash":
+                            usuario.setImageHash(value.isEmpty() ? null : value);
+                            break;
                     }
                 }
 
@@ -215,13 +343,14 @@ public class DatabaseManager {
         if (input == null) {
             return "";
         }
+        // Escapar solo los caracteres necesarios para JSON
         return input.replace("\\", "\\\\")
-                   .replace("\"", "\\\"")
-                   .replace("\b", "\\b")
-                   .replace("\f", "\\f")
-                   .replace("\n", "\\n")
-                   .replace("\r", "\\r")
-                   .replace("\t", "\\t");
+                .replace("\"", "\\\"")
+                .replace("\b", "\\b")
+                .replace("\f", "\\f")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
     }
 
     private void mostrarError(String mensaje) {
