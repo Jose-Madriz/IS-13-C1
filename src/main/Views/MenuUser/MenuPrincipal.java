@@ -5,8 +5,9 @@ import main.Models.DatabaseManager;
 import main.Models.ModeloMenuPrincipal.Menu;
 import main.Controllers.MenuUsuarioController;
 import main.Controllers.Login.*;
+import main.Models.Usuario;
 import main.Views.Change.ChangePassView;
-import main.Views.Change.ChangeProfileImageView; // Nueva importación
+import main.Views.Change.ChangeProfileImageView;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -29,9 +30,9 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JFileChooser;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import java.util.Random;
 
 public class MenuPrincipal extends JFrame {
 
@@ -39,7 +40,7 @@ public class MenuPrincipal extends JFrame {
     JPanel panel = new JPanel();
     double saldo_auxiliar;
     int cedulaSaldo;
-    JLabel profileImageLabel; // JLabel para la imagen de perfil
+    JLabel profileImageLabel;
 
     // Colores a emplear
     Color Fondo = new Color(217, 217, 217);
@@ -65,6 +66,8 @@ public class MenuPrincipal extends JFrame {
     // Botones
     JButton boton = new JButton("Cerrar Sesión");
     JButton boton2 = new JButton("Recargar saldo");
+    JButton comprarMananaButton = new JButton("Comprar Comida");
+    JButton comprarTardeButton = new JButton("Comprar Comida");
 
     // Controladores
     ActionListener botonAction = new ActionListener() {
@@ -82,18 +85,9 @@ public class MenuPrincipal extends JFrame {
     ActionListener botonRecarga = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            RecargarMenuUsuario recargaMenu = new RecargarMenuUsuario();
+            RecargarMenuUsuario recargaMenu = new RecargarMenuUsuario(MenuPrincipal.this);
             recargaMenu.setVisible(true);
             recargaMenu.initComponents(saldo, cedulaSaldo);
-        }
-    };
-
-    ActionListener botonPerfil = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            setVisible(false);
-            ChangePassView changePasswordView = new ChangePassView(MenuPrincipal.this);
-            changePasswordView.showChangePasswordView();
         }
     };
 
@@ -109,7 +103,7 @@ public class MenuPrincipal extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         profileImageLabel = new JLabel();
-        initProfileImageMenu(); // Inicializar el menú emergente
+        initProfileImageMenu();
     }
 
     private void initProfileImageMenu() {
@@ -129,7 +123,7 @@ public class MenuPrincipal extends JFrame {
             changeImageView.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent e) {
-                    loadProfileImage(cedulaSaldo); // Recargar la imagen al cerrar
+                    loadProfileImage(cedulaSaldo);
                 }
             });
         });
@@ -138,8 +132,8 @@ public class MenuPrincipal extends JFrame {
         popupMenu.add(changeImageItem);
 
         profileImageLabel.addMouseListener(new MouseAdapter() {
-            @Override // Fix: Added @Override annotation
-            public void mousePressed(MouseEvent e) { // Changed mouseClicked to mousePressed
+            @Override
+            public void mousePressed(MouseEvent e) {
                 if (SwingUtilities.isLeftMouseButton(e)) {
                     popupMenu.show(profileImageLabel, e.getX(), e.getY());
                 }
@@ -170,7 +164,7 @@ public class MenuPrincipal extends JFrame {
         panel.add(titulo1);
 
         // Saldo
-        saldo.setText("Saldo: " + __s);
+        saldo.setText(String.format("Saldo: %.2f", __s));
         saldo.setOpaque(true);
         saldo.setBounds(55, 155, 180, 50);
         saldo.setForeground(Color.BLACK);
@@ -229,8 +223,6 @@ public class MenuPrincipal extends JFrame {
         panel.add(recuadro);
 
         // --- Lógica de visualización de menús refactorizada ---
-
-        // 1. Identificar qué menú es de la mañana y cuál de la tarde
         Menu menuManana = null;
         Menu menuTarde = null;
 
@@ -243,51 +235,47 @@ public class MenuPrincipal extends JFrame {
         }
 
         if (menuDataSource.menu2 != null) {
-            if ("Manana".equalsIgnoreCase(menuDataSource.menu2.turno)) {
+            if ("Mañana".equalsIgnoreCase(menuDataSource.menu2.turno)) {
                 menuManana = menuDataSource.menu2;
             } else if ("Tarde".equalsIgnoreCase(menuDataSource.menu2.turno)) {
                 menuTarde = menuDataSource.menu2;
             }
         }
 
-        // 2. Poblar las etiquetas con la información correcta y el formato adecuado
         String menuMananaTexto = "NO DISPONIBLE";
         if (menuManana != null && !"No Disponible".equalsIgnoreCase(menuManana.platillo)) {
             menuMananaTexto = String.format(
-                "<html><div style='text-align: center; padding: 5px;'>" +
-                "<b>Horario:</b><br>%s<br><br>" +
-                "<b>Platillo:</b><br>%s<br><br>" +
-                "<b>Calorías:</b><br>%.1f<br><br>" +
-                "<b>Precio:</b><br>%.2f Bs." +
-                "</div></html>",
-
-                menuManana.horario, menuManana.platillo, menuManana.calorias, menuManana.precio);
+                    "<html><div style='text-align: center; padding: 5px;'>"
+                    + "<b>Horario:</b><br>%s<br><br>"
+                    + "<b>Platillo:</b><br>%s<br><br>"
+                    + "<b>Calorías:</b><br>%.1f<br><br>"
+                    + "<b>Precio:</b><br>%.2f Bs."
+                    + "</div></html>",
+                    menuManana.horario, menuManana.platillo, menuManana.calorias, menuManana.precio);
         }
 
         String menuTardeTexto = "NO DISPONIBLE";
         if (menuTarde != null && !"No Disponible".equalsIgnoreCase(menuTarde.platillo)) {
             menuTardeTexto = String.format(
-                "<html><div style='text-align: center; padding: 5px;'>" +
-                "<b>Horario:</b><br>%s<br><br>" +
-                "<b>Platillo:</b><br>%s<br><br>" +
-                "<b>Calorías:</b><br>%.1f<br><br>" +
-                "<b>Precio:</b><br>%.2f Bs." +
-                "</div></html>",
-
-                menuTarde.horario, menuTarde.platillo, menuTarde.calorias, menuTarde.precio);
+                    "<html><div style='text-align: center; padding: 5px;'>"
+                    + "<b>Horario:</b><br>%s<br><br>"
+                    + "<b>Platillo:</b><br>%s<br><br>"
+                    + "<b>Calorías:</b><br>%.1f<br><br>"
+                    + "<b>Precio:</b><br>%.2f Bs."
+                    + "</div></html>",
+                    menuTarde.horario, menuTarde.platillo, menuTarde.calorias, menuTarde.precio);
         }
 
         turno1.setText(menuMananaTexto);
         turno2.setText(menuTardeTexto);
 
         // Imagen de perfil
-        profileImageLabel.setBounds(37, 30, 100, 100); // Misma posición que el botón "Perfil"
+        profileImageLabel.setBounds(37, 30, 100, 100);
         Border bordeImage = BorderFactory.createLineBorder(Boton, 2);
         profileImageLabel.setBorder(bordeImage);
         profileImageLabel.setOpaque(true);
         profileImageLabel.setBackground(Color.white);
         panel.add(profileImageLabel);
-
 
         boton.addActionListener(botonAction);
         boton2.addActionListener(botonRecarga);
@@ -305,6 +293,106 @@ public class MenuPrincipal extends JFrame {
         boton2.setForeground(Color.white);
         boton2.setBackground(Boton);
         panel.add(boton2);
+
+        comprarMananaButton.setBounds(233, 610, 220, 50);
+        comprarMananaButton.setFont(new Font("Arial", Font.BOLD, 20));
+        comprarMananaButton.setForeground(Color.white);
+        comprarMananaButton.setBackground(Boton);
+        panel.add(comprarMananaButton);
+
+        comprarTardeButton.setBounds(610, 610, 220, 50);
+        comprarTardeButton.setFont(new Font("Arial", Font.BOLD, 20));
+        comprarTardeButton.setForeground(Color.white);
+        comprarTardeButton.setBackground(Boton);
+        panel.add(comprarTardeButton);
+
+        // Acción para el botón de comprar comida (Mañana)
+        comprarMananaButton.addActionListener(e -> handleCompra("Mañana", menuDataSource.menu1 != null && "Mañana".equalsIgnoreCase(menuDataSource.menu1.turno) ? 1 : 2));
+
+        // Acción para el botón de comprar comida (Tarde)
+        comprarTardeButton.addActionListener(e -> handleCompra("Tarde", menuDataSource.menu2 != null && "Tarde".equalsIgnoreCase(menuDataSource.menu2.turno) ? 2 : 1));
+    }
+
+    private void handleCompra(String turno, int menuNumber) {
+    // Verificar si el menú está disponible
+    Menu menu = menuNumber == 1 ? menuDataSource.menu1 : menuDataSource.menu2;
+    if (menu == null || "No Disponible".equalsIgnoreCase(menu.platillo)) {
+        JOptionPane.showMessageDialog(this, "El menú de " + turno + " no está disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Obtener el precio base desde el menú
+    double precioBase = menu.precio;
+    if (precioBase <= 0) {
+        JOptionPane.showMessageDialog(this, "Error: El precio del menú no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Obtener el cargo del usuario y calcular el precio ajustado
+    DatabaseManager dbManager = DatabaseManager.getInstance();
+    Usuario usuario = dbManager.buscarPorCI(cedulaSaldo);
+    if (usuario == null) {
+        JOptionPane.showMessageDialog(this, "Error: No se encontró el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    String cargo = usuario.getCargo();
+    double precioAjustado = calcularPrecioAjustado(precioBase, cargo);
+
+    // Obtener el saldo actual desde DatabaseManager
+    double saldoActual = usuario.getSaldo();
+
+    // Verificar si el saldo es suficiente
+    double saldoDespues = saldoActual - precioAjustado;
+    if (saldoDespues < 0) {
+        JOptionPane.showMessageDialog(this, "Saldo insuficiente para comprar el menú de " + turno + ".", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Mostrar diálogo de confirmación
+    String mensaje = String.format(
+        "¿Quieres el menú de %s?\n\n" +
+        "Saldo Actual: %.2f\n" +
+        "Precio del menú: %.2f\n" +
+        "------------------------------\n" +
+        "Saldo luego de la compra: %.2f",
+        turno, saldoActual, precioAjustado, saldoDespues);
+
+    int confirm = JOptionPane.showConfirmDialog(
+        this, mensaje, "Confirmar Compra", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+    if (confirm == JOptionPane.OK_OPTION) {
+        // Actualizar saldo en DatabaseManager
+        usuario.setSaldo(saldoDespues);
+        boolean updated = dbManager.actualizarUsuario(usuario);
+        if (updated) {
+            saldo_auxiliar = saldoDespues; // Actualizar saldo_auxiliar
+            saldo.setText(String.format("Saldo: %.2f", saldoDespues));
+            panel.revalidate();
+            panel.repaint();
+            JOptionPane.showMessageDialog(this, "Compra realizada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el saldo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
+
+    private double calcularPrecioAjustado(double precioBase, String cargo) {
+        Random random = new Random();
+        double porcentaje;
+        switch (cargo != null ? cargo.toLowerCase() : "") {
+            case "estudiante":
+                porcentaje = 0.20 + (random.nextDouble() * (0.30 - 0.20)); // 20-30%
+                break;
+            case "profesor":
+                porcentaje = 0.70 + (random.nextDouble() * (0.90 - 0.70)); // 70-90%
+                break;
+            case "trabajador":
+                porcentaje = 0.90 + (random.nextDouble() * (1.10 - 0.90)); // 90-110%
+                break;
+            default:
+                porcentaje = 1.0; // Precio base si el cargo no es reconocido
+        }
+        return Math.round(precioBase * porcentaje * 100.0) / 100.0; // Redondear a 2 decimales
     }
 
     private void loadProfileImage(int cedula) {

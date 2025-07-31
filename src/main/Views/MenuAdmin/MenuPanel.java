@@ -1,72 +1,65 @@
 package main.Views.MenuAdmin;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.LayoutManager;
-import java.util.Hashtable;
-
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import main.Controllers.MenuAdminController;
+import main.Models.DatabaseManager;
 import main.Models.ModeloMenuPrincipal.Menu;
-import main.Views.VerificarUsuario.VerificarUsuarioView;
 import main.Views.CargarCostos.CargarCostosView;
 import main.Views.Layouts.*;
 
-
-public class MenuPanel{
-        
+public class MenuPanel {
     private JButton editButton;
     private JButton cargarCostoButton;
     private JButton deleteButton;
-    private JButton verificarUsuarioButton;
-    private Panel turnoPanel;
-    private JLabel  turno;
+    private main.Views.Layouts.Panel turnoPanel;
+    private JLabel turno;
     private String turnoValue;
     private JTextField turnoTxtField;
-    private Panel platilloPanel;
-    private JLabel  platillo;
+    private main.Views.Layouts.Panel platilloPanel;
+    private JLabel platillo;
     private JTextField platilloTxtField;
-    private String  platilloValue;
-    private Panel horarioPanel;
-    private JLabel  horario;
+    private String platilloValue;
+    private main.Views.Layouts.Panel horarioPanel;
+    private JLabel horario;
     private JTextField horarioTxtField;
     private String horarioValue;
-    private Panel caloriasPanel;
-    private JLabel  calorias;
+    private main.Views.Layouts.Panel caloriasPanel;
+    private JLabel calorias;
     private JTextField caloriasTxtField;
     private String caloriasValue;
-    private Panel precioPanel;
-    private JLabel  precio;
+    private main.Views.Layouts.Panel precioPanel;
+    private JLabel precio;
     private String precioValue;
     private JLabel precioValueLabel;
     private Menu menu;
-    private Panel container;
+    private main.Views.Layouts.Panel container;
     private int menuNumber;
     private MenuAdminController controller;
+    private DatabaseManager dbManager;
 
-    public MenuPanel( int menuNumber, Panel father, MenuAdminController controller){
-
-        this.menu = controller.getMenu(menuNumber);
+    public MenuPanel(int menuNumber, main.Views.Layouts.Panel father, MenuAdminController controller) {
         this.controller = controller;
+        this.menuNumber = menuNumber;
+        this.dbManager = DatabaseManager.getInstance();
 
+        // Inicialización de componentes
         this.editButton = new JButton("Editar");
         this.deleteButton = new JButton("Eliminar");
         this.cargarCostoButton = new JButton("Cargar Costo");
-        this.verificarUsuarioButton = new JButton("Verificar Usuario");
         this.turno = new JLabel("Turno: ");
         this.platillo = new JLabel("Platillo: ");
         this.horario = new JLabel("Horario: ");
-        this.calorias = new JLabel("Calorias: ");
+        this.calorias = new JLabel("Calorías: ");
         this.precio = new JLabel("Precio: ");
-        this.menuNumber = menuNumber;
-        
-        this.container = new Panel( 40.0f, 70.0f, father.getSize() );
-        container.setLayout(new BorderLayout(0, 5));
+
+        this.container = new main.Views.Layouts.Panel(40.0f, 80.0f, father.getSize());
+        container.setLayout(new BorderLayout(10, 10));
 
         this.initButton();
         this.initFields();
@@ -74,98 +67,87 @@ public class MenuPanel{
         this.setNormalMode();
     }
 
-    public void getData(){
-        // Convierte los datos del objeto menu a String para poder mostrarlos
+    public void getData() {
         this.menu = controller.getMenu(this.menuNumber);
-
-        this.caloriasValue = String.valueOf(this.menu.calorias);
-        this.horarioValue = this.menu.horario;
-        this.precioValue = String.valueOf(this.menu.precio);
-        this.platilloValue = this.menu.platillo;
-        this.turnoValue = this.menu.turno;
+        if (this.menu == null) {
+            // Valores por defecto si el menú es null
+            this.caloriasValue = "0.0";
+            this.horarioValue = "-";
+            this.precioValue = "0.0";
+            this.platilloValue = "No disponible";
+            this.turnoValue = "-";
+        } else {
+            this.caloriasValue = String.valueOf(this.menu.calorias);
+            this.horarioValue = this.menu.horario != null ? this.menu.horario : "-";
+            this.precioValue = String.valueOf(this.menu.precio);
+            this.platilloValue = this.menu.platillo != null ? this.menu.platillo : "No disponible";
+            this.turnoValue = this.menu.turno != null ? this.menu.turno : "-";
+        }
     }
 
-    private void initFields(){
-
+    private void initFields() {
         JPanel fieldsGridPanel = new JPanel();
         fieldsGridPanel.setOpaque(false);
+        fieldsGridPanel.setLayout(new GridLayout(5, 1, 0, 20)); // Espaciado vertical aumentado
 
-        LayoutManager fieldsLayout = new GridLayout( 
-            5, // 5 filas
-            1, // 1 columna
-            0, // Espaciado horizontal
-            10 // Espaciado vertical
-        );
+        // Inicializar paneles para cada campo
+        this.turnoPanel = new main.Views.Layouts.Panel(100.0f, 20.0f, this.container.getSize());
+        this.caloriasPanel = new main.Views.Layouts.Panel(100.0f, 20.0f, this.container.getSize());
+        this.horarioPanel = new main.Views.Layouts.Panel(100.0f, 20.0f, this.container.getSize());
+        this.precioPanel = new main.Views.Layouts.Panel(100.0f, 20.0f, this.container.getSize());
+        this.platilloPanel = new main.Views.Layouts.Panel(100.0f, 20.0f, this.container.getSize());
 
-        // agregamos el layout al panel general de campos
-        fieldsGridPanel.setLayout( fieldsLayout );
-        // inicializamos paneles para cada campo
-        this.turnoPanel = new Panel ( 10.0f, 10.0f, this.container.getSize() );
-        this.caloriasPanel = new Panel ( 10.0f, 10.0f, this.container.getSize() );
-        this.horarioPanel = new Panel ( 10.0f, 10.0f, this.container.getSize() );
-        this.precioPanel = new Panel ( 10.0f, 10.0f, this.container.getSize() );
-        this.platilloPanel = new Panel ( 10.0f, 10.0f, this.container.getSize() );
+        Color panelColor = new Color(245, 245, 245); // Gris claro
+        this.turnoPanel.getPanel().setBackground(panelColor);
+        this.caloriasPanel.getPanel().setBackground(panelColor);
+        this.horarioPanel.getPanel().setBackground(panelColor);
+        this.precioPanel.getPanel().setBackground(panelColor);
+        this.platilloPanel.getPanel().setBackground(panelColor);
 
-        this.turnoPanel.getPanel().setBackground( Color.yellow );
-        this.caloriasPanel.getPanel().setBackground( Color.yellow );
-        this.horarioPanel.getPanel().setBackground( Color.yellow );
-        this.precioPanel.getPanel().setBackground( Color.yellow );
-        this.platilloPanel.getPanel().setBackground( Color.yellow );
-        
-        // inicializamos tamaños 
-        Size labelSize = new Size( 100.0f, 20.0f, turnoPanel.getSize() );
-        Size fieldsSize = new Size( 100.0f, 80.0f, turnoPanel.getSize() );
+        Size labelSize = new Size(120.0f, 30.0f, turnoPanel.getSize());
+        Size fieldsSize = new Size(250.0f, 35.0f, turnoPanel.getSize());
 
         this.turnoTxtField = new JTextField(20);
         this.platilloTxtField = new JTextField(20);
         this.horarioTxtField = new JTextField(20);
         this.caloriasTxtField = new JTextField(20);
         this.precioValueLabel = new JLabel();
-        
 
+        Styles.stylizeField(this.horarioTxtField, 2, fieldsSize);
+        Styles.stylizeField(this.platilloTxtField, 2, fieldsSize);
+        Styles.stylizeField(this.turnoTxtField, 2, fieldsSize);
+        Styles.stylizeField(this.caloriasTxtField, 2, fieldsSize);
+        Styles.stylizeLabel(this.precioValueLabel, 2, fieldsSize);
 
-        // agregando estilos a los Campos
-        Styles.stylizeField( this.horarioTxtField, 0, fieldsSize );
-        Styles.stylizeField( this.platilloTxtField, 0, fieldsSize );
-        Styles.stylizeField( this.turnoTxtField, 0, fieldsSize );
-        Styles.stylizeField( this.caloriasTxtField, 0, fieldsSize );
-        Styles.stylizeLabel( this.precioValueLabel, 0, fieldsSize);
-        
-        
-        // agregando estilos a los Labels de cada campo
-        Styles.stylizeLabel( this.turno, 0, labelSize );
-        Styles.stylizeLabel( this.horario, 0, labelSize );
-        Styles.stylizeLabel( this.precio, 0, labelSize );
-        Styles.stylizeLabel( this.platillo, 0, labelSize );
-        Styles.stylizeLabel( this.calorias, 0, labelSize );
-        
+        Styles.stylizeLabel(this.turno, 0, labelSize);
+        Styles.stylizeLabel(this.horario, 0, labelSize);
+        Styles.stylizeLabel(this.precio, 0, labelSize);
+        Styles.stylizeLabel(this.platillo, 0, labelSize);
+        Styles.stylizeLabel(this.calorias, 0, labelSize);
 
-        // agregamos los elementos a los paneles correspondientes de cada campo y label
-        LayoutManager inputLayout = new GridLayout(2, 1);
+        // Usar BorderLayout para mejor control
+        turnoPanel.setLayout(new BorderLayout(10, 10));
+        caloriasPanel.setLayout(new BorderLayout(10, 10));
+        horarioPanel.setLayout(new BorderLayout(10, 10));
+        precioPanel.setLayout(new BorderLayout(10, 10));
+        platilloPanel.setLayout(new BorderLayout(10, 10));
 
-        turnoPanel.setLayout(inputLayout);
-        caloriasPanel.setLayout(inputLayout);
-        horarioPanel.setLayout(inputLayout);
-        precioPanel.setLayout(inputLayout);
-        platilloPanel.setLayout(inputLayout);
+        turnoPanel.getPanel().add(turno, BorderLayout.WEST);
+        turnoPanel.getPanel().add(turnoTxtField, BorderLayout.CENTER);
+        horarioPanel.getPanel().add(horario, BorderLayout.WEST);
+        horarioPanel.getPanel().add(horarioTxtField, BorderLayout.CENTER);
+        platilloPanel.getPanel().add(platillo, BorderLayout.WEST);
+        platilloPanel.getPanel().add(platilloTxtField, BorderLayout.CENTER);
 
-        turnoPanel.getPanel().add(turno);
-        turnoPanel.getPanel().add(turnoTxtField);
-        horarioPanel.getPanel().add(horario);
-        horarioPanel.getPanel().add(horarioTxtField);
-        platilloPanel.getPanel().add(platillo);
-        platilloPanel.getPanel().add(platilloTxtField);
-
-        // Panel especial para la línea de precio para incluir el botón
         JPanel priceLinePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        priceLinePanel.setOpaque(false); // Para que herede el color de fondo amarillo
+        priceLinePanel.setOpaque(false);
         priceLinePanel.add(precioValueLabel);
         priceLinePanel.add(cargarCostoButton);
 
-        precioPanel.getPanel().add(precio);
-        precioPanel.getPanel().add(priceLinePanel);
-        caloriasPanel.getPanel().add(calorias);
-        caloriasPanel.getPanel().add(caloriasTxtField);
+        precioPanel.getPanel().add(precio, BorderLayout.WEST);
+        precioPanel.getPanel().add(priceLinePanel, BorderLayout.CENTER);
+        caloriasPanel.getPanel().add(calorias, BorderLayout.WEST);
+        caloriasPanel.getPanel().add(caloriasTxtField, BorderLayout.CENTER);
 
         fieldsGridPanel.add(turnoPanel.getPanel());
         fieldsGridPanel.add(horarioPanel.getPanel());
@@ -175,54 +157,42 @@ public class MenuPanel{
 
         this.container.getPanel().add(fieldsGridPanel, BorderLayout.CENTER);
     }
-    
-    private void initButton(){
 
-        JPanel buttonContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+    private void initButton() {
+        JPanel buttonContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         buttonContainer.setOpaque(false);
+
+        Styles.stylizeButton(editButton, 2, new Size(30.0f, 30.0f, container.getSize()));
+        Styles.stylizeButton(deleteButton, 2, new Size(30.0f, 30.0f, container.getSize()));
+        Styles.stylizeButton(cargarCostoButton, 2, new Size(30.0f, 30.0f, container.getSize()));
 
         buttonContainer.add(editButton);
         buttonContainer.add(deleteButton);
 
         this.container.getPanel().add(buttonContainer, BorderLayout.NORTH);
 
-        // Panel para el botón inferior
-        JPanel bottomButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 5));
-        bottomButtonPanel.setOpaque(false);
-        bottomButtonPanel.add(verificarUsuarioButton);
-        this.container.getPanel().add(bottomButtonPanel, BorderLayout.SOUTH);
-
-        verificarUsuarioButton.addActionListener(e -> {
-            // Abre la vista para verificar al usuario
-            new VerificarUsuarioView( this.menu);
-        });
-
         cargarCostoButton.addActionListener(e -> {
-            // Idealmente, la CargarCostosView debería recibir el número de menú
-            // para saber a cuál menú aplicar el costo.
             CargarCostosView costView = new CargarCostosView(this.menuNumber);
-            
-            // Añadimos un listener a la ventana de CargarCostos para saber cuándo se cierra.
             costView.getWindow().getFrame().addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent we) {
-                    // 1. Le decimos al controlador que recargue los datos del archivo JSON.
                     controller.refreshMenus();
-                    // 2. Ahora, actualizamos la vista con los datos frescos.
-                    SwingUtilities.invokeLater(() -> updateLabelsView());
+                    SwingUtilities.invokeLater(() -> {
+                        updateLabelsView();
+                        container.getPanel().revalidate();
+                        container.getPanel().repaint();
+                        JOptionPane.showMessageDialog(container.getPanel(), "Costo actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    });
                 }
             });
-            System.out.println("Abriendo Cargar Costos para el menú: " + this.menuNumber);
         });
     }
 
-    private void editMode(){
+    private void editMode() {
         enableEditing();
-
         editButton.setText("Guardar Cambios");
         deleteButton.setText("Cancelar");
 
-        // Limpia los listeners anteriores para evitar eventos duplicados
         for (ActionListener al : editButton.getActionListeners()) {
             editButton.removeActionListener(al);
         }
@@ -230,12 +200,11 @@ public class MenuPanel{
             deleteButton.removeActionListener(al);
         }
 
-        // Asigna los nuevos listeners para el modo de edición
         editButton.addActionListener(e -> saveChanges());
         deleteButton.addActionListener(e -> cancelChanges());
     }
 
-    private void disableEditing(){
+    private void disableEditing() {
         turnoTxtField.setEnabled(false);
         turnoTxtField.setBackground(Color.WHITE);
         platilloTxtField.setEnabled(false);
@@ -246,9 +215,8 @@ public class MenuPanel{
         caloriasTxtField.setBackground(Color.WHITE);
     }
 
-    private void enableEditing(){
+    private void enableEditing() {
         Color editableColor = UIManager.getColor("TextField.background");
-
         turnoTxtField.setEnabled(true);
         turnoTxtField.setBackground(editableColor);
         platilloTxtField.setEnabled(true);
@@ -259,24 +227,20 @@ public class MenuPanel{
         caloriasTxtField.setBackground(editableColor);
     }
 
-    private void saveChanges(){
-        // 1. Obtener y limpiar los datos de los campos de texto
+    private void saveChanges() {
         String platilloStr = platilloTxtField.getText().trim();
         String turnoStr = turnoTxtField.getText().trim();
         String horarioStr = horarioTxtField.getText().trim();
         String caloriasStr = caloriasTxtField.getText().trim();
 
-        // 2. Validar que ningún campo esté vacío
         if (platilloStr.isEmpty() || turnoStr.isEmpty() || horarioStr.isEmpty() || caloriasStr.isEmpty()) {
             JOptionPane.showMessageDialog(container.getPanel(), "Todos los campos (excepto precio) son obligatorios.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // 3. Validar que calorías sea un número válido y no negativo
         double caloriasDouble;
         try {
             caloriasDouble = Double.parseDouble(caloriasStr);
-
             if (caloriasDouble < 0) {
                 JOptionPane.showMessageDialog(container.getPanel(), "Las calorías no pueden ser un valor negativo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -286,23 +250,100 @@ public class MenuPanel{
             return;
         }
 
-        // 4. Si todas las validaciones pasan, crear un nuevo objeto Menu y guardarlo
+        // Verificación de imagen facial
+        if (!verifyFace()) {
+            JOptionPane.showMessageDialog(container.getPanel(), "Verificación facial fallida. No se guardaron los cambios.", "Error de Verificación", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         Menu updatedMenu = new Menu();
         updatedMenu.platillo = platilloStr;
         updatedMenu.turno = turnoStr;
         updatedMenu.horario = horarioStr;
         updatedMenu.calorias = caloriasDouble;
-        updatedMenu.precio = this.menu.precio; // Preservar el precio existente
+        updatedMenu.precio = (this.menu != null) ? this.menu.precio : 0.0;
 
         controller.setMenu(this.menuNumber, updatedMenu);
-        this.menu = controller.getMenu(this.menuNumber); // Actualizar la copia local
+        this.menu = controller.getMenu(this.menuNumber);
+
+        // Guardar el precio en DataBasePrice.txt
+        if (!savePriceToFile(updatedMenu.precio)) {
+            JOptionPane.showMessageDialog(container.getPanel(), "Error al guardar el precio en DataBasePrice.txt.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         updateLabelsView();
-        System.out.println("Guardando cambios para el menú " + this.menuNumber);
         setNormalMode();
+        JOptionPane.showMessageDialog(container.getPanel(), "Menú actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
-    private void cancelChanges(){    
-        System.out.println("Cancelando edición para el menú " + this.menuNumber);
-        updateLabelsView(); // Restaura los valores originales en la vista
+
+    private boolean savePriceToFile(double precio) {
+        String filePath = "DataBasePrice.txt";
+        String menuKey = "menu" + menuNumber;
+        Map<String, String> prices = new HashMap<>();
+
+        // Leer precios existentes
+        File file = new File(filePath);
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    line = line.trim();
+                    if (line.isEmpty()) continue;
+                    String[] parts = line.split(":", 2);
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        prices.put(key, value);
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error al leer DataBasePrice.txt: " + e.getMessage());
+                // Continuar, ya que podemos crear un nuevo archivo
+            }
+        }
+
+        // Actualizar el precio para el menú actual
+        prices.put(menuKey, String.format("%.2f", precio));
+
+        // Escribir todos los precios al archivo
+        try (FileWriter writer = new FileWriter(filePath)) {
+            for (Map.Entry<String, String> entry : prices.entrySet()) {
+                writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
+            }
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error al guardar el precio en DataBasePrice.txt: " + e.getMessage());
+            JOptionPane.showMessageDialog(container.getPanel(), "Error al escribir en DataBasePrice.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    private boolean verifyFace() {
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes (JPG, PNG)", "jpg", "png");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(container.getPanel());
+
+        if (result != JFileChooser.APPROVE_OPTION) {
+            return false;
+        }
+
+        File selectedImage = fileChooser.getSelectedFile();
+        String adminCI = controller.getAdminData().get("cedula");
+        int cedula;
+        try {
+            cedula = Integer.parseInt(adminCI);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(container.getPanel(), "Cédula del administrador inválida.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return dbManager.verifyImageHash(cedula, selectedImage);
+    }
+
+    private void cancelChanges() {
+        updateLabelsView();
         setNormalMode();
     }
 
@@ -311,7 +352,6 @@ public class MenuPanel{
         editButton.setText("Editar");
         deleteButton.setText("Eliminar");
 
-        // Limpia los listeners anteriores para evitar eventos duplicados
         for (ActionListener al : editButton.getActionListeners()) {
             editButton.removeActionListener(al);
         }
@@ -319,9 +359,7 @@ public class MenuPanel{
             deleteButton.removeActionListener(al);
         }
 
-        // Asigna el listener para entrar al modo de edición
         editButton.addActionListener(e -> editMode());
-        // Asigna el listener para la acción de eliminar
         deleteButton.addActionListener(e -> deleteMenu());
     }
 
@@ -336,24 +374,24 @@ public class MenuPanel{
 
         if (response == JOptionPane.YES_OPTION) {
             controller.deleteMenu(this.menuNumber);
-            // Los datos del menú han cambiado, actualizamos la copia local y la vista
             this.menu = controller.getMenu(this.menuNumber);
             updateLabelsView();
-            System.out.println("Menú " + this.menuNumber + " eliminado.");
+            JOptionPane.showMessageDialog(container.getPanel(), "Menú eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
-    public Panel getMenuPanel(){
+    public main.Views.Layouts.Panel getMenuPanel() {
         return this.container;
     }
 
     private void updateLabelsView() {
         getData();
-
         turnoTxtField.setText(turnoValue);
         platilloTxtField.setText(platilloValue);
         horarioTxtField.setText(horarioValue);
         caloriasTxtField.setText(caloriasValue);
         precioValueLabel.setText(precioValue);
+        container.getPanel().revalidate();
+        container.getPanel().repaint();
     }
 }

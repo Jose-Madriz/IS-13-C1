@@ -5,7 +5,7 @@
     "apellido": "Admin",
     "apellido2": "Admin",
     "cedula": 123456789,
-    "cargo": "Trabajador",
+    "cargo": "Profesor",
     "pass": "Admin123",
     "saldo": 0,00,
     "user": "VIP",
@@ -19,8 +19,8 @@
     "cedula": 123456,
     "cargo": "Estudiante",
     "pass": "Common123",
-    "saldo": -74,40,
+    "saldo": 0,00,
     "user": "Common",
-    "imageHash": ""
+    "imageHash": "f3d82e31a682815d9a17816d2aca7fd3b9855f2d0b4a33f86916fde426d1ffa0"
   }
 ]

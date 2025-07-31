@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import main.Controllers.RecargarMenuController;
 import main.Models.DatabaseManager;
+import main.Models.Usuario;
 
 public class RecargarMenuUsuario extends JFrame {
     // UI Colors
@@ -26,13 +27,15 @@ public class RecargarMenuUsuario extends JFrame {
     private final JLabel recuadroRecarga = new JLabel();
     private final JComboBox<String> listaPrecios = new JComboBox<>(new String[]{"100bs", "200bs", "300bs", "400bs"});
     private final RecargarMenuController controller;
+    private final MenuPrincipal menuPrincipal; // Referencia a MenuPrincipal
 
     // Constructor
-    public RecargarMenuUsuario() {
+    public RecargarMenuUsuario(MenuPrincipal menuPrincipal) {
         setSize(350, 350);
         setTitle("Recargar saldo");
         setLocationRelativeTo(null);
         setResizable(false);
+        this.menuPrincipal = menuPrincipal; // Guardar referencia
         this.controller = new RecargarMenuController(this, DatabaseManager.getInstance());
     }
 
@@ -76,6 +79,12 @@ public class RecargarMenuUsuario extends JFrame {
         botonRecargar.addActionListener(e -> {
             String selectedMonto = (String) listaPrecios.getSelectedItem();
             controller.handleRecargarSaldo(cedula, selectedMonto, saldoLabel);
+            // Actualizar saldo_auxiliar en MenuPrincipal
+            DatabaseManager dbManager = DatabaseManager.getInstance();
+            Usuario usuario = dbManager.buscarPorCI(cedula);
+            if (usuario != null) {
+                menuPrincipal.saldo_auxiliar = usuario.getSaldo();
+            }
             dispose();
         });
     }
