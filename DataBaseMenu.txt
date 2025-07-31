@@ -1,2 +1,2 @@
-Manana,Club House,7am hasta 9am,73.2,248.0
+Manana,Club House,7am hasta 9am,73.2,4.0
 Tarde,No Disponible,12PM hasta 1PM,30.2,40.0

@@ -87,6 +87,7 @@ public class MenuAdminView {
             this.frame.getFrame().dispose();
         });
     }
+    
     /**
      * Inicializa los campos de entrada del usuario
      */
@@ -115,11 +116,5 @@ public class MenuAdminView {
     
     public Window getWindow(){
         return this.frame;
-    }
-
-    public static void main( String[] args ){
-        MenuAdminView view = new MenuAdminView( "123456789", null );
-
-        view.ShowMenuAdminView();
     }
 }

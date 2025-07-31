@@ -14,6 +14,7 @@ public class Window {
     protected String title;
     protected JPanel panel;
     protected Size size;
+    private int defaultCloseOperation = JFrame.EXIT_ON_CLOSE;
     public boolean visibility;
 
     // Constructors
@@ -65,7 +66,7 @@ public class Window {
     
     //Setters
     public void setInstance(){
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setDefaultCloseOperation(this.defaultCloseOperation);
         this.frame.setTitle(this.title);
         this.frame.pack();
         this.frame.setSize(this.size.getDimension());
@@ -86,6 +87,10 @@ public class Window {
     public void setVisible(boolean vis ){
         this.visibility = vis;
         this.frame.setVisible(vis);
+    }
+
+    public void setDefaultCloseOperation(int operation) {
+        this.defaultCloseOperation = operation;
     }
     
     // Getters

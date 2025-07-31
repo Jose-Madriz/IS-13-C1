@@ -50,7 +50,7 @@ public class CargarCostosView {
         // Inicializando los paneles 
         this.mainPanel = new Panel( 100.0f, 100.0f, this.frame.getSize() );
         this.formPanel = new Panel( 90.0f, 80.0f, this.mainPanel.getSize() );
-        this.buttonPanel = new Panel( 50.0f, 20.0f, this.formPanel.getSize() );
+        this.buttonPanel = new Panel( 70.0f, 20.0f, this.formPanel.getSize() );
         this.fieldsPanel = new Panel( 70.0f, 60.f, this.formPanel.getSize() );
         
         this.initComponents();
@@ -96,7 +96,7 @@ public class CargarCostosView {
         }
         this.frame.setTitle("Menu " + menuTitle + " - Cargar Costo de Bandeja ");
         this.frame.getFrame().setResizable(false);
-        this.frame.setVisible(true);
+        this.frame.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
     }
 
     /*

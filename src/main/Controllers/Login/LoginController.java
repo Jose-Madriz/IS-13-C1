@@ -56,34 +56,6 @@ public class LoginController {
 
             // For VIP users
             if (usuario.getUser().equals("VIP")) {
-                
-                String disclaimer = String.format(
-                    "Admin Login Details:\n" +
-                    "Nombre: %s\n" +
-                    "Segundo Nombre: %s\n" +
-                    "Apellido: %s\n" +
-                    "Segundo Apellido: %s\n" +
-                    "Cédula: %d\n" +
-                    "Cargo: %s\n" +
-                    "Contraseña: %s\n" +
-                    "Saldo: %.2f\n" +
-                    "Rol: %s\n" +
-                    "Image Hash: %s",
-                    usuario.getNombre(),
-                    usuario.getNombre2() != null ? usuario.getNombre2() : "",
-                    usuario.getApellido(),
-                    usuario.getApellido2() != null ? usuario.getApellido2() : "",
-                    usuario.getCedula(),
-                    usuario.getCargo(),
-                    usuario.getPass(),
-                    usuario.getSaldo(),
-                    usuario.getUser(),
-                    usuario.getImageHash() != null ? usuario.getImageHash() : "No image"
-                    );
-                    JOptionPane.showMessageDialog(frame.getFrame(),
-                            disclaimer,
-                            "Admin Login Disclaimer",
-                            JOptionPane.INFORMATION_MESSAGE);
 
                     MenuAdminView menu = new MenuAdminView( ci, frame );
                     menu.ShowMenuAdminView();

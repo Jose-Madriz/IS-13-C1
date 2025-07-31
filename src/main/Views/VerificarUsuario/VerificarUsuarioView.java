@@ -96,7 +96,7 @@ public class VerificarUsuarioView {
         this.frame.setPanel(mainPanel.panel);
         this.frame.setTitle("Verificar Usuario");
         this.frame.getFrame().setResizable(false);
-        this.frame.setVisible(true);
+        this.frame.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
