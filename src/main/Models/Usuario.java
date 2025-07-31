@@ -11,6 +11,7 @@ public class Usuario {
     private String pass;
     private double saldo;
     private String user;
+    private String imageHash; // Nuevo campo para el hash de la imagen
 
     // ========== CONSTRUCTORES ==========
     // Constructor vacío (útil para Jackson/Gson)
@@ -18,7 +19,7 @@ public class Usuario {
 
     // Constructor completo
     public Usuario(String nombre, String nombre2, String apellido, String apellido2, 
-                  int cedula, String cargo, String  pass, double saldo, String user) {
+                  int cedula, String cargo, String pass, double saldo, String user, String imageHash) {
         this.nombre = nombre;
         this.nombre2 = nombre2;
         this.apellido = apellido;
@@ -28,6 +29,7 @@ public class Usuario {
         this.pass = pass;
         this.saldo = saldo;
         this.user = user;
+        this.imageHash = imageHash;
     }
 
     // ========== GETTERS ==========
@@ -67,6 +69,10 @@ public class Usuario {
         return user;
     }
 
+    public String getImageHash() {
+        return imageHash;
+    }
+
     // ========== SETTERS ==========
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -102,5 +108,9 @@ public class Usuario {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public void setImageHash(String imageHash) {
+        this.imageHash = imageHash;
     }
 }

@@ -1,14 +1,15 @@
 [
   {
-    "nombre": "ADMIN",
-    "nombre2": "ADMIN",
-    "apellido": "ADMIN",
-    "apellido2": "ADMIN",
+    "nombre": "Admin",
+    "nombre2": "Admin",
+    "apellido": "Admin",
+    "apellido2": "Admin",
     "cedula": 123456789,
-    "cargo": "Profesor",
+    "cargo": "Trabajador",
     "pass": "Admin123",
-    "saldo": 100.00,
-    "user": "VIP"
+    "saldo": 0,00,
+    "user": "VIP",
+    "imageHash": ""
   },
   {
     "nombre": "Common",
@@ -17,8 +18,9 @@
     "apellido2": "Common",
     "cedula": 123456,
     "cargo": "Estudiante",
-    "pass": "123123",
-    "saldo": 210.00,
-    "user": "Common"
+    "pass": "Common123",
+    "saldo": 0,00,
+    "user": "Common",
+    "imageHash": "f3d82e31a682815d9a17816d2aca7fd3b9855f2d0b4a33f86916fde426d1ffa0"
   }
 ]

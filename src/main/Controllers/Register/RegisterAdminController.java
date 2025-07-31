@@ -1,125 +1,81 @@
 package main.Controllers.Register;
 
+import java.io.File;
 import javax.swing.JOptionPane;
 import main.Models.DatabaseManager;
-import main.Models.MasterBaseManager;
 import main.Models.Usuario;
 import main.Views.Layouts.Window;
 
-public class RegisterAdminController {
-
-    private DatabaseManager dbManager;
-    private MasterBaseManager masterBaseManager;
+public class RegisterAdminController extends RegisterController {
 
     public RegisterAdminController(DatabaseManager dbManager) {
-        this.dbManager = dbManager;
-        this.masterBaseManager = MasterBaseManager.getInstance();
+        super(dbManager);
     }
 
-    public boolean validateRegistrationData(Window window,
-            String nombre, String nombre2,
-            String apellido, String apellido2,
-            String cedulaStr, String cargo,
-            String password, String confirmPassword) {
+    @Override
+    public boolean registerUser(Window window, String nombre, String nombre2, String apellido,
+            String apellido2, String cedula, String cargo, String password, File imageFile) {
 
-        // Validar campos obligatorios
-        if (nombre.isEmpty() || apellido.isEmpty() || cedulaStr.isEmpty()
-                || password.isEmpty() || confirmPassword.isEmpty()) {
-            JOptionPane.showMessageDialog(window.getFrame(),
-                    "Por favor complete todos los campos obligatorios (*)",
-                    "Error en el registro VIP", JOptionPane.WARNING_MESSAGE);
+        // Reutilizar la validación del padre (RegisterController)
+        if (!validateRegistrationData(window, nombre, nombre2, apellido, apellido2, cedula, cargo, password, password, imageFile)) {
             return false;
         }
 
-        // Validar cédula numérica
-        if (!cedulaStr.matches("\\d+")) {
-            JOptionPane.showMessageDialog(window.getFrame(),
-                    "La cédula debe contener solo números",
-                    "Error en el registro VIP", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-
-        int cedula;
+        int cedulaInt;
         try {
-            cedula = Integer.parseInt(cedulaStr);
-        } catch (NumberFormatException ex) {
+            cedulaInt = Integer.parseInt(cedula.trim());
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(window.getFrame(),
-                    "La cédula debe contener solo números",
-                    "Error en el registro VIP", JOptionPane.WARNING_MESSAGE);
+                    "Error en el formato de la cédula",
+                    "Error de Registro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        // Validar contra MasterBase
-        if (!masterBaseManager.existeEnMasterBase(cedula)) {
+        // Generar hash de la imagen (reutilizando el método de RegisterController)
+        String imageHash = generateImageHash(imageFile);
+        if (imageHash == null) {
             JOptionPane.showMessageDialog(window.getFrame(),
-                    "Esta cédula no está autorizada para registrarse",
-                    "Error en el registro VIP", JOptionPane.WARNING_MESSAGE);
+                    "Error al procesar la imagen",
+                    "Error en el registro", JOptionPane.WARNING_MESSAGE);
             return false;
         }
 
-        // Verificar si la cédula ya existe
-        if (cedulaExiste(cedula)) {
-            JOptionPane.showMessageDialog(window.getFrame(),
-                    "Esta cédula ya está registrada",
-                    "Error en el registro VIP", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-
-        // Validar nombres y apellidos (solo letras)
-        if (!nombre.matches("[a-zA-ZñÑ]+")
-                || (!nombre2.isEmpty() && !nombre2.matches("[a-zA-ZñÑ]+"))
-                || !apellido.matches("[a-zA-ZñÑ]+")
-                || (!apellido2.isEmpty() && !apellido2.matches("[a-zA-ZñÑ]+"))) {
-            JOptionPane.showMessageDialog(window.getFrame(),
-                    "Los nombres y apellidos solo pueden contener letras sin acentos",
-                    "Error en el registro VIP", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-
-        // Validar fortaleza de contraseña
-        if (password.length() < 6) {
-            JOptionPane.showMessageDialog(window.getFrame(),
-                    "La contraseña debe tener al menos 6 caracteres",
-                    "Error en el registro VIP", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-
-        // Validar coincidencia de contraseñas
-        if (!password.equals(confirmPassword)) {
-            JOptionPane.showMessageDialog(window.getFrame(),
-                    "Las contraseñas no coinciden",
-                    "Error en el registro VIP", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean cedulaExiste(int cedula) {
-        return dbManager.buscarPorCI(cedula) != null;
-    }
-
-    public boolean registerUser(Window window,
-            String nombre, String nombre2,
-            String apellido, String apellido2,
-            String cedulaStr, String cargo,
-            String password) {
-
-        int cedula = Integer.parseInt(cedulaStr);
-
-        // Crear nuevo usuario con rol "VIP" y saldo inicial 0.0
-        Usuario nuevoUsuario = new Usuario(
+        // Crear nuevo usuario con user = "VIP"
+        Usuario newUser = new Usuario(
                 nombre,
                 nombre2,
                 apellido,
                 apellido2,
-                cedula,
+                cedulaInt,
                 cargo,
                 password,
-                0.0,
-                "VIP"
+                0.0, // Saldo inicial
+                "VIP", // Establecer user como VIP
+                imageHash
         );
 
-        return dbManager.agregarUsuario(nuevoUsuario);
+        // Intentar agregar usuario a la base de datos
+        if (!dbManager.agregarUsuario(newUser)) {
+            return false;
+        }
+
+        // Guardar la imagen en la carpeta DataBaseImg
+        String fileExtension = getFileExtension(imageFile);
+        String imagePath = "DataBaseImg/" + cedulaInt + "." + fileExtension;
+        try {
+            java.awt.image.BufferedImage image = javax.imageio.ImageIO.read(imageFile);
+            File outputFile = new File(imagePath);
+            javax.imageio.ImageIO.write(image, fileExtension, outputFile);
+        } catch (java.io.IOException e) {
+            JOptionPane.showMessageDialog(window.getFrame(),
+                    "Error al guardar la imagen: " + e.getMessage(),
+                    "Error en el registro", JOptionPane.WARNING_MESSAGE);
+            // Eliminar el usuario si falla la carga de la imagen para mantener consistencia
+            dbManager.getUsuarios().removeIf(u -> u.getCedula() == cedulaInt);
+            dbManager.guardarUsuarios();
+            return false;
+        }
+
+        return true;
     }
 }

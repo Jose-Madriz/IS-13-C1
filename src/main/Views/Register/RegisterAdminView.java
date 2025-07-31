@@ -13,7 +13,7 @@ public class RegisterAdminView extends RegisterView {
         DatabaseManager dbManager = DatabaseManager.getInstance();
         this.adminController = new RegisterAdminController(dbManager);
 
-        // Sobrescribir el ActionListener del botón "Registrarse" para usar el nuevo controlador
+        // Sobrescribir el ActionListener del botón "Registrarse" para usar el controlador de admin
         registerTrigger.removeActionListener(registerTrigger.getActionListeners()[0]);
         registerTrigger.addActionListener(e -> {
             String nombre = nombreField.getText().trim();
@@ -26,10 +26,10 @@ public class RegisterAdminView extends RegisterView {
             String confirmPassword = new String(confirmPasswordField.getPassword());
 
             if (adminController.validateRegistrationData(frame, nombre, nombre2, apellido, apellido2,
-                    cedula, cargo, password, confirmPassword)) {
+                    cedula, cargo, password, confirmPassword, selectedImageFile)) {
                 
                 if (adminController.registerUser(frame, nombre, nombre2, apellido, apellido2,
-                        cedula, cargo, password)) {
+                        cedula, cargo, password, selectedImageFile)) {
                     
                     JOptionPane.showMessageDialog(frame.getFrame(),
                             "¡Registro VIP exitoso! Ahora puedes iniciar sesión",
@@ -45,7 +45,8 @@ public class RegisterAdminView extends RegisterView {
         frame.setTitle("Registro de Usuario VIP");
     }
 
-    public void ShowRegisterAdminView() {
+    @Override
+    public void ShowRegisterView() {
         this.frame.setInstance();
     }
 }
