@@ -32,6 +32,9 @@ public class CargarCostosView {
     private final float DEFAULT_HEIGHT = 40;
     private CargarCostosController controller;
     private int menuNumber;
+    private double costo;
+
+    
 
     public CargarCostosView ( int menuNumber ){
         // inicializando los objetos de cada elemento grafico
@@ -46,7 +49,7 @@ public class CargarCostosView {
 
         // Inicializando los paneles 
         this.mainPanel = new Panel( 100.0f, 100.0f, this.frame.getSize() );
-        this.formPanel = new Panel( 90.0f, 80.0f, this.mainPanel.getSize());
+        this.formPanel = new Panel( 90.0f, 80.0f, this.mainPanel.getSize() );
         this.buttonPanel = new Panel( 50.0f, 20.0f, this.formPanel.getSize() );
         this.fieldsPanel = new Panel( 70.0f, 60.f, this.formPanel.getSize() );
         
@@ -62,6 +65,7 @@ public class CargarCostosView {
             10,
             20
         );
+        
         this.formPanel.setLayout( formLayout );
 
         this.initFrame();
@@ -90,7 +94,7 @@ public class CargarCostosView {
         if(menuNumber == 2){
             menuTitle = "Tarde";
         }
-        this.frame.setTitle("Menu " + menuTitle + " " + "- Cargar Costo de Bandeja ");
+        this.frame.setTitle("Menu " + menuTitle + " - Cargar Costo de Bandeja ");
         this.frame.getFrame().setResizable(false);
         this.frame.setVisible(true);
     }
@@ -135,7 +139,6 @@ public class CargarCostosView {
                 controller.cargarCosto( menuNumber );
                 // Cerrar vista de Login
                 frame.getFrame().dispose();
-
             }
         });
     }
@@ -157,6 +160,7 @@ public class CargarCostosView {
             40, 
             10 
         );
+
         // agregamos el layout al panel general de campos
         fieldsPanel.setLayout( fieldsLayout );
 
@@ -227,6 +231,17 @@ public class CargarCostosView {
         this.frame.setInstance();
     }
     
+    public double getCosto(){
+        return this.costo;
+    }
+    public void setCosto(double costo){
+            this.costo = costo;
+    }
+    
+    public Window getWindow(){
+        return this.frame;
+    }
+
     /*
      * Encapsula la data para enviarla al controlador
      */
@@ -241,6 +256,7 @@ public class CargarCostosView {
         data.put("CF", cfValue);
         data.put("NB", nbValue);
         data.put("merma", mermaValue);
+        data.put("menu", String.valueOf(menuNumber));
 
         this.initController(data);
         

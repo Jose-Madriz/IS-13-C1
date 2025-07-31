@@ -17,20 +17,20 @@ public class CargarCostosController {
         menus.fetchMenus();
     }
     // TODO Validar Datos
-    public void ValidarDatos( Window window ){
+    public void ValidarDatos( Window frame ){
         
         if (!data.get("NB").matches("\\d+") ||
             !data.get("CV").matches("\\d+") || 
             !data.get("CF").matches("\\d+") ||
             !data.get("merma").matches("\\d+")  ) {
-            JOptionPane.showMessageDialog(window.getFrame(),
+            JOptionPane.showMessageDialog(frame.getFrame(),
                     "Recuerda solo ingresar numeros",
                     "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if( data.get("CV").isEmpty() || data.get("CF").isEmpty() || data.get("NB").isEmpty() || data.get("merma").isEmpty() ) {
-            JOptionPane.showMessageDialog(window.getFrame(), "Campos Incompletos", "Advertencia", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame.getFrame(), "Campos Incompletos", "Advertencia", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -41,18 +41,18 @@ public class CargarCostosController {
         float merma = Float.parseFloat( data.get("merma").strip() );
 
         if (NB <= 0.0f){
-            JOptionPane.showMessageDialog( window.getFrame(), "Los valores son incorrectos", "Advertencia", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog( frame.getFrame(), "Los valores son incorrectos", "Advertencia", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         double costoTotal = CalcularCosto(CV, CF, NB, merma);
-
+        
         if( costoTotal <= 0 ){
-            JOptionPane.showMessageDialog(window.getFrame(), "El costo no puede ser 0\n Costo total: " + costoTotal, "Advertencia", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame.getFrame(), "El costo no puede ser 0\n Costo total: " + costoTotal, "Advertencia", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        JOptionPane.showMessageDialog(window.getFrame(), "El costo total es: " + costoTotal, "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(frame.getFrame(), "El costo total es: " + costoTotal, "Advertencia", JOptionPane.INFORMATION_MESSAGE);
     }
     // TODO Cargar Costo 
     public  void cargarCosto( int menuNumber ){
@@ -76,7 +76,7 @@ public class CargarCostosController {
 
             this.menus.menu2.precio = costoTotal;
         }
-
+        
         menus.rewriteMenus();
     }
     // TODO Calcular Costo
