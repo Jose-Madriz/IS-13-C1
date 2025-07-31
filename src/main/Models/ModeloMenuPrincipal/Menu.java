@@ -50,7 +50,13 @@ public class Menu {
                 String [] bloques = linea.split(",");
                 if( bloques.length == 5){
                     if(i==0){
-                        String turno = bloques[0];
+                        String turno; 
+                        if (bloques[0].toLowerCase().equals("manana")) {
+                            turno = "Mañana";
+                        }
+                        else{
+                            turno = bloques[0];
+                        }
                         String platillo = bloques[1];
                         String horario =  bloques[2];
                         double calorias = Double.parseDouble(bloques[3]);
@@ -87,6 +93,9 @@ public class Menu {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
 
             if (menu1Exist()) {
+                if(menu1.turno.toLowerCase().equals("mañana")){
+                    menu1.turno = "Manana";
+                }
                 String line = menu1.turno + "," + menu1.platillo + "," + menu1.horario + "," + menu1.calorias + "," + menu1.precio;
                 writer.write(line);
                 writer.newLine();

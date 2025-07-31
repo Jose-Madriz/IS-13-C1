@@ -92,8 +92,7 @@ public class MenuPrincipal extends JFrame {
         }
     };
 
-    Menu menu1 = new Menu();
-    Menu menu2 = new Menu();
+    Menu menuDataSource = new Menu();
 
     //Constructor de la ventana
     public MenuPrincipal() {
@@ -115,7 +114,6 @@ public class MenuPrincipal extends JFrame {
         this.getContentPane().add(panel);
         panel.setBackground(Fondo);
         ColocarBoton();
-        _controller.CargarDatos(menu1, menu2);
         ColocarTextos(_n, _p, _s);
 
     }
@@ -142,14 +140,14 @@ public class MenuPrincipal extends JFrame {
 
         //Turno1
         turno1.setBounds(233, 280, 220, 320);
-        turno1.setFont(new Font("Arial", Font.PLAIN, 22));
+        turno1.setFont(new Font("Arial", Font.PLAIN, 18));
         Border borde4 = BorderFactory.createLineBorder(titulos, 5);
         turno1.setBorder(borde4);
         panel.add(turno1);
 
         //Turno2
         turno2.setBounds(610, 280, 220, 320);
-        turno2.setFont(new Font("Arial", Font.PLAIN, 22));
+        turno2.setFont(new Font("Arial", Font.PLAIN, 18));
         Border borde5 = BorderFactory.createLineBorder(titulos, 5);
         turno2.setBorder(borde5);
         panel.add(turno2);
@@ -190,33 +188,54 @@ public class MenuPrincipal extends JFrame {
         recuadro.setBorder(borde);
         panel.add(recuadro);
 
-        //Comprobación Turno1
-        if ((menu1.turno).equals("Manana")) {
-            turno1.setText("<html>Horario: <p>" + menu1.horario + "<html> <p><p>" + "<html> Platillo:  <p>" + menu1.platillo + "<html> <p><p>" + "<html> Calorías: <p>" + menu1.calorias);
-        } else if ((menu1.turno).equals("Tarde")) {
-            turno2.setText("<html>Horario: <p>" + menu1.horario + "<html> <p><p>" + "<html> Platillo:  <p>" + menu1.platillo + "<html> <p><p>" + "<html> Calorías: <p>" + menu1.calorias);
+        // --- Lógica de visualización de menús refactorizada ---
+
+        // 1. Identificar qué menú es de la mañana y cuál de la tarde
+        Menu menuManana = null;
+        Menu menuTarde = null;
+
+        if (menuDataSource.menu1 != null) {
+            if ("Mañana".equalsIgnoreCase(menuDataSource.menu1.turno)) {
+                menuManana = menuDataSource.menu1;
+            } else if ("Tarde".equalsIgnoreCase(menuDataSource.menu1.turno)) {
+                menuTarde = menuDataSource.menu1;
+            }
         }
 
-        //Verificar NO Disponible Turno1
-        if ((menu1.platillo).equals("No Disponible") && (menu1.turno).equals("Manana")) {
-            turno1.setText("NO DISPONIBLE");
-        } else if ((menu1.platillo).equals("No Disponible") && (menu1.turno).equals("Tarde")) {
-            turno2.setText("NO DISPONIBLE");
+        if (menuDataSource.menu2 != null) {
+            if ("Manana".equalsIgnoreCase(menuDataSource.menu2.turno)) {
+                menuManana = menuDataSource.menu2;
+            } else if ("Tarde".equalsIgnoreCase(menuDataSource.menu2.turno)) {
+                menuTarde = menuDataSource.menu2;
+            }
         }
 
-        //Comprobación Turno2
-        if ((menu2.turno).equals("Manana")) {
-            turno1.setText("<html>Horario: <p>" + menu2.horario + "<html> <p><p>" + "<html> Platillo:  <p>" + menu2.platillo + "<html> <p><p>" + "<html> Calorías: <p>" + menu2.calorias);
-        } else if ((menu2.turno).equals("Tarde")) {
-            turno2.setText("<html>Horario: <p>" + menu2.horario + "<html> <p><p>" + "<html> Platillo:  <p>" + menu2.platillo + "<html> <p><p>" + "<html> Calorías: <p>" + menu2.calorias);
+        // 2. Poblar las etiquetas con la información correcta y el formato adecuado
+        String menuMananaTexto = "NO DISPONIBLE";
+        if (menuManana != null && !"No Disponible".equalsIgnoreCase(menuManana.platillo)) {
+            menuMananaTexto = String.format(
+                "<html><div style='text-align: center; padding: 5px;'>" +
+                "<b>Horario:</b><br>%s<br><br>" +
+                "<b>Platillo:</b><br>%s<br><br>" +
+                "<b>Calorías:</b><br>%.1f<br><br>" +
+                "<b>Precio:</b><br>%.2f Bs." +
+                "</div></html>",
+                menuManana.horario, menuManana.platillo, menuManana.calorias, menuManana.precio);
         }
+        turno1.setText(menuMananaTexto);
 
-        //Verificar NO Disponible Turno2
-        if ((menu2.platillo).equals("No Disponible") && (menu2.turno).equals("Manana")) {
-            turno1.setText("NO DISPONIBLE");
-        } else if ((menu2.platillo).equals("No Disponible") && (menu2.turno).equals("Tarde")) {
-            turno2.setText("NO DISPONIBLE");
+        String menuTardeTexto = "NO DISPONIBLE";
+        if (menuTarde != null && !"No Disponible".equalsIgnoreCase(menuTarde.platillo)) {
+            menuTardeTexto = String.format(
+                "<html><div style='text-align: center; padding: 5px;'>" +
+                "<b>Horario:</b><br>%s<br><br>" +
+                "<b>Platillo:</b><br>%s<br><br>" +
+                "<b>Calorías:</b><br>%.1f<br><br>" +
+                "<b>Precio:</b><br>%.2f Bs." +
+                "</div></html>",
+                menuTarde.horario, menuTarde.platillo, menuTarde.calorias, menuTarde.precio);
         }
+        turno2.setText(menuTardeTexto);
 
         boton.addActionListener(botonAction);
         boton2.addActionListener(botonRecarga);
