@@ -261,8 +261,4 @@ public class CargarCostosView {
         this.initController(data);
         
     } 
-    public static void main(String[] args) {
-        CargarCostosView test = new CargarCostosView( 1 );
-        test.ShowCargarCostosView();
-    }
 }

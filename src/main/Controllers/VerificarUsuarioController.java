@@ -79,7 +79,12 @@ public class VerificarUsuarioController {
         }
     }
 
-    private void descontarSaldo(double costoTotal2) {
+    private void descontarSaldo(double costoTotal) {
+        if( this.user.getSaldo() < costoTotal ){
+            JOptionPane.showMessageDialog(view.frame.getFrame(), "Saldo insuficiente, El usuario debe recargar Saldo", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         this.user.setSaldo(this.user.getSaldo() - costoTotal);
         dbManager.actualizarUsuario(this.user);
     }
