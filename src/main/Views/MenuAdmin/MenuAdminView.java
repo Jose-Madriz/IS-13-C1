@@ -1,15 +1,10 @@
 package main.Views.MenuAdmin;
 
-import java.util.Hashtable;
 
 import javax.swing.*;
 import java.awt.*;
 
-import main.Views.CargarCostos.CargarCostosView;
-import main.Controllers.CargarCostosController;
 import main.Controllers.MenuAdminController;
-import main.Views.MenuAdmin.*;
-import main.Views.Layouts.*;
 import main.Views.Layouts.Panel;
 import main.Views.Layouts.Window;
 
@@ -19,8 +14,7 @@ public class MenuAdminView {
     private Panel buttonPanel;
     private Panel userPanel;
     private Panel menusPanel;
-    private JLabel adminName, cargarCostosLabel;
-    private JButton createMenuButton;
+    private JLabel adminName;
     private Window prev;
     
     private JButton logOutButton;
@@ -40,7 +34,6 @@ public class MenuAdminView {
         this.controller = new MenuAdminController(this.adminCI);
         this.adminName = new JLabel( controller.getNombre() );
         this.logOutButton = new JButton("Cerrar Sesion");
-        this.cargarCostosLabel = new JLabel("Cargar Costos:");
         this.prev = prev;
         
         // Inicializando Paneles

@@ -16,7 +16,6 @@ public class CargarCostosController {
         this.menus = new Menu();
         menus.fetchMenus();
     }
-    // TODO Validar Datos
     public void ValidarDatos( Window frame ){
         
         if (!data.get("NB").matches("\\d+") ||
@@ -54,7 +53,7 @@ public class CargarCostosController {
 
         JOptionPane.showMessageDialog(frame.getFrame(), "El costo total es: " + costoTotal, "Advertencia", JOptionPane.INFORMATION_MESSAGE);
     }
-    // TODO Cargar Costo 
+
     public  void cargarCosto( int menuNumber ){
 
         float NB = Float.parseFloat( data.get("NB").strip() );
@@ -79,7 +78,7 @@ public class CargarCostosController {
         
         menus.rewriteMenus();
     }
-    // TODO Calcular Costo
+
     public double CalcularCosto(float CV, float CF, float NB, float merma){
         double costo;
 

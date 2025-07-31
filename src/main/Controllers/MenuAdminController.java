@@ -95,7 +95,6 @@ public class MenuAdminController {
             return false;
         }
     }
-    // TODO Cerrar Sesion
 
     public static void main( String args[] ){
         MenuAdminController controller = new MenuAdminController("123456789");

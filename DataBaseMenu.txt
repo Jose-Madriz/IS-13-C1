@@ -1,3 +1,2 @@
-Manana,Cafe con Pan,9AM hasta 10AM,124.2
-Tarde,No Disponible,12PM hasta 1PM,30.2
-Noche,Arepa con pollo,6PM hasta 7PM,10.4
+Manana,Club House,7am hasta 9am,73.2,248.0
+Tarde,No Disponible,12PM hasta 1PM,30.2,40.0
