@@ -1,10 +1,13 @@
 package main.Controllers.Login;
 
+import java.awt.Menu;
+
 import javax.swing.JOptionPane;
 import main.Controllers.MenuUsuarioController;
 import main.Models.DatabaseManager;
 import main.Models.Usuario;
 import main.Views.Layouts.Window;
+import main.Views.MenuAdmin.MenuAdminView;
 import main.Views.MenuUser.MenuPrincipal;
 
 public class LoginController {
@@ -54,12 +57,6 @@ public class LoginController {
             // For VIP users
             if (usuario.getUser().equals("VIP")) {
                 
-                MenuUsuarioController controller = new MenuUsuarioController();
-                MenuPrincipal menu = new MenuPrincipal();
-                menu.setVisible(true);
-                menu.IniciarComponentes(usuario.getNombre(), usuario.getApellido(), usuario.getSaldo(), controller, usuario.getCedula());
-
-                
                 String disclaimer = String.format(
                     "Admin Login Details:\n" +
                     "Nombre: %s\n" +
@@ -82,13 +79,15 @@ public class LoginController {
                     usuario.getSaldo(),
                     usuario.getUser(),
                     usuario.getImageHash() != null ? usuario.getImageHash() : "No image"
-                );
-                JOptionPane.showMessageDialog(frame.getFrame(),
-                        disclaimer,
-                        "Admin Login Disclaimer",
-                        JOptionPane.INFORMATION_MESSAGE);
-                
-                }
+                    );
+                    JOptionPane.showMessageDialog(frame.getFrame(),
+                            disclaimer,
+                            "Admin Login Disclaimer",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                    MenuAdminView menu = new MenuAdminView( ci, frame );
+                    menu.ShowMenuAdminView();
+            }
 
             if (usuario.getUser().equals("Common")) {
                 MenuUsuarioController controller = new MenuUsuarioController();

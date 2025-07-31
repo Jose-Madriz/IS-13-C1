@@ -1,7 +1,7 @@
 package main.Views.Change;
 
 import main.Models.DatabaseManager;
-import main.Views.MenuPrincipal.MenuPrincipal;
+import main.Views.MenuUser.MenuPrincipal;
 
 import java.awt.Color;
 import java.awt.Font;

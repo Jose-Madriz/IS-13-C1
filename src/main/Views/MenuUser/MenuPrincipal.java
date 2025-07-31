@@ -138,8 +138,8 @@ public class MenuPrincipal extends JFrame {
         popupMenu.add(changeImageItem);
 
         profileImageLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
+            @Override // Fix: Added @Override annotation
+            public void mousePressed(MouseEvent e) { // Changed mouseClicked to mousePressed
                 if (SwingUtilities.isLeftMouseButton(e)) {
                     popupMenu.show(profileImageLabel, e.getX(), e.getY());
                 }
@@ -260,44 +260,9 @@ public class MenuPrincipal extends JFrame {
                 "<b>Calorías:</b><br>%.1f<br><br>" +
                 "<b>Precio:</b><br>%.2f Bs." +
                 "</div></html>",
+
                 menuManana.horario, menuManana.platillo, menuManana.calorias, menuManana.precio);
-        // Imagen de perfil
-        profileImageLabel.setBounds(37, 30, 100, 100); // Misma posición que el botón "Perfil"
-        Border bordeImage = BorderFactory.createLineBorder(Boton, 2);
-        profileImageLabel.setBorder(bordeImage);
-        profileImageLabel.setOpaque(true);
-        profileImageLabel.setBackground(Color.white);
-        panel.add(profileImageLabel);
-
-        // Comprobación Turno1
-        if ((menu1.turno).equals("Manana")) {
-            turno1.setText("<html>Horario: " + menu1.horario + "<br>" + 
-                           "Platillo: " + menu1.platillo + "<br>" + 
-                           "Calorías: " + menu1.calorias + "</html>");
-        } else if ((menu1.turno).equals("Tarde")) {
-            turno2.setText("<html>Horario: " + menu1.horario + "<br>" + 
-                           "Platillo: " + menu1.platillo + "<br>" + 
-                           "Calorías: " + menu1.calorias + "</html>");
         }
-
-        // Verificar NO Disponible Turno1
-        if ((menu1.platillo).equals("No Disponible") && (menu1.turno).equals("Manana")) {
-            turno1.setText("NO DISPONIBLE");
-        } else if ((menu1.platillo).equals("No Disponible") && (menu1.turno).equals("Tarde")) {
-            turno2.setText("NO DISPONIBLE");
-        }
-
-        // Comprobación Turno2
-        if ((menu2.turno).equals("Manana")) {
-            turno1.setText("<html>Horario: " + menu2.horario + "<br>" + 
-                           "Platillo: " + menu2.platillo + "<br>" + 
-                           "Calorías: " + menu2.calorias + "</html>");
-        } else if ((menu2.turno).equals("Tarde")) {
-            turno2.setText("<html>Horario: " + menu2.horario + "<br>" + 
-                           "Platillo: " + menu2.platillo + "<br>" + 
-                           "Calorías: " + menu2.calorias + "</html>");
-        }
-        turno1.setText(menuMananaTexto);
 
         String menuTardeTexto = "NO DISPONIBLE";
         if (menuTarde != null && !"No Disponible".equalsIgnoreCase(menuTarde.platillo)) {
@@ -308,14 +273,21 @@ public class MenuPrincipal extends JFrame {
                 "<b>Calorías:</b><br>%.1f<br><br>" +
                 "<b>Precio:</b><br>%.2f Bs." +
                 "</div></html>",
+
                 menuTarde.horario, menuTarde.platillo, menuTarde.calorias, menuTarde.precio);
-        // Verificar NO Disponible Turno2
-        if ((menu2.platillo).equals("No Disponible") && (menu2.turno).equals("Manana")) {
-            turno1.setText("NO DISPONIBLE");
-        } else if ((menu2.platillo).equals("No Disponible") && (menu2.turno).equals("Tarde")) {
-            turno2.setText("NO DISPONIBLE");
         }
+
+        turno1.setText(menuMananaTexto);
         turno2.setText(menuTardeTexto);
+
+        // Imagen de perfil
+        profileImageLabel.setBounds(37, 30, 100, 100); // Misma posición que el botón "Perfil"
+        Border bordeImage = BorderFactory.createLineBorder(Boton, 2);
+        profileImageLabel.setBorder(bordeImage);
+        profileImageLabel.setOpaque(true);
+        profileImageLabel.setBackground(Color.white);
+        panel.add(profileImageLabel);
+
 
         boton.addActionListener(botonAction);
         boton2.addActionListener(botonRecarga);

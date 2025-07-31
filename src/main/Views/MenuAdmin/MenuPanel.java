@@ -13,6 +13,7 @@ import java.util.Hashtable;
 import javax.swing.*;
 import main.Controllers.MenuAdminController;
 import main.Models.ModeloMenuPrincipal.Menu;
+import main.Views.VerificarUsuario.VerificarUsuarioView;
 import main.Views.CargarCostos.CargarCostosView;
 import main.Views.Layouts.*;
 
@@ -22,6 +23,7 @@ public class MenuPanel{
     private JButton editButton;
     private JButton cargarCostoButton;
     private JButton deleteButton;
+    private JButton verificarUsuarioButton;
     private Panel turnoPanel;
     private JLabel  turno;
     private String turnoValue;
@@ -55,6 +57,7 @@ public class MenuPanel{
         this.editButton = new JButton("Editar");
         this.deleteButton = new JButton("Eliminar");
         this.cargarCostoButton = new JButton("Cargar Costo");
+        this.verificarUsuarioButton = new JButton("Verificar Usuario");
         this.turno = new JLabel("Turno: ");
         this.platillo = new JLabel("Platillo: ");
         this.horario = new JLabel("Horario: ");
@@ -182,6 +185,17 @@ public class MenuPanel{
         buttonContainer.add(deleteButton);
 
         this.container.getPanel().add(buttonContainer, BorderLayout.NORTH);
+
+        // Panel para el botón inferior
+        JPanel bottomButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 5));
+        bottomButtonPanel.setOpaque(false);
+        bottomButtonPanel.add(verificarUsuarioButton);
+        this.container.getPanel().add(bottomButtonPanel, BorderLayout.SOUTH);
+
+        verificarUsuarioButton.addActionListener(e -> {
+            // Abre la vista para verificar al usuario
+            new VerificarUsuarioView( this.menu);
+        });
 
         cargarCostoButton.addActionListener(e -> {
             // Idealmente, la CargarCostosView debería recibir el número de menú
