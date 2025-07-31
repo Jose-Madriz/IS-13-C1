@@ -15,7 +15,7 @@ import main.Views.Layouts.Window;
 
 public class RegisterController {
 
-    private DatabaseManager dbManager;
+    protected DatabaseManager dbManager;
     private MasterBaseManager masterBaseManager;
 
     public RegisterController(DatabaseManager dbManager) {
@@ -113,9 +113,16 @@ public class RegisterController {
         return dbManager.buscarPorCI(cedula) != null;
     }
 
-    public boolean registerUser(Window window, String nombre, String nombre2,
-            String apellido, String apellido2, String cedulaStr, String cargo,
-            String password, File imageFile) {
+    public boolean registerUser(
+        Window window, 
+        String nombre, 
+        String nombre2, 
+        String apellido,
+        String apellido2, 
+        String cedulaStr, 
+        String cargo, 
+        String password, 
+        File imageFile) {
 
         int cedula = Integer.parseInt(cedulaStr);
         String imageHash = generateImageHash(imageFile);
@@ -157,7 +164,7 @@ public class RegisterController {
         return dbManager.agregarUsuario(nuevoUsuario);
     }
 
-    private String generateImageHash(File imageFile) {
+    protected String generateImageHash(File imageFile) {
         try {
             BufferedImage image = ImageIO.read(imageFile);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -180,7 +187,7 @@ public class RegisterController {
         }
     }
 
-    private String getFileExtension(File file) {
+    protected String getFileExtension(File file) {
         String name = file.getName();
         int lastIndexOf = name.lastIndexOf(".");
         if (lastIndexOf == -1) {

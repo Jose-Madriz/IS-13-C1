@@ -113,7 +113,7 @@ public class LoginView {
         recoverTrigger.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         recoverTrigger.setFont(new Font("Arial", Font.PLAIN, 12));
 
-        // TESTING: Botón de registro VIP (para admin)
+        // Botón de registro VIP (para admin)
         JButton registerAdminTrigger = new JButton("Registrarse como VIP");
         registerAdminTrigger.setAlignmentX(Component.CENTER_ALIGNMENT);
         registerAdminTrigger.setBorderPainted(false);
@@ -191,7 +191,7 @@ public class LoginView {
         registerAdminTrigger.addActionListener(e -> {
             frame.getFrame().setVisible(false);
             RegisterAdminView registerAdminView = new RegisterAdminView(LoginView.this);
-            registerAdminView.ShowRegisterAdminView();
+            registerAdminView.ShowRegisterView();
         });
     }
 
@@ -286,7 +286,7 @@ public class LoginView {
 
         // Añadir campos al contenedor
         fieldsContainer.add(ciPanel);
-        fieldsContainer.add(Box.createRigidArea(new Dimension(0, 15)));
+        fieldsContainer.add(Box.createRigidArea(new Dimension(0, 5)));
         fieldsContainer.add(passPanel);
 
         this.formPanel.getPanel().add(fieldsContainer, BorderLayout.CENTER);

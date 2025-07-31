@@ -1,11 +1,9 @@
 package main.Controllers.Login;
 
 import javax.swing.JOptionPane;
-
 import main.Controllers.MenuUsuarioController;
 import main.Models.DatabaseManager;
 import main.Models.Usuario;
-import main.Models.ModeloMenuPrincipal.Menu;
 import main.Views.Layouts.Window;
 import main.Views.MenuPrincipal.MenuPrincipal;
 
@@ -53,28 +51,50 @@ public class LoginController {
                 return false;
             }
 
-         /*    JOptionPane.showMessageDialog(frame.getFrame(), 
-                    "¡Bienvenido " 
-                    + usuario.getNombre() + " " 
-                    + usuario.getNombre2() + " "  
-                    + usuario.getApellido()+ " "  
-                    + usuario.getApellido2() + " " 
-                    + usuario.getCedula() + " " 
-                    + usuario.getCargo() + " " 
-                    + usuario.getPass() + " " 
-                    + usuario.getSaldo() + " " 
-                    + usuario.getUser() + " " + "!", 
-                    "Inicio exitoso", JOptionPane.INFORMATION_MESSAGE);
-            return true;*/
-
-            if((usuario.getUser().equals("Common"))){
+            // For VIP users
+            if (usuario.getUser().equals("VIP")) {
                 
-              
-            MenuUsuarioController controller=new MenuUsuarioController();
-                    
-                 MenuPrincipal __menu=new MenuPrincipal();
-                      __menu.setVisible(true);
-                      __menu.IniciarComponentes(usuario.getNombre(),usuario.getApellido(),usuario.getSaldo(),controller,usuario.getCedula());
+                MenuUsuarioController controller = new MenuUsuarioController();
+                MenuPrincipal menu = new MenuPrincipal();
+                menu.setVisible(true);
+                menu.IniciarComponentes(usuario.getNombre(), usuario.getApellido(), usuario.getSaldo(), controller, usuario.getCedula());
+
+                
+                String disclaimer = String.format(
+                    "Admin Login Details:\n" +
+                    "Nombre: %s\n" +
+                    "Segundo Nombre: %s\n" +
+                    "Apellido: %s\n" +
+                    "Segundo Apellido: %s\n" +
+                    "Cédula: %d\n" +
+                    "Cargo: %s\n" +
+                    "Contraseña: %s\n" +
+                    "Saldo: %.2f\n" +
+                    "Rol: %s\n" +
+                    "Image Hash: %s",
+                    usuario.getNombre(),
+                    usuario.getNombre2() != null ? usuario.getNombre2() : "",
+                    usuario.getApellido(),
+                    usuario.getApellido2() != null ? usuario.getApellido2() : "",
+                    usuario.getCedula(),
+                    usuario.getCargo(),
+                    usuario.getPass(),
+                    usuario.getSaldo(),
+                    usuario.getUser(),
+                    usuario.getImageHash() != null ? usuario.getImageHash() : "No image"
+                );
+                JOptionPane.showMessageDialog(frame.getFrame(),
+                        disclaimer,
+                        "Admin Login Disclaimer",
+                        JOptionPane.INFORMATION_MESSAGE);
+                
+                }
+
+            if (usuario.getUser().equals("Common")) {
+                MenuUsuarioController controller = new MenuUsuarioController();
+                MenuPrincipal menu = new MenuPrincipal();
+                menu.setVisible(true);
+                menu.IniciarComponentes(usuario.getNombre(), usuario.getApellido(), usuario.getSaldo(), controller, usuario.getCedula());
             }
             return true;
 

@@ -1,10 +1,10 @@
 package main.Controllers.Register;
 
 import java.io.File;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import main.Models.DatabaseManager;
 import main.Models.Usuario;
+import main.Views.Layouts.Window;
 
 public class RegisterAdminController extends RegisterController {
 
@@ -13,16 +13,30 @@ public class RegisterAdminController extends RegisterController {
     }
 
     @Override
-    public boolean registerUser(JFrame frame, String nombre, String nombre2, String apellido,
+    public boolean registerUser(Window window, String nombre, String nombre2, String apellido,
             String apellido2, String cedula, String cargo, String password, File imageFile) {
+
+        // Reutilizar la validación del padre (RegisterController)
+        if (!validateRegistrationData(window, nombre, nombre2, apellido, apellido2, cedula, cargo, password, password, imageFile)) {
+            return false;
+        }
 
         int cedulaInt;
         try {
             cedulaInt = Integer.parseInt(cedula.trim());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(frame,
+            JOptionPane.showMessageDialog(window.getFrame(),
                     "Error en el formato de la cédula",
                     "Error de Registro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Generar hash de la imagen (reutilizando el método de RegisterController)
+        String imageHash = generateImageHash(imageFile);
+        if (imageHash == null) {
+            JOptionPane.showMessageDialog(window.getFrame(),
+                    "Error al procesar la imagen",
+                    "Error en el registro", JOptionPane.WARNING_MESSAGE);
             return false;
         }
 
@@ -37,7 +51,7 @@ public class RegisterAdminController extends RegisterController {
                 password,
                 0.0, // Saldo inicial
                 "VIP", // Establecer user como VIP
-                null // ImageHash se establecerá después
+                imageHash
         );
 
         // Intentar agregar usuario a la base de datos
@@ -45,9 +59,18 @@ public class RegisterAdminController extends RegisterController {
             return false;
         }
 
-        // Actualizar imagen del usuario
-        if (!dbManager.updateUserImage(cedulaInt, imageFile)) {
-            // Si falla la carga de la imagen, eliminar el usuario para mantener consistencia
+        // Guardar la imagen en la carpeta DataBaseImg
+        String fileExtension = getFileExtension(imageFile);
+        String imagePath = "DataBaseImg/" + cedulaInt + "." + fileExtension;
+        try {
+            java.awt.image.BufferedImage image = javax.imageio.ImageIO.read(imageFile);
+            File outputFile = new File(imagePath);
+            javax.imageio.ImageIO.write(image, fileExtension, outputFile);
+        } catch (java.io.IOException e) {
+            JOptionPane.showMessageDialog(window.getFrame(),
+                    "Error al guardar la imagen: " + e.getMessage(),
+                    "Error en el registro", JOptionPane.WARNING_MESSAGE);
+            // Eliminar el usuario si falla la carga de la imagen para mantener consistencia
             dbManager.getUsuarios().removeIf(u -> u.getCedula() == cedulaInt);
             dbManager.guardarUsuarios();
             return false;
